@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
-import authStyles from '../styles/authStyles.css';
+import { auth } from "../firebase";
+import authStyles from "../styles/authStyles.css";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 export const Auth = () => {
   const { login, register, user, logout, isAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // For registration
+  const [name, setName] = useState("");
   const [isRegister, setIsRegister] = useState(false); // Toggle between login/register
   const [admin, setAdmin] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isForgotPassword) return;
 
     if (isRegister) {
       const result = await register(email, password, name, admin);
@@ -22,7 +27,6 @@ export const Auth = () => {
       }
     } else {
       const result = await login(email, password, admin);
-      
       if (result.success) {
         alert("Login successful!");
       } else {
@@ -31,110 +35,211 @@ export const Auth = () => {
     }
   };
 
-  const handleResidentClick = () => {
-    setAdmin(false);
-  };
+  const handleResidentClick = () => setAdmin(false);
+  const handleAdminClick = () => setAdmin(true);
 
-  const handleAdminClick = () => {
-    setAdmin(true);
+  const resetPassword = async () => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent. Please check your email.");
+      setIsForgotPassword(false); // Hide the reset password form
+    } catch (error) {
+      console.log(error);
+      alert("Password reset failed: " + error.message);
+    }
   };
 
   return (
     <div style={styles.container}>
-
       {/* Left side */}
-      <div style={styles.left}> 
-        <img src = "/mainLogo.png"
-        alt = 'logo'
-        style = {styles.logo}
-        />
+      <div style={styles.left}>
+        <img src="/mainLogo.png" alt="logo" style={styles.logo} />
       </div>
 
       {/* Right side */}
       <div style={styles.right}>
         <div style={styles.formContainer}>
-          <h2 style={styles.signIn}> {isRegister? 'Create an Account' : 'Sign In'}</h2>
-            <div className='roleContainer'>
-              <div
-                onClick={handleResidentClick}
-                className={admin ? "unselected" : "selected"}
-              >
-                <text style={{fontWeight:'bold'}}>Resident</text>
-              </div>
-              <div onClick={handleAdminClick}
-              className={admin ? "selected" : "unselected"}>
-                <text style={{fontWeight:'bold'}}>Admin</text>
-                </div>
-          </div>
-          
+          {isForgotPassword ? (
+            <>
+              <h2 style={styles.signIn}>Forgot Password?</h2>
 
-          <form onSubmit={handleSubmit}>
-            {isRegister && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
-                 <label htmlFor="name" style={{ marginBottom: '8px', fontWeight:'bold'}}>Name</label>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  width: "100%",
+                }}
+              >
+                <label
+                  htmlFor="email"
+                  style={{ marginBottom: "8px", fontWeight: "bold" }}
+                >
+                  Email
+                </label>
                 <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   style={styles.input}
                 />
               </div>
-            )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
-            <label htmlFor="email" style={{ marginBottom: '8px', fontWeight:'bold'}}>Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={styles.input}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  marginTop: "20px",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={resetPassword}
+                  style={styles.button}
+                >
+                  Reset Password
+                </button>
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <span
+                  style={{ fontWeight: "bold", cursor: "pointer" }}
+                  onClick={() => setIsForgotPassword(false)}
+                >
+                  Back to Login
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 style={styles.signIn}>
+                {" "}
+                {isRegister ? "Create an Account" : "Sign In"}
+              </h2>
 
-              />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
-            <label htmlFor="password" style={{ marginBottom: '8px', fontWeight:'bold'}}>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={styles.input}
+              <div className="roleContainer">
+                <div
+                  onClick={handleResidentClick}
+                  className={admin ? "unselected" : "selected"}
+                >
+                  <span style={{ fontWeight: "bold" }}>Resident</span>
+                </div>
+                <div
+                  onClick={handleAdminClick}
+                  className={admin ? "selected" : "unselected"}
+                >
+                  <span style={{ fontWeight: "bold" }}>Admin</span>
+                </div>
+              </div>
 
-              />
-            </div>
+              <form onSubmit={handleSubmit}>
+                {isRegister && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      width: "100%",
+                    }}
+                  >
+                    <label
+                      htmlFor="name"
+                      style={{ marginBottom: "8px", fontWeight: "bold" }}
+                    >
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      style={styles.input}
+                    />
+                  </div>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    width: "100%",
+                  }}
+                >
+                  <label
+                    htmlFor="email"
+                    style={{ marginBottom: "8px", fontWeight: "bold" }}
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    style={styles.input}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    width: "100%",
+                  }}
+                >
+                  <label
+                    htmlFor="password"
+                    style={{ marginBottom: "8px", fontWeight: "bold" }}
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    style={styles.input}
+                  />
+                </div>
 
+                <div style={styles.forgotPasswordContainer}>
+                  <div
+                    style={styles.forgotPassword}
+                    onClick={() => setIsForgotPassword(true)}
+                  >
+                    Forgot Password?
+                  </div>
+                </div>
 
-              <div style={styles.forgotPasswordContainer}>
-              <a href="/forgot-password" style={styles.forgotPassword}>
-                Forgot Password?
-              </a>
-            </div>
-            <button type="submit" style={styles.button}>{isRegister ? "Register" : "Login"}</button>
-            <div
-              
-              onClick={() => setIsRegister((prev) => !prev)}
-            >
-              {isRegister
-                ? <div style={{marginTop: '20px'}}>
-                <text>Already have an account? </text>
-                <text style={{fontWeight:'bold', cursor:'pointer'}}>Login</text>
-                </div> 
-                : <div style={{marginTop: '20px'}}>
-                <text>Don't have an account? </text>
-                <text style={{fontWeight:'bold', cursor:'pointer'}}>Sign up</text>
-                </div> }
-            </div>
-          </form>
-          </div>
+                <button type="submit" style={styles.button}>
+                  {isRegister ? "Register" : "Login"}
+                </button>
+
+                <div onClick={() => setIsRegister((prev) => !prev)}>
+                  {isRegister ? (
+                    <div style={{ marginTop: "20px" }}>
+                      <span>Already have an account? </span>
+                      <span style={{ fontWeight: "bold", cursor: "pointer" }}>
+                        Login
+                      </span>
+                    </div>
+                  ) : (
+                    <div style={{ marginTop: "20px" }}>
+                      <span>Don't have an account? </span>
+                      <span style={{ fontWeight: "bold", cursor: "pointer" }}>
+                        Sign up
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </form>
+            </>
+          )}
         </div>
-         
+      </div>
     </div>
-    
   );
-  
 };
-
 
 const styles = {
   container: {
@@ -151,15 +256,9 @@ const styles = {
     justifyContent: "center",
     padding: "20px",
   },
-  tagline: {
-    fontSize: "24px",
-    color: "#c14a2d",
-    textAlign: "center",
-  },
-  since: {
-    marginTop: "10px",
-    color: "#c14a2d",
-    fontSize: "16px",
+  logo: {
+    maxWidth: "100%",
+    height: "auto",
   },
   right: {
     flex: 1,
@@ -173,16 +272,15 @@ const styles = {
   formContainer: {
     width: "80%",
     maxWidth: "300px",
-    display:'flex',
-    alignItems:'flex-start',
-    flexDirection: 'column',
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
   },
   signIn: {
     fontSize: "24px",
     marginBottom: "20px",
   },
   button: {
-    flex: 1,
     padding: "10px",
     margin: "0 5px",
     border: "none",
@@ -192,15 +290,9 @@ const styles = {
     fontWeight: "bold",
     cursor: "pointer",
     marginTop: "10px",
-    height: '50px',
-    width: '150px',
-    fontSize: '15px'
-
-  },
-  
-  activeButton: {
-    backgroundColor: "#34499D",
-    color: "white",
+    height: "50px",
+    width: "150px",
+    fontSize: "15px",
   },
   input: {
     width: "100%",
@@ -219,11 +311,7 @@ const styles = {
     textAlign: "right",
     textDecoration: "underline",
     fontSize: "14px",
+    backgroundColor: "transparent",
+    cursor: "pointer",
   },
-  code: {
-    marginTop: "20px",
-    fontWeight: "bold",
-    color: "#ffffff",
-  },
-  
 };
