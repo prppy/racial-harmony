@@ -98,7 +98,8 @@ export const AuthContextProvider = ({children})  => {
                 name,
                 email,
                 userId: response?.user?.uid,
-                admin: admin
+                admin: admin,
+                voucher_balance:0
             } )
             return {success:true, data: response?.user}
 

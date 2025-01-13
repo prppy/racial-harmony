@@ -7,6 +7,10 @@ import ProfilePage from './pages/Profile';
 import LeaderboardPage from './pages/Leaderboard';
 import MinimartPage from './pages/Minimart';
 import HomePage from './pages/Home';
+import VoucherPage from './pages/Vouchers';
+import HistoryPage from './pages/History';
+
+
 import { Auth } from './authentication/auth';
 
 // Main Layout Component
@@ -36,7 +40,12 @@ const AppContent = () => {
         <Route path="/" element={<MainLayout />} />
         <Route path="/minimart" element={<MinimartPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/vouchers" element={<VoucherPage />} />
+        <Route path="/history" element={<HistoryPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+
+
+
       </Routes>
     </>
   );
