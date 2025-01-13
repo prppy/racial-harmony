@@ -1,9 +1,12 @@
 /* styles.css */
 .roleContainer {
-  display: flex;           /* Enables flexbox layout */
-  justify-content: center; /* Centers items horizontally */
-  align-items: center;     /* Centers items vertically */
+  display: flex;           
+  justify-content: center; 
+  align-items: center;     
   background-color: transparent;
+  gap:20px;
+  margin-bottom:15px
+
 }
 .selected {
     background-color: #2B3487;
@@ -13,6 +16,7 @@
     cursor: pointer;
     text-align: center;
     margin: 5px;
+
   }
   
   .unselected {
@@ -23,5 +27,7 @@
     cursor: pointer;
     text-align: center;
     margin: 5px;
+    font-weight:'bold'
+
   }
   
