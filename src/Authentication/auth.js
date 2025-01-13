@@ -205,7 +205,7 @@ const styles = {
     width: "100%",
     padding: "10px",
     marginBottom: "15px",
-    borderRadius: "5px",
+    borderRadius: "10px",
     border: "none",
   },
   forgotPasswordContainer: {
