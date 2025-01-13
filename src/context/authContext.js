@@ -40,10 +40,28 @@ export const AuthContextProvider = ({children})  => {
 
     }
     // login function
-    const login = async (email, password) => {
+    const login = async (email, password, admin) => {
         try {
+
             const response = await signInWithEmailAndPassword(auth, email, password)
-            return {success:true}
+            const docRef = doc(database, "users", response.user.uid);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+          
+                if (userData.admin === admin) {
+                  setUser({ ...response.user, ...userData });
+                  setIsAuthenticated(true);
+                  return { success: true };
+                } else {
+                  await signOut(auth); 
+                  return { success: false, msg: "Please select the correct role." };
+                }
+              } else {
+                return { success: false, msg: "User data not found. Please contact support." };
+              }
+            
 
         } catch(e) {
             let msg = e.message

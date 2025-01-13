@@ -21,7 +21,8 @@ export const Auth = () => {
         alert(result.msg || "Registration failed");
       }
     } else {
-      const result = await login(email, password);
+      const result = await login(email, password, admin);
+      
       if (result.success) {
         alert("Login successful!");
       } else {
