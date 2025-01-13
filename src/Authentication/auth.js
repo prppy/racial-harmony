@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
 import authStyles from '../styles/authStyles.css';
-// whole file is chatgpted. to be changed later (made just to test admin stuff)
+
 export const Auth = () => {
   const { login, register, user, logout, isAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
