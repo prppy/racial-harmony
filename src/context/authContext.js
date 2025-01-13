@@ -79,6 +79,8 @@ export const AuthContextProvider = ({children})  => {
         try {
 
             await signOut(auth)
+            setUser(null); // Clear the user state
+            setIsAuthenticated(false);
             return {success:true}
 
         } catch(e) {

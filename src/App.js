@@ -7,7 +7,7 @@ import ProfilePage from './pages/Profile';
 import LeaderboardPage from './pages/Leaderboard';
 import MinimartPage from './pages/Minimart';
 import HomePage from './pages/Home';
-import { Auth } from './Authentication/auth';
+import { Auth } from './authentication/auth';
 
 // Main Layout Component
 const MainLayout = () => {
@@ -16,10 +16,8 @@ const MainLayout = () => {
   return (
     <div className="App">
       {user ? (
-        <div>
-          <div style={{ padding: '20px' }}>
-            <HomePage />
-          </div>
+        <div style={{ padding: '20px' }}>
+          <HomePage />
         </div>
       ) : (
         <Auth />
@@ -28,18 +26,28 @@ const MainLayout = () => {
   );
 };
 
-// App Component with Router
+const AppContent = () => {
+  const { user } = useAuth(); 
+
+  return (
+    <>
+      {user && <Navbar />} 
+      <Routes>
+        <Route path="/" element={<MainLayout />} />
+        <Route path="/minimart" element={<MinimartPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
+    </>
+  );
+};
+
+// App Component
 function App() {
   return (
     <AuthContextProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<MainLayout />} />
-          <Route path="/minimart" element={<MinimartPage />} />
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Routes>
+        <AppContent />
       </Router>
     </AuthContextProvider>
   );
