@@ -9,7 +9,10 @@ import MinimartPage from './pages/Minimart';
 import HomePage from './pages/Home';
 import VoucherPage from './pages/Vouchers';
 import HistoryPage from './pages/History';
-
+import Reports from './admin-pages/Reports';
+import Manage from './admin-pages/Manage';
+import Requests from './admin-pages/Requests';
+import Tasks from './admin-pages/Tasks';
 
 import { Auth } from './authentication/auth';
 
@@ -35,14 +38,19 @@ const AppContent = () => {
 
   return (
     <>
-      {user && <Navbar />} 
+      {user && <Navbar admin={user?.admin}/>} 
       <Routes>
-        <Route path="/" element={<MainLayout />} />
-        <Route path="/minimart" element={<MinimartPage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/vouchers" element={<VoucherPage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route exact path="/" element={<MainLayout />} />
+        <Route exact path="/minimart" element={<MinimartPage />} />
+        <Route exact path="/leaderboard" element={<LeaderboardPage />} />
+        <Route exact path="/vouchers" element={<VoucherPage />} />
+        <Route exact path="/history" element={<HistoryPage />} />
+        {/* admin */ }
+        <Route exact path="/manage" element={<Manage />} />
+        <Route exact path="/reports" element={<Reports />} />
+        <Route exact path="/requests" element={<Requests />} />
+        <Route exact path="/tasks" element={<Tasks />} />
+        <Route exact path="/profile" element={<ProfilePage />} />
 
 
 
