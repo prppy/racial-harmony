@@ -1,0 +1,33 @@
+/* styles.css */
+.roleContainer {
+  display: flex;           
+  justify-content: center; 
+  align-items: center;     
+  background-color: transparent;
+  gap:20px;
+  margin-bottom:15px
+
+}
+.selected {
+    background-color: #2B3487;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: 5px;
+
+  }
+  
+  .unselected {
+    background-color: white;
+    color: #2B3487;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: 5px;
+    font-weight:'bold'
+
+  }
+  

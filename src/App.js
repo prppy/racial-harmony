@@ -1,24 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
+import { AuthContextProvider, useAuth } from './context/authContext';
+import { Auth } from './Authentication/auth';
+
+
+const MainLayout = () => {
+  const { user, isAuthenticated, logout} = useAuth();
+
+  return (
+    <div className='App'>
+     <>
+        {user ? <h1>Welcome {user.name}</h1> : <Auth />}
+       </>
+      {user && <button onClick={logout}>Logout</button>}
+    </div>
+  );
+}
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthContextProvider>
+      <MainLayout />
+    
+      </AuthContextProvider>
   );
 }
 
