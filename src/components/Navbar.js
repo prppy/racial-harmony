@@ -28,6 +28,27 @@ const Navbar = () => {
         >
           Leaderboard
         </NavLink>
+        
+        <NavLink
+          to="/vouchers"
+          style={({ isActive }) =>
+            isActive
+              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              : navbarStyles.tab
+          }
+        >
+          Vouchers
+        </NavLink>
+        <NavLink
+          to="/history"
+          style={({ isActive }) =>
+            isActive
+              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              : navbarStyles.tab
+          }
+        >
+          History
+        </NavLink>
         <NavLink
           to="/profile"
           style={({ isActive }) =>
