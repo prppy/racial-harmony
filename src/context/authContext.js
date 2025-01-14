@@ -3,7 +3,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import { auth, database } from "../firebase";
 import {doc, getDoc, setDoc, collection} from "firebase/firestore"
-
+import {fetchMainRecord} from "../utils/firebaseUtils"
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children})  => {
@@ -14,11 +14,13 @@ export const AuthContextProvider = ({children})  => {
     useEffect(() => {
 
         // onAuthStateChanged
-        const unsub = onAuthStateChanged(auth, (user) => {
+        const unsub = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                const userRecord = await fetchMainRecord('users', user.uid) 
                 setIsAuthenticated(true)
-                setUser(user)
+                setUser({ ...userRecord, bg: userRecord.bg || 0})
                 updateUserData(user.uid)
+                updateUserBackground(userRecord.bg || 0)
             } else {
                 setIsAuthenticated(false)
                 setUser(null)
@@ -27,6 +29,20 @@ export const AuthContextProvider = ({children})  => {
         })
         return unsub
     },  [])
+
+
+    const updateUserBackground = (bgIndex) => {
+        setUser((prev) => ({ ...prev, bg: bgIndex }));
+        document.body.style.backgroundImage = `url(/bg${bgIndex}.png)`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+         document.body.style.backgroundPosition = 'center';
+         document.body.style.height = '100vh';
+         document.body.style.width = '100vw'; 
+         document.body.style.margin = '0'; 
+         document.body.style.padding = '0'; 
+      };
+    
 
     // creating the reference for the current User, so that in other screens, we can use {user} as a reference to the user
     const updateUserData = async (userId) => {
@@ -99,7 +115,8 @@ export const AuthContextProvider = ({children})  => {
                 email,
                 userId: response?.user?.uid,
                 admin: admin,
-                voucher_balance:0
+                voucher_balance:0,
+                bg:0
             } )
             return {success:true, data: response?.user}
 
@@ -118,7 +135,7 @@ export const AuthContextProvider = ({children})  => {
     }
 
     return (
-        <AuthContext.Provider value = {{user, isAuthenticated, login, register, logout}}>
+        <AuthContext.Provider value = {{user, isAuthenticated, login, register, logout, updateUserBackground}}>
             {children}
         </AuthContext.Provider>
     )
