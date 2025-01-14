@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { auth, database } from "../firebase";
 import {doc, getDoc, setDoc, collection} from "firebase/firestore"
 import {fetchMainRecord} from "../utils/firebaseUtils"
+
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children})  => {
@@ -32,16 +33,14 @@ export const AuthContextProvider = ({children})  => {
 
 
     const updateUserBackground = (bgIndex) => {
+        if (user) {
         setUser((prev) => ({ ...prev, bg: bgIndex }));
-        document.body.style.backgroundImage = `url(/bg${bgIndex}.png)`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundRepeat = 'no-repeat';
-         document.body.style.backgroundPosition = 'center';
-         document.body.style.height = '100vh';
-         document.body.style.width = '100vw'; 
-         document.body.style.margin = '0'; 
-         document.body.style.padding = '0'; 
-      };
+            document.body.style.backgroundImage = `url(/bg${bgIndex}.png)`;
+            document.body.style.backgroundAttachment = "fixed";
+            document.body.style.backgroundRepeat= "no-repeat"
+            
+        }
+    }
     
 
     // creating the reference for the current User, so that in other screens, we can use {user} as a reference to the user

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
+import { RED } from '../constants/colors';
 const Navbar = ({admin}) => {
   
 
@@ -18,7 +18,7 @@ const Navbar = ({admin}) => {
           to="/minimart"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -28,7 +28,7 @@ const Navbar = ({admin}) => {
           to="/leaderboard"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -39,7 +39,7 @@ const Navbar = ({admin}) => {
           to="/vouchers"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -49,7 +49,7 @@ const Navbar = ({admin}) => {
           to="/history"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -62,7 +62,7 @@ const Navbar = ({admin}) => {
           to="/manage"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -72,7 +72,7 @@ const Navbar = ({admin}) => {
           to="/reports"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -83,7 +83,7 @@ const Navbar = ({admin}) => {
           to="/requests"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -93,7 +93,7 @@ const Navbar = ({admin}) => {
           to="/tasks"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
@@ -108,7 +108,7 @@ const Navbar = ({admin}) => {
           to="/profile"
           style={({ isActive }) =>
             isActive
-              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              ? { ...navbarStyles.tab, color: {RED}, borderBottom:  `3px solid ${RED}` }
               : navbarStyles.tab
           }
         >
