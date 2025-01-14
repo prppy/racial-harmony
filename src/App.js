@@ -38,14 +38,6 @@ const MainLayout = () => {
 const AppContent = () => {
   const { user } = useAuth(); 
 
-  useEffect(() => {
-    if (user?.bg !== undefined) {
-      document.body.style.backgroundImage = `/url(/bg${user.bg}.png)`; // Use the index for dynamic paths
-      document.body.style.backgroundSize = 'cover';
-      document.body.style.backgroundRepeat = 'no-repeat';
-    }
-  }, [user?.bg]);
-
   return (
     <>
       {user && <Navbar admin={user?.admin}/>} 
