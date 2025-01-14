@@ -36,6 +36,11 @@ export const AuthContextProvider = ({children})  => {
         document.body.style.backgroundImage = `url(/bg${bgIndex}.png)`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundRepeat = 'no-repeat';
+         document.body.style.backgroundPosition = 'center';
+         document.body.style.height = '100vh';
+         document.body.style.width = '100vw'; 
+         document.body.style.margin = '0'; 
+         document.body.style.padding = '0'; 
       };
     
 
