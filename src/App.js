@@ -9,6 +9,7 @@ import MinimartPage from './pages/Minimart';
 import HomePage from './pages/Home';
 import VoucherPage from './pages/Vouchers';
 import HistoryPage from './pages/History';
+import ProductPage from './pages/Product';
 import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
 import Requests from './admin-pages/Requests';
@@ -40,6 +41,13 @@ const AppContent = () => {
     <>
       {user && <Navbar admin={user?.admin}/>} 
       <Routes>
+        <Route path="/" element={<MainLayout />} />
+        <Route path="/minimart" element={<MinimartPage />} />
+        <Route path="/product" element={<ProductPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/vouchers" element={<VoucherPage />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route exact path="/" element={<MainLayout />} />
         <Route exact path="/minimart" element={<MinimartPage />} />
         <Route exact path="/leaderboard" element={<LeaderboardPage />} />
