@@ -9,6 +9,7 @@ import MinimartPage from './pages/Minimart';
 import HomePage from './pages/Home';
 import VoucherPage from './pages/Vouchers';
 import HistoryPage from './pages/History';
+import ProductPage from './pages/Product';
 
 
 import { Auth } from './authentication/auth';
@@ -39,6 +40,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<MainLayout />} />
         <Route path="/minimart" element={<MinimartPage />} />
+        <Route path="/product" element={<ProductPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/vouchers" element={<VoucherPage />} />
         <Route path="/history" element={<HistoryPage />} />
