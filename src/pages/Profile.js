@@ -5,6 +5,7 @@ import { updateMainRecord } from "../utils/firebaseUtils";
 import { DARK_PURPLE, RED } from "../constants/colors";
 import { FaCheck } from "react-icons/fa";
 import { GiCheckMark } from "react-icons/gi";
+import { MdLogout } from "react-icons/md";
 
 import SubmitButton from "../components/SubmitButton";
 const ProfilePage = () => {
@@ -148,8 +149,14 @@ const ProfilePage = () => {
         <SubmitButton handleSubmitBackground={handleSubmitBackground}/>
         </div>
         </div>
+        
+
         <button onClick={handleLogout} style={pageStyles.logoutButton}>
-          Logout
+        <span style={{ display: 'flex', alignItems: 'center' }}>
+        <MdLogout color={DARK_PURPLE} size={18}/>
+
+        <span style={{ marginLeft: '8px' }}>Logout</span>
+  </span>
         </button>
       </div>
      
