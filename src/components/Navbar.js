@@ -1,14 +1,20 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({admin}) => {
+  
+
+  const isAdmin = admin;
+  console.log("Admin", isAdmin)
   return (
     <div style={navbarStyles.navbar}>
       <NavLink to="/">
         <img src="/logo.png" alt="Logo" style={navbarStyles.logo} />
       </NavLink>
       <div style={navbarStyles.tabs}>
-        <NavLink
+
+        {!isAdmin? <>
+          <NavLink
           to="/minimart"
           style={({ isActive }) =>
             isActive
@@ -49,6 +55,55 @@ const Navbar = () => {
         >
           History
         </NavLink>
+        
+        </> : <>
+        
+        <NavLink
+          to="/manage"
+          style={({ isActive }) =>
+            isActive
+              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              : navbarStyles.tab
+          }
+        >
+          Manage
+        </NavLink>
+        <NavLink
+          to="/reports"
+          style={({ isActive }) =>
+            isActive
+              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              : navbarStyles.tab
+          }
+        >
+          Reports
+        </NavLink>
+        
+        <NavLink
+          to="/requests"
+          style={({ isActive }) =>
+            isActive
+              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              : navbarStyles.tab
+          }
+        >
+          Requests
+        </NavLink>
+        <NavLink
+          to="/tasks"
+          style={({ isActive }) =>
+            isActive
+              ? { ...navbarStyles.tab, color: '#9C3726', borderBottom: '3px solid #9C3726' }
+              : navbarStyles.tab
+          }
+        >
+          Tasks
+        </NavLink>
+        </>
+        
+    
+      }
+        
         <NavLink
           to="/profile"
           style={({ isActive }) =>
@@ -86,6 +141,7 @@ const navbarStyles = {
     textDecoration: 'none',
     fontWeight: 'bold',
     paddingBottom: '5px', // Space between text and underline
+
   },
 };
 
