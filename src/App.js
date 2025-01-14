@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { AuthContextProvider, useAuth } from './context/authContext';
@@ -14,6 +14,7 @@ import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
 import Requests from './admin-pages/Requests';
 import Tasks from './admin-pages/Tasks';
+
 
 import { Auth } from './authentication/auth';
 
@@ -36,6 +37,14 @@ const MainLayout = () => {
 
 const AppContent = () => {
   const { user } = useAuth(); 
+
+  useEffect(() => {
+    if (user?.bg !== undefined) {
+      document.body.style.backgroundImage = `/url(/bg${user.bg}.png)`; // Use the index for dynamic paths
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundRepeat = 'no-repeat';
+    }
+  }, [user?.bg]);
 
   return (
     <>
