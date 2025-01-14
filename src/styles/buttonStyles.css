@@ -1,0 +1,28 @@
+.submit-button {
+    padding: 10px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background-color: #2b3487;
+    font-weight: bold;
+    cursor: pointer;
+    height: 50px;
+    width: 100px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+  }
+  
+  .submit-button:hover {
+    background-color: #3a418e; /* Change color on hover */
+  }
+  
+  .submit-button .button-content {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+  }
+  
