@@ -32,6 +32,21 @@ export const AuthContextProvider = ({children})  => {
     },  [])
 
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userDetails = await fetchMainRecord('users', user.userId);
+        updateUserBackground(userDetails.bg || 0);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+  
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
+
     const updateUserBackground = (bgIndex) => {
         if (user) {
         setUser((prev) => ({ ...prev, bg: bgIndex }));
