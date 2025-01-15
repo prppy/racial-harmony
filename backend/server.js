@@ -50,7 +50,8 @@ app.post("/createBatchUsers", async (req, res) => {
           voucher_balance: 0, // Set initial values as needed
           bg: 0, // Set background default value
           default_password: password,
-          admission_date: new Date(user.admission_date)
+          admission_date: new Date(user.admission_date),
+          class: user.class,
         });
 
 
@@ -71,6 +72,47 @@ app.post("/createBatchUsers", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+{/* DELETE USER */}
+app.delete("/deleteUser/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Delete user from Firebase Authentication
+    await admin.auth().deleteUser(userId);
+
+    // Delete user data from Firestore
+    await admin.firestore().collection("users").doc(userId).delete();
+
+    res.status(200).json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
+{/* RESET PASSWORD */}
+app.post("/resetPassword/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const { newPassword } = req.body; // Expect a new password in the request body
+
+  try {
+    if (!newPassword) {
+      return res.status(400).json({ error: "New password is required" });
+    }
+
+    // Update the user's password in Firebase Authentication
+    await admin.auth().updateUser(userId, { password: newPassword });
+
+    res.status(200).json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ error: "Failed to reset password" });
+  }
+});
+
+
 
 // Start the server
 app.listen(PORT, () => {

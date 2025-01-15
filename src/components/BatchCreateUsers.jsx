@@ -128,7 +128,7 @@ const BatchCreateUsers = () => {
     Create more users
   </span>
 
-  {message && <pre>{message}</pre>} {/* Display messages */}
+  {message && <pre style={{color:'black'}}>{message}</pre>} {/* Display messages */}
 </div>
 
   );
