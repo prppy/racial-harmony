@@ -12,13 +12,15 @@ const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
   const { logout, user, updateUserBackground } = useAuth();
   const navigate = useNavigate();
-  const [selectedBg, setSelectedBg] = useState(0); 
+  const [selectedBg, setSelectedBg] = useState(userDetails?.bg || 0); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = await fetchMainRecord('users', user.userId);
+        console.log(user)
         setSelectedBg(userDetails.bg || 0);
+        setUserDetails(userDetails);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
@@ -27,20 +29,22 @@ const ProfilePage = () => {
     if (user) {
       fetchData();
     }
-  }, [user]);
+  }, [user?.bg]);
 
 
   const handleLogout = async () => {
     const result = await logout();
     if (result.success) {
-      navigate("/");
+      // Wait a short time before navigating
+      setTimeout(() => navigate("/"), 100);
     } else {
       alert("Logout failed. Please try again.");
     }
   };
+  
 
   const handleBackgroundPreview = (bgIndex) => {
-    setSelectedBg(bgIndex); // Set the preview background without saving it yet
+    setSelectedBg(bgIndex); 
   };
 
   const handleSubmitBackground = () => {
@@ -62,8 +66,8 @@ const ProfilePage = () => {
         style={{
           ...pageStyles.left,
           backgroundImage: `url(/bg${selectedBg}.png)`, 
-    backgroundSize: "cover", 
-    backgroundPosition: "center", 
+        backgroundSize: "cover", 
+        backgroundPosition: "center", 
       
         }}
       >
