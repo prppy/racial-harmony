@@ -1,0 +1,184 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background-color: transparent;
+  }
+  
+  .topSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+    margin-bottom: 20px;
+  }
+  
+  .tasksGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    margin: 10px;
+    align-items: center;
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 250px;
+    background-color: white;
+    border: 2px solid #A24C3B;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .addButtonText {
+    font-size: 70px;
+    color: #A24C3B;
+  }
+  
+  .taskCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 250px;
+    background-color: #EDEDED;
+    border-radius: 8px;
+    cursor: pointer; /* Makes it clear that task is clickable */
+  }
+  
+  .taskPoints {
+    font-weight: bold;
+    font-size: 18px;
+    color: #A24C3B;
+  }
+  
+  .taskTitle {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    width: 80%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modalHeader {
+    margin-bottom: 16px;
+    font-size: 24px;
+    text-align: center;
+    color: #5f4b8b; /* Example Dark Purple */
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .taskButtonContainer {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .saveButton, .cancelButton {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .saveButton {
+    background-color: #5f4b8b;
+    color: white;
+  }
+  
+  .cancelButton {
+    background-color: #e0e0e0;
+  }
+  .modalOverlayTaskDetails {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: 'transparent';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100; /* Ensures task detail modal is above the background overlay */
+  }
+  
+  .modalTaskDetails {
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1200; /* Ensure the modal content stays above */
+  }
+  
+  .modalTaskDetailsHeader {
+    margin-bottom: 16px;
+    font-size: 20px;
+    text-align: center;
+    color: #5f4b8b;
+    z-index: 1300; /* Higher z-index for modal header */
+  }
+  
+  .taskDetail {
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: black;
+    z-index: 1300; /* Make sure text is above the background */
+  }
+  
+  .taskDetail strong {
+    color: #5f4b8b;
+  }
+  
+  @media (max-width: 1200px) {
+    .tasksGrid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 800px) {
+    .tasksGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .tasksGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
