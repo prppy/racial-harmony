@@ -114,7 +114,8 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Admission Date:</label>
       <input
         type="text"
-        value= {userDetails? userDetails.admissionDate : "N/A"}
+        value=     {userDetails?.admission_date ? userDetails.admission_date : "N/A"}
+
         style={pageStyles.input}
         readOnly
       />
@@ -123,7 +124,8 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Class:</label>
       <input
         type="text"
-        value= {userDetails? userDetails.class : "N/A"}
+        value=     {userDetails?.class ? userDetails.class : "N/A"}
+
         style={pageStyles.input}
         readOnly
       />
@@ -133,7 +135,8 @@ const ProfilePage = () => {
 
           <div style={pageStyles.cumulativePoints}>
             <h2 style={pageStyles.label}>Cumulative Voucher Points:</h2>
-            <div style={pageStyles.points}>{userDetails.points || 0}</div>
+            <div style={pageStyles.points}>    {userDetails?.voucher_balance ? userDetails.voucher_balance : 0}
+            </div>
           </div>
           <hr style={pageStyles.horizontalLine} />
 
