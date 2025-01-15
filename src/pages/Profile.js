@@ -92,7 +92,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Name:</label>
       <input
         type="text"
-        value={user?.name || "Resident’s Name"}
+        value={user?.name || "N/A"}
         style={pageStyles.input}
         readOnly
       />
@@ -101,7 +101,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Email:</label>
       <input
         type="email"
-        value={userDetails? userDetails.email : "Resident’s Email"}
+        value={userDetails? userDetails.email : "N/a"}
         style={pageStyles.input}
         readOnly
       />
@@ -114,7 +114,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Admission Date:</label>
       <input
         type="text"
-        value= {userDetails? userDetails.admissionDate : "Resident’s Admission Date"}
+        value= {userDetails? userDetails.admissionDate : "N/A"}
         style={pageStyles.input}
         readOnly
       />
@@ -123,7 +123,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Class:</label>
       <input
         type="text"
-        value= {userDetails? userDetails.class : "Resident’s Class"}
+        value= {userDetails? userDetails.class : "N/A"}
         style={pageStyles.input}
         readOnly
       />
@@ -133,7 +133,7 @@ const ProfilePage = () => {
 
           <div style={pageStyles.cumulativePoints}>
             <h2 style={pageStyles.label}>Cumulative Voucher Points:</h2>
-            <div style={pageStyles.points}>9000 pts</div>
+            <div style={pageStyles.points}>{userDetails.points || 0}</div>
           </div>
           <hr style={pageStyles.horizontalLine} />
 
