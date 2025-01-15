@@ -93,7 +93,6 @@ const BatchCreateUsers = () => {
 
   return (
 <div>
-  <h1>Batch Create Users</h1>
   <input
     type="file"
     accept=".xlsx, .xls"

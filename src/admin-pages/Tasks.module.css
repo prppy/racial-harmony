@@ -68,30 +68,52 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
   }
-  
   .modal {
-    width: 80%;
     background-color: white;
+    width: 40%; /* Set the modal width */
+    max-width: 400px; /* Add a max-width for smaller screens */
+    border-radius: 10px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center; /* Center the text inside the modal */
   }
   
   .modalHeader {
     margin-bottom: 16px;
     font-size: 24px;
     text-align: center;
-    color: #5f4b8b; /* Example Dark Purple */
+    color: #5f4b8b; 
   }
-  
+
+  .label {
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+    margin:'10px';
+    text-align:left
+  }
+  .input,
+.textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.textarea {
+  height: 80px;
+  resize: none;
+}
+
   .form {
     display: flex;
     flex-direction: column;
@@ -108,21 +130,35 @@
     align-items: center;
   }
   
-  .saveButton, .cancelButton {
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
+  .buttonContainer {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px;
+    margin-top: 20px;
+    align-items: center;
   }
   
-  .saveButton {
-    background-color: #5f4b8b;
-    color: white;
-  }
-  
-  .cancelButton {
-    background-color: #e0e0e0;
-  }
+
+.saveButton,
+.cancelButton {
+  width: 60%;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.saveButton {
+  background-color: #2B3487;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #9C3726;
+  color: white;
+  margin-top: 10px;
+}
   .modalOverlayTaskDetails {
     position: fixed;
     top: 0;

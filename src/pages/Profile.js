@@ -35,7 +35,6 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     const result = await logout();
     if (result.success) {
-      // Wait a short time before navigating
       setTimeout(() => navigate("/"), 100);
     } else {
       alert("Logout failed. Please try again.");
