@@ -3,6 +3,7 @@ import { useAuth } from "../context/authContext";
 import { auth } from "../firebase";
 import authStyles from "../styles/authStyles.css";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { LuEye, LuEyeClosed } from "react-icons/lu"; // Importing LuEye and LuEyeClosed icons
 
 export const Auth = () => {
   const { login, register, user, logout, isAuthenticated } = useAuth();
@@ -12,6 +13,7 @@ export const Auth = () => {
   const [isRegister, setIsRegister] = useState(false); // Toggle between login/register
   const [admin, setAdmin] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -193,13 +195,28 @@ export const Auth = () => {
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    style={styles.input}
-                  />
+                  <div style={{ position: "relative", width: "100%" }}>
+  <input
+    type={showPassword ? "text" : "password"}
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+    style={styles.input}
+  />
+  <div
+    onClick={() => setShowPassword(!showPassword)}
+    style={{
+      position: "absolute",
+      top: "50%",
+      right: "0", // Adjust the right position if necessary
+      transform: "translateY(-70%)", // Vertically center the icon
+      cursor: "pointer",
+    }}
+  >
+    {showPassword ? <LuEye size={24} color="gray" /> : <LuEyeClosed size={20} color="gray" />}
+  </div>
+</div>
+                
                 </div>
 
                 <div style={styles.forgotPasswordContainer}>
@@ -210,10 +227,12 @@ export const Auth = () => {
                     Forgot Password?
                   </div>
                 </div>
+                <div style={styles.buttonWrapper}>
 
                 <button type="submit" style={styles.button}>
                   {isRegister ? "Register" : "Login"}
                 </button>
+                </div>
 
                 <div onClick={() => setIsRegister((prev) => !prev)}>
                   {isRegister ? (
@@ -314,4 +333,11 @@ const styles = {
     backgroundColor: "transparent",
     cursor: "pointer",
   },
+  buttonWrapper: {
+    width: "100%", 
+    display: "flex", 
+    justifyContent: "center",  // Center the button horizontally
+    marginTop: "10px", // Adjust spacing between button and other form elements
+  },
+  
 };

@@ -20,27 +20,26 @@ import { Auth } from './authentication/auth';
 
 // Main Layout Component
 const MainLayout = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
+
+  if (isAuthenticated === false || !user) {
+    return <Auth />;
+  }
 
   return (
-    <div className="App">
-      {user ? (
-        <div style={{ padding: '20px' }}>
-          <HomePage />
-        </div>
-      ) : (
-        <Auth />
-      )}
+    <div style={{ padding: '20px' }}>
+      <HomePage />
     </div>
   );
 };
 
+
 const AppContent = () => {
-  const { user } = useAuth(); 
+  const { user, isAuthenticated } = useAuth(); 
 
   return (
     <>
-      {user && <Navbar admin={user?.admin}/>} 
+      {user && isAuthenticated && <Navbar admin={user?.admin}/>} 
       <Routes>
         <Route path="/" element={<MainLayout />} />
         <Route path="/minimart" element={<MinimartPage />} />
