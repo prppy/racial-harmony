@@ -16,7 +16,8 @@
     cursor: pointer;
     text-align: center;
     margin: 5px;
-
+    outline: 0.5px solid white; 
+    outline-offset: 2px;
   }
   
   .unselected {

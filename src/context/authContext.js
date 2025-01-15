@@ -37,7 +37,10 @@ export const AuthContextProvider = ({children})  => {
         setUser((prev) => ({ ...prev, bg: bgIndex }));
             document.body.style.backgroundImage = `url(/bg${bgIndex}.png)`;
             document.body.style.backgroundAttachment = "fixed";
-            document.body.style.backgroundRepeat= "no-repeat"
+            document.body.style.backgroundRepeat= "no-repeat";
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";
+          
             
         }
     }

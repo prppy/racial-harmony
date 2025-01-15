@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-import { updateMainRecord } from "../utils/firebaseUtils";
+import { updateMainRecord, fetchMainRecord} from "../utils/firebaseUtils";
 import { DARK_PURPLE, RED } from "../constants/colors";
 import { FaCheck } from "react-icons/fa";
 import { GiCheckMark } from "react-icons/gi";
@@ -10,10 +10,25 @@ import { MdLogout } from "react-icons/md";
 import SubmitButton from "../components/SubmitButton";
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
-  const [hover, setHover] = useState(false);
   const { logout, user, updateUserBackground } = useAuth();
   const navigate = useNavigate();
-  const [selectedBg, setSelectedBg] = useState(user?.bg || 0); // Initial background based on user's current bg
+  const [selectedBg, setSelectedBg] = useState(0); 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userDetails = await fetchMainRecord('users', user.userId);
+        setSelectedBg(userDetails.bg || 0);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+  
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
+
 
   const handleLogout = async () => {
     const result = await logout();
@@ -46,6 +61,9 @@ const ProfilePage = () => {
       <div
         style={{
           ...pageStyles.left,
+          backgroundImage: `url(/bg${selectedBg}.png)`, 
+    backgroundSize: "cover", 
+    backgroundPosition: "center", 
       
         }}
       >
