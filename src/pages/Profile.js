@@ -12,13 +12,15 @@ const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
   const { logout, user, updateUserBackground } = useAuth();
   const navigate = useNavigate();
-  const [selectedBg, setSelectedBg] = useState(0); 
+  const [selectedBg, setSelectedBg] = useState(userDetails?.bg || 0); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userDetails = await fetchMainRecord('users', user.userId);
+        console.log(user)
         setSelectedBg(userDetails.bg || 0);
+        setUserDetails(userDetails);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
@@ -27,20 +29,22 @@ const ProfilePage = () => {
     if (user) {
       fetchData();
     }
-  }, [user]);
+  }, [user?.bg]);
 
 
   const handleLogout = async () => {
     const result = await logout();
     if (result.success) {
-      navigate("/");
+      // Wait a short time before navigating
+      setTimeout(() => navigate("/"), 100);
     } else {
       alert("Logout failed. Please try again.");
     }
   };
+  
 
   const handleBackgroundPreview = (bgIndex) => {
-    setSelectedBg(bgIndex); // Set the preview background without saving it yet
+    setSelectedBg(bgIndex); 
   };
 
   const handleSubmitBackground = () => {
@@ -62,8 +66,8 @@ const ProfilePage = () => {
         style={{
           ...pageStyles.left,
           backgroundImage: `url(/bg${selectedBg}.png)`, 
-    backgroundSize: "cover", 
-    backgroundPosition: "center", 
+        backgroundSize: "cover", 
+        backgroundPosition: "center", 
       
         }}
       >
@@ -88,7 +92,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Name:</label>
       <input
         type="text"
-        value={user?.name || "Resident’s Name"}
+        value={user?.name || "N/A"}
         style={pageStyles.input}
         readOnly
       />
@@ -97,7 +101,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Email:</label>
       <input
         type="email"
-        value={userDetails? userDetails.email : "Resident’s Email"}
+        value={userDetails? userDetails.email : "N/a"}
         style={pageStyles.input}
         readOnly
       />
@@ -110,7 +114,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Admission Date:</label>
       <input
         type="text"
-        value= {userDetails? userDetails.admissionDate : "Resident’s Admission Date"}
+        value= {userDetails? userDetails.admissionDate : "N/A"}
         style={pageStyles.input}
         readOnly
       />
@@ -119,7 +123,7 @@ const ProfilePage = () => {
       <label style={pageStyles.label}>Class:</label>
       <input
         type="text"
-        value= {userDetails? userDetails.class : "Resident’s Class"}
+        value= {userDetails? userDetails.class : "N/A"}
         style={pageStyles.input}
         readOnly
       />
@@ -129,7 +133,7 @@ const ProfilePage = () => {
 
           <div style={pageStyles.cumulativePoints}>
             <h2 style={pageStyles.label}>Cumulative Voucher Points:</h2>
-            <div style={pageStyles.points}>9000 pts</div>
+            <div style={pageStyles.points}>{userDetails.points || 0}</div>
           </div>
           <hr style={pageStyles.horizontalLine} />
 

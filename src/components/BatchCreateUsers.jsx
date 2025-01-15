@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios"; // Axios for HTTP requests
 import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
-
+import { fetchMainCollection } from "../utils/firebaseUtils";
 const BatchCreateUsers = () => {
   const [fileName, setFileName] = useState(''); // New state for file name
   const [users, setUsers] = useState([]);

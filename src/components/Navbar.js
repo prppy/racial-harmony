@@ -5,7 +5,6 @@ const Navbar = ({admin}) => {
   
 
   const isAdmin = admin;
-  console.log("Admin", isAdmin)
   return (
     <div style={navbarStyles.navbar}>
       <NavLink to="/">
