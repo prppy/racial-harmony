@@ -3,8 +3,10 @@ import { fetchMainCollection, createMainRecord, uploadImage} from "../utils/fire
 import { DARK_PURPLE, RED } from "../constants/colors";
 import SearchBar from "../components/SearchBar";
 import styles from "./Tasks.module.css"; // Import the styles
+import NavigateTaskButton from "../components/NavigateTaskButton";
 
 const Tasks = () => {
+
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,8 +17,11 @@ const Tasks = () => {
     description: "",
     points: "",
     dueDate: "",
+    category:""
   });
   const [selectedTask, setSelectedTask] = useState(null); // State to hold the selected task for detail modal
+  const [selectedCategory, setSelectedCategory] = useState(""); // State for selected category
+
 
   useEffect(() => {
     fetchMainCollection("tasks")
@@ -26,6 +31,15 @@ const Tasks = () => {
       })
       .catch((error) => console.error("Error fetching tasks:", error));
   }, []);
+
+    // Handle category selection
+    const handleCategorySelect = (category) => {
+      setSelectedCategory(category.toLowerCase());
+      console.log(category)
+      const filtered = tasks.filter((task) => 
+        task.category.toLowerCase() === category.toLowerCase() || category === ""
+      );      setFilteredTasks(filtered);
+    };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +69,7 @@ const Tasks = () => {
       setTasks(updatedTasks);
       setFilteredTasks(updatedTasks);
   
-      setNewTask({ title: "", description: "", points: "", dueDate: "", imageUrl: "" });
+      setNewTask({ title: "", description: "", points: "", dueDate: "", imageUrl: "" , category:""});
       setIsModalOpen(false);
     } catch (e) {
       console.error("Error saving task:", e);
@@ -83,7 +97,33 @@ const Tasks = () => {
 
   return (
     <div className={styles.container}>
+
+<div className={styles.categorySection}>
+  <button
+    className={`${styles.categoryButton}`}
+    style={selectedCategory === "" ? pageStyles.selectedCategory : {}}
+    onClick={() => handleCategorySelect("")}
+  >
+    All
+  </button>
+  <button
+    className={`${styles.categoryButton}`}
+    style={selectedCategory === "group" ? pageStyles.selectedCategory : {}}
+    onClick={() => handleCategorySelect("Group")}
+  >
+    Group
+  </button>
+  <button
+    className={`${styles.categoryButton}`}
+    style={selectedCategory === "individual" ? pageStyles.selectedCategory : {}}
+    onClick={() => handleCategorySelect("Individual")}
+  >
+    Individual
+  </button>
+</div>
+
       {/* Search Bar */}
+
       <div className={styles.topSection}>
         <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch} type={"tasks"} />
       </div>
@@ -138,7 +178,20 @@ const Tasks = () => {
             className={styles.input}
           />
           </label>
-
+          <label className={styles.label}>
+  Category:
+  <select
+    name="category"
+    value={newTask.category}
+    onChange={handleInputChange}
+    className={styles.input}
+  >
+    <option value="">Select Category</option>
+    <option value="Group">Group</option>
+    <option value="Individual">Individual</option>
+    {/* Add more categories as needed */}
+  </select>
+</label>
               <label className={styles.label}>
                 Description:
                 <textarea
@@ -146,6 +199,8 @@ const Tasks = () => {
                   value={newTask.description}
                   onChange={handleInputChange}
                   className={styles.textarea}
+                  maxLength={1000}
+                  placeholder="max 1000 char"
                 />
               </label>
               <label className={styles.label}>
@@ -208,7 +263,7 @@ const Tasks = () => {
 
             <p className={styles.taskDetail}><strong>Description:</strong> {selectedTask.description}</p>
             <p style={{color:RED, fontWeight:'bold'}}>Due By: {selectedTask.dueDate}</p>
-           <button className='button' style={{fontWeight:'bold', fontSize:20, width:'100%', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',}}>View Details</button>
+           <NavigateTaskButton  task={selectedTask} className='button' style={{fontWeight:'bold', fontSize:20, width:'100%', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',}}>View Details</NavigateTaskButton>
           </div>
         </div>
         
@@ -233,4 +288,13 @@ const Tasks = () => {
   );
 };
 
+const pageStyles = {
+  selectedCategory: {
+    backgroundColor:" #68180a",
+    color: 'white'
+  }
+}
+
+
 export default Tasks;
+

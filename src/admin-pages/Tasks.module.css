@@ -1,3 +1,4 @@
+
 .container {
   display: flex;
   flex-direction: column;
@@ -85,16 +86,19 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+
 }
 
 .modal {
   background-color: white;
-  width: 40%; /* Set the modal width */
-  max-width: 400px; /* Add a max-width for smaller screens */
+  width: 80%; /* Set the modal width */
+  max-width: 600px; /* Add a max-width for smaller screens */
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   text-align: center; /* Center the text inside the modal */
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 .modalHeader {
@@ -153,7 +157,7 @@
 
 .saveButton,
 .cancelButton {
-  width: 75px;
+  width: 100px;
   padding: 10px;
   font-size: 14px;
   border: none;
@@ -195,6 +199,8 @@
   flex-direction: column;
   align-items: center; /* Centers the modal header */
   z-index: 1200;
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 .modalTaskDetailsHeader {
@@ -259,6 +265,31 @@
   background-color: #e0e0e0;
 }
 
+.categorySection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.categoryButton {
+  background-color: #9C3726;
+  border: 2px solid #9C3726;
+  color:white;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+
+.categoryButton:hover {
+  background-color: #68180a;
+  color: white;
+}
+
+
 
 
 /* Responsive adjustments */
@@ -278,4 +309,7 @@
   .tasksGrid {
     grid-template-columns: 1fr;
   }
+
+  
 }
+
