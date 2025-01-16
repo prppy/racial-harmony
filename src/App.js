@@ -67,7 +67,7 @@ const AppContent = () => {
 
         <Route exact path="/profile" element={<ProfilePage />} />
 
-
+</Routes>
 
 
         </>
