@@ -17,25 +17,26 @@ import Requests from './admin-pages/Requests';
 import Tasks from './admin-pages/Tasks';
 import Task from './admin-pages/Task';
 
-import { Auth } from './authentication/auth';
+
+import { Auth } from "./authentication/auth";
 
 // Main Layout Component
 const MainLayout = () => {
-  const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated } = useAuth();
 
-  if (isAuthenticated === false || !user) {
-    return <Auth />;
-  }
+    if (isAuthenticated === false || !user) {
+        return <Auth />;
+    }
 
-  return (
-    <div style={{ padding: '20px' }}>
-      <HomePage />
-    </div>
-  );
+    return (
+        <div style={{ padding: "20px" }}>
+            <HomePage />
+        </div>
+    );
 };
 
-
 const AppContent = () => {
+
   const { user, isAuthenticated } = useAuth(); 
 
   return (
@@ -68,20 +69,20 @@ const AppContent = () => {
 
 
 
-      </Routes>
-    </>
-  );
+
+        </>
+    );
 };
 
 // App Component
 function App() {
-  return (
-    <AuthContextProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </AuthContextProvider>
-  );
+    return (
+        <AuthContextProvider>
+            <Router>
+                <AppContent />
+            </Router>
+        </AuthContextProvider>
+    );
 }
 
 export default App;
