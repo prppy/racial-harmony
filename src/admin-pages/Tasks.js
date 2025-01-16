@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { fetchMainCollection, createMainRecord } from "../utils/firebaseUtils";
-import { DARK_PURPLE } from "../constants/colors";
+import { fetchMainCollection, createMainRecord, uploadImage} from "../utils/firebaseUtils";
+import { DARK_PURPLE, RED } from "../constants/colors";
 import SearchBar from "../components/SearchBar";
 import styles from "./Tasks.module.css"; // Import the styles
 
@@ -32,20 +32,36 @@ const Tasks = () => {
     setNewTask({ ...newTask, [name]: value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadImage(file, "userId", "tasks")
+        .then((result) => {
+          console.log("Image uploaded successfully", result);
+          setNewTask({ ...newTask, imageUrl: result.downloadURL }); // Store the image URL in state
+        })
+        .catch((error) => {
+          console.error("Error uploading image:", error);
+        });
+    }
+  };
+
+  
   const handleAddTask = async () => {
     try {
-      const savedTask = await createMainRecord("tasks", newTask);
-
+      const savedTask = await createMainRecord("tasks", { ...newTask, imageUrl: newTask.imageUrl });
+  
       const updatedTasks = [...tasks, { id: savedTask.id, ...newTask }];
       setTasks(updatedTasks);
       setFilteredTasks(updatedTasks);
-
-      setNewTask({ title: "", description: "", points: "", dueDate: "" });
+  
+      setNewTask({ title: "", description: "", points: "", dueDate: "", imageUrl: "" });
       setIsModalOpen(false);
     } catch (e) {
       console.error("Error saving task:", e);
     }
   };
+  
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -84,6 +100,13 @@ const Tasks = () => {
             className={styles.taskCard}
             onClick={() => handleTaskClick(task)} // Open task detail modal on click
           >
+                  <div className={styles.taskImage}>
+          {task.imageUrl ? (
+            <img src={task.imageUrl} alt="task" className={styles.taskImage} />
+          ) : (
+            <div className={styles.grayImage}></div>
+          )}
+        </div>
             <div className={styles.taskPoints}>{task.points} pts</div>
             <div className={styles.taskTitle}>{task.title}</div>
           </div>
@@ -106,6 +129,16 @@ const Tasks = () => {
                   className={styles.input}
                 />
               </label>
+                      <label className={styles.label}>
+          Image (optional):
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            className={styles.input}
+          />
+          </label>
+
               <label className={styles.label}>
                 Description:
                 <textarea
@@ -156,29 +189,45 @@ const Tasks = () => {
         </div>
       )}
 
-    {/* Modal for Task Details */}
+{/* Modal for Task Details */}
 {isTaskDetailModalOpen && selectedTask && (
   <div className={styles.modalOverlayTaskDetails}>
     <div className={styles.modalTaskDetails}>
       <h2 className={styles.modalTaskDetailsHeader}>Task Overview</h2>
-      <div>
-        <p className={styles.taskDetail}><strong>Title:</strong> {selectedTask.title}</p>
-        <p className={styles.taskDetail}><strong>Description:</strong> {selectedTask.description}</p>
-        <p className={styles.taskDetail}><strong>Points:</strong> {selectedTask.points} pts</p>
-        <p className={styles.taskDetail}><strong>Due Date:</strong> {selectedTask.dueDate}</p>
+      <div className={styles.modalContent}>
+        <div className={styles.modalLeft}>
+          <div className={styles.taskImage}>
+            <img src={selectedTask.imageUrl} alt="Task Image" />
+          </div>
+        </div>
+        <div className={styles.modalRight}>
+          <div className={styles.taskDetails}>
+            <p style={{color:DARK_PURPLE, fontWeight:'bold', fontSize:'18px'}}> {selectedTask.title}</p>
+            <p style={{color:RED, fontWeight:'bold', marginTop:'0px'}}>{selectedTask.points} pts</p>
+            <hr style={{color:DARK_PURPLE, }} />
+
+            <p className={styles.taskDetail}><strong>Description:</strong> {selectedTask.description}</p>
+            <p style={{color:RED, fontWeight:'bold'}}>Due By: {selectedTask.dueDate}</p>
+           <button className='button' style={{fontWeight:'bold', fontSize:20, width:'100%', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',}}>View Details</button>
+          </div>
+        </div>
+        
       </div>
       <div className={styles.taskButtonContainer}>
-        <button
-          type="button"
-          onClick={handleCloseTaskDetailModal}
-          className={styles.cancelButton}
-        >
-          Close
-        </button>
-      </div>
+              <button
+                type="button"
+                onClick={handleCloseTaskDetailModal}
+                className={styles.cancelButton}
+              >
+                Close
+              </button>
+            </div>
     </div>
+    
   </div>
 )}
+
+
 
     </div>
   );
