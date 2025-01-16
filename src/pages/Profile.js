@@ -1,36 +1,44 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-import { updateMainRecord, fetchMainRecord} from "../utils/firebaseUtils";
+import {
+  updateMainRecord,
+  fetchMainRecord,
+  uploadImage,
+} from "../utils/firebaseUtils";
 import { DARK_PURPLE, RED } from "../constants/colors";
 import { FaCheck } from "react-icons/fa";
 import { GiCheckMark } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
-
+import { FaCamera } from "react-icons/fa";
 import SubmitButton from "../components/SubmitButton";
+
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState(null);
   const { logout, user, updateUserBackground } = useAuth();
   const navigate = useNavigate();
-  const [selectedBg, setSelectedBg] = useState(userDetails?.bg || 0); 
+  const [selectedBg, setSelectedBg] = useState(userDetails?.bg || 0);
+  const defaultImageUrl = "/testResident.png";
+
+  const [profileImage, setProfileImage] = useState(defaultImageUrl);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = await fetchMainRecord('users', user.userId);
-        console.log(user)
+        const userDetails = await fetchMainRecord("users", user.userId);
+        console.log(user);
         setSelectedBg(userDetails.bg || 0);
         setUserDetails(userDetails);
+        setProfileImage(userDetails.profileImageUrl || defaultImageUrl);
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
     };
-  
+
     if (user) {
       fetchData();
     }
   }, [user?.bg]);
-
 
   const handleLogout = async () => {
     const result = await logout();
@@ -40,10 +48,9 @@ const ProfilePage = () => {
       alert("Logout failed. Please try again.");
     }
   };
-  
 
   const handleBackgroundPreview = (bgIndex) => {
-    setSelectedBg(bgIndex); 
+    setSelectedBg(bgIndex);
   };
 
   const handleSubmitBackground = () => {
@@ -58,93 +65,130 @@ const ProfilePage = () => {
       });
   };
 
+  const handleProfileImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const { downloadURL, imageRef } = await uploadImage(
+        file,
+        user?.userId,
+        "profile"
+      );
+      await updateMainRecord("users", user?.userId, {
+        profileImageUrl: downloadURL,
+        profileStorageRef: imageRef,
+      });
+
+      setProfileImage(downloadURL);
+      alert("Profile image uploaded successfully!");
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    }
+  };
+
   return (
     <div style={pageStyles.pageContainer}>
       {/* Left side - Image background */}
       <div
         style={{
           ...pageStyles.left,
-          backgroundImage: `url(/bg${selectedBg}.png)`, 
-        backgroundSize: "cover", 
-        backgroundPosition: "center", 
-      
+          backgroundImage: `url(/bg${selectedBg}.png)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div style={pageStyles.userPhotoContainer}>
           <img
-            src={user?.photoURL || `/testResident.png`} // Replace with user's photo URL
+            src={profileImage} // Replace with user's photo URL
             alt="User"
             style={pageStyles.userPhoto}
           />
+        </div>
+        {/* Upload image button */}
+        <div style={{ flexDirection: "row" }}>
+          <label htmlFor="profileImage" style={{ cursor: "pointer" }}>
+            <button style={pageStyles.button}>
+              <FaCamera color={"white"} size={20} />
+              <input
+                type="file"
+                id="profileImageUpload"
+                accept="image/*"
+                onChange={handleProfileImageUpload}
+              />
+            </button>
+          </label>
         </div>
       </div>
 
       {/* Right side */}
       <div style={pageStyles.right}>
+        {/* User details */}
 
-          {/* User details */}
+        <div style={pageStyles.detailsContainer}>
+          {/* Name and Email Row */}
+          <div style={pageStyles.rowGroup}>
+            <div style={pageStyles.detailRow}>
+              <label style={pageStyles.label}>Name:</label>
+              <input
+                type="text"
+                value={user?.name || "N/A"}
+                style={pageStyles.input}
+                readOnly
+              />
+            </div>
+            <div style={pageStyles.detailRow}>
+              <label style={pageStyles.label}>Email:</label>
+              <input
+                type="email"
+                value={userDetails ? userDetails.email : "N/a"}
+                style={pageStyles.input}
+                readOnly
+              />
+            </div>
+          </div>
 
-          <div style={pageStyles.detailsContainer}>
-{/* Name and Email Row */}
-<div style={pageStyles.rowGroup}>
-    <div style={pageStyles.detailRow}>
-      <label style={pageStyles.label}>Name:</label>
-      <input
-        type="text"
-        value={user?.name || "N/A"}
-        style={pageStyles.input}
-        readOnly
-      />
-    </div>
-    <div style={pageStyles.detailRow}>
-      <label style={pageStyles.label}>Email:</label>
-      <input
-        type="email"
-        value={userDetails? userDetails.email : "N/a"}
-        style={pageStyles.input}
-        readOnly
-      />
-    </div>
-  </div>
-
-  {/* Admission Date and Class Row */}
-  <div style={pageStyles.rowGroup}>
-    <div style={pageStyles.detailRow}>
-      <label style={pageStyles.label}>Admission Date:</label>
-      <input
-        type="text"
-        value=     {userDetails?.admission_date ? userDetails.admission_date : "N/A"}
-
-        style={pageStyles.input}
-        readOnly
-      />
-    </div>
-    <div style={pageStyles.detailRow}>
-      <label style={pageStyles.label}>Class:</label>
-      <input
-        type="text"
-        value=     {userDetails?.class ? userDetails.class : "N/A"}
-
-        style={pageStyles.input}
-        readOnly
-      />
-    </div>
-  </div>
-        <hr style={pageStyles.horizontalLine} />
-
-          <div style={pageStyles.cumulativePoints}>
-            <h2 style={pageStyles.label}>Cumulative Voucher Points:</h2>
-            <div style={pageStyles.points}>    {userDetails?.voucher_balance ? userDetails.voucher_balance : 0}
+          {/* Admission Date and Class Row */}
+          <div style={pageStyles.rowGroup}>
+            <div style={pageStyles.detailRow}>
+              <label style={pageStyles.label}>Admission Date:</label>
+              <input
+                type="text"
+                value={
+                  userDetails?.admission_date
+                    ? userDetails.admission_date
+                    : "N/A"
+                }
+                style={pageStyles.input}
+                readOnly
+              />
+            </div>
+            <div style={pageStyles.detailRow}>
+              <label style={pageStyles.label}>Class:</label>
+              <input
+                type="text"
+                value={userDetails?.class ? userDetails.class : "N/A"}
+                style={pageStyles.input}
+                readOnly
+              />
             </div>
           </div>
           <hr style={pageStyles.horizontalLine} />
 
+          <div style={pageStyles.cumulativePoints}>
+            <h2 style={pageStyles.label}>Cumulative Voucher Points:</h2>
+            <div style={pageStyles.points}>
+              {" "}
+              {userDetails?.voucher_balance ? userDetails.voucher_balance : 0}
+            </div>
+          </div>
+          <hr style={pageStyles.horizontalLine} />
         </div>
 
-          {/* Theme selection */}
+        {/* Theme selection */}
         <div style={pageStyles.bgSelector}>
-        <h2 style={pageStyles.label}>Select Theme:</h2>
-
+          <h2 style={pageStyles.label}>Select Theme:</h2>
           <div style={pageStyles.bgOptions}>
             {[0, 1, 2, 3, 4, 5].map((bgIndex) => (
               <div
@@ -167,23 +211,20 @@ const ProfilePage = () => {
               </div>
             ))}
           </div>
-       
-        ;
-        <div style={pageStyles.submitButtonContainer}>
-        <SubmitButton handleSubmitBackground={handleSubmitBackground}/>
+          ;
+          <div style={pageStyles.submitButtonContainer}>
+            <SubmitButton handleSubmitBackground={handleSubmitBackground} />
+          </div>
         </div>
-        </div>
-        
 
         <button onClick={handleLogout} style={pageStyles.logoutButton}>
-        <span style={{ display: 'flex', alignItems: 'center' }}>
-        <MdLogout color={DARK_PURPLE} size={18}/>
+          <span style={{ display: "flex", alignItems: "center" }}>
+            <MdLogout color={DARK_PURPLE} size={18} />
 
-        <span style={{ marginLeft: '8px' }}>Logout</span>
-  </span>
+            <span style={{ marginLeft: "8px" }}>Logout</span>
+          </span>
         </button>
       </div>
-     
     </div>
   );
 };
@@ -194,7 +235,7 @@ const pageStyles = {
     height: "100vh",
     width: "100vw",
     fontFamily: "Arial, sans-serif",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   heading: {
     color: DARK_PURPLE,
@@ -206,14 +247,28 @@ const pageStyles = {
   },
   left: {
     flex: 1,
-
+    gap: "20px",
+    flexDirection: "column",
     display: "flex",
-    justifyContent: "center", 
-    alignItems: "center", 
+    justifyContent: "center",
+    alignItems: "center",
     height: "100%",
-    width: "100%", 
+    width: "100%",
   },
-
+  button: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    padding: "10px 10px 10px 10px",
+    borderRadius: "5px",
+    border: `2px solid ${DARK_PURPLE}`,
+    backgroundColor: DARK_PURPLE,
+    color: "white",
+    fontSize: "14px",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
   right: {
     flex: 1,
     backgroundColor: "white",
@@ -225,24 +280,24 @@ const pageStyles = {
     borderTop: "2px solid #2B3487",
     position: "relative",
     overflowY: "scroll",
-     maxHeight: "100vh"
+    maxHeight: "100vh",
   },
   horizontalLine: {
     width: "100%",
-    border: "none", 
-    borderTop: "2px solid #6B71AB", 
-    margin: "20px auto", 
+    border: "none",
+    borderTop: "2px solid #6B71AB",
+    margin: "20px auto",
   },
-  
+
   themeSection: {
-    width: '100%',
-    marginBottom: '20px',
+    width: "100%",
+    marginBottom: "20px",
   },
   submitButtonContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end", 
-    marginTop: "20px", 
+    justifyContent: "flex-end",
+    marginTop: "20px",
   },
 
   detailsContainer: {
@@ -251,21 +306,21 @@ const pageStyles = {
     width: "80%",
   },
   rowGroup: {
-    display: "flex", 
-    justifyContent: "space-between", 
-    gap: "20px", 
-    marginBottom: "10px"
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "20px",
+    marginBottom: "10px",
   },
   detailRow: {
-    flex: 1, 
+    flex: 1,
     display: "flex",
-    flexDirection: "column", 
+    flexDirection: "column",
   },
   label: {
     fontSize: "16px",
     fontWeight: "bold",
     marginRight: "10px",
-    color:DARK_PURPLE,
+    color: DARK_PURPLE,
     marginBottom: "5px",
   },
   input: {
@@ -274,10 +329,10 @@ const pageStyles = {
     borderRadius: "4px",
     border: "2px solid #6B71AB",
     backgroundColor: "white",
-    color:'#6B71AB',
+    color: "#6B71AB",
     fontWeight: "bold",
     fontSize: "14px",
-    width: "80%"
+    width: "80%",
   },
   cumulativePoints: {
     marginTop: "20px",
@@ -287,14 +342,14 @@ const pageStyles = {
     fontSize: "50px",
     fontWeight: "bold",
     color: "#2B3487",
-    textAlign:'right'
+    textAlign: "right",
   },
   heading: {
     fontSize: "18px",
     fontWeight: "bold",
     marginBottom: "10px",
     textAlign: "center",
-  }, 
+  },
   bgSelector: {
     margin: "20px 0",
     width: "80%",
