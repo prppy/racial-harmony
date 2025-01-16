@@ -4,6 +4,7 @@ import SearchBar from "../components/SearchBar";
 import { LIGHT_PURPLE, DARK_PURPLE } from "../constants/colors";
 import axios from "axios";
 import { fetchMainCollection } from "../utils/firebaseUtils";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const Manage = () => {
   const [users, setUsers] = useState([]);
@@ -155,10 +156,10 @@ const Manage = () => {
                         Change Password
                       </button>
                       <button
-                        style={pageStyles.button}
+                        style={pageStyles.iconButton}
                         onClick={() => handleDeleteUser(user.userId)}
                       >
-                        Delete User
+                        <FaRegTrashCan color="red"/>
                       </button>
                     </div>
                   </td>
@@ -358,7 +359,18 @@ const pageStyles = {
     justifyContent: 'space-between',
     marginTop: '20px',
   },
-  
+  iconButton: {
+    padding: '8px',
+    borderRadius: '50%',
+    border: 'none',
+    cursor: 'pointer',
+    backgroundColor: 'transparent',
+    color: '#fff',
+    fontSize: '16px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 };
 
 export default Manage;
