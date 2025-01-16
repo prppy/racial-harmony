@@ -125,7 +125,7 @@ const Task = () => {
       </div>
     </div>
     <div style={styles.container}>
-      <ApplicationsTable user={user}/>
+      <ApplicationsTable user={user} taskId={task.id}/>
 
     </div>
     </div>

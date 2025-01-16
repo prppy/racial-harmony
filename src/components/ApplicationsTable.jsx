@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchMainRecord, fetchMainCollection } from '../utils/firebaseUtils';  // Add necessary fetch functions
 import { FaCheck, FaTimes } from 'react-icons/fa';
 
-const ApplicationsTable = ({ user }) => {
+const ApplicationsTable = ({ user, taskId }) => {
   const [applications, setApplications] = useState([]);
   const [users, setUsers] = useState([]);
   const [admins, setAdmins] = useState([]);
@@ -19,8 +19,8 @@ const ApplicationsTable = ({ user }) => {
         setAdmins(adminData);
 
         // Fetch applications based on user's class or all if no class
-        const allApplications = await fetchMainCollection('applications');
-
+        const allApplications = await fetchMainCollection('applications').filter(app => app.taskId === taskId);
+        
         if (user?.class) {
           // Filter applications by class if the admin has one
           const filteredApplications = allApplications.filter(app => app.class === user.class);
@@ -60,6 +60,14 @@ const ApplicationsTable = ({ user }) => {
   return (
     <div style={pageStyles.outerContainer}>
       <h2>Applications</h2>
+      {applications.length === 0 && <p>No applications</p>}
+
+
+
+
+
+
+
       <table>
         <thead>
           <tr>
