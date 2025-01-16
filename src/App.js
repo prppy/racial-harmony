@@ -8,6 +8,7 @@ import LeaderboardPage from './pages/Leaderboard';
 import MinimartPage from './pages/Minimart';
 import HomePage from './pages/Home';
 import VoucherPage from './pages/Vouchers';
+import VoucherView from './pages/VoucherView'
 import HistoryPage from './pages/History';
 import ProductPage from './pages/Product';
 import Reports from './admin-pages/Reports';
@@ -52,6 +53,8 @@ const AppContent = () => {
         <Route exact path="/minimart" element={<MinimartPage />} />
         <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         <Route exact path="/vouchers" element={<VoucherPage />} />
+        <Route path="/voucher/:id" element={<VoucherView />} />
+
         <Route exact path="/history" element={<HistoryPage />} />
         {/* admin */ }
         <Route exact path="/manage" element={<Manage />} />

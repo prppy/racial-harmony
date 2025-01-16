@@ -3,13 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { DARK_PURPLE, RED } from '../constants/colors';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { updateMainRecord, deleteMainRecord } from '../utils/firebaseUtils';
-
+import ApplicationsTable from '../components/ApplicationsTable';
+import { useAuth } from '../context/authContext';
 const Task = () => {
   const location = useLocation();
   const task = location.state?.task;
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ ...task });
+  const {user} = useAuth();
 
   if (!task) {
     return <div>Task not found.</div>;
@@ -54,6 +56,7 @@ const Task = () => {
   };
 
   return (
+    <div>
     <div style={styles.container}>
       <div style={styles.leftContainer}>
         {task.imageUrl ? (
@@ -120,6 +123,11 @@ const Task = () => {
           </>
         )}
       </div>
+    </div>
+    <div style={styles.container}>
+      <ApplicationsTable user={user}/>
+
+    </div>
     </div>
   );
 };
