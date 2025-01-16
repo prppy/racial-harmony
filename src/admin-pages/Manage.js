@@ -30,6 +30,12 @@ const Manage = () => {
     fetchUsers();
   }, []);
 
+  const formatDate = (timestamp) => {
+    if (!timestamp) return "N/A";
+    const date = timestamp.toDate(); 
+    return date.toLocaleDateString(); 
+  };
+
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
@@ -91,6 +97,7 @@ const Manage = () => {
       filterAdmin ? (filterAdmin === "admin" ? user.admin : !user.admin) : true
     );
 
+
   return (
     <div style={pageStyles.outerContainer}>
       <div style={pageStyles.innerContainer}>
@@ -130,7 +137,6 @@ const Manage = () => {
                 <th>Name</th>
                 <th>Class</th>
                 <th>Admission Date</th>
-                <th>Birthday</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Actions</th>
@@ -141,8 +147,7 @@ const Manage = () => {
                 <tr key={user.userId}>
                   <td>{user.name}</td>
                   <td>{user.class || "N/A"}</td>
-                  <td>{user.admissionDate || "N/A"}</td>
-                  <td>{user.birthday || "N/A"}</td>
+                  <td>{formatDate(user.admission_date)|| "N/A"}</td>
                   <td>{user.email || "N/A"}</td>
                   <td>{user.admin ? "Admin" : "Resident"}</td>
                   <td>

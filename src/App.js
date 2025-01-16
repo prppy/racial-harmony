@@ -14,7 +14,7 @@ import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
 import Requests from './admin-pages/Requests';
 import Tasks from './admin-pages/Tasks';
-
+import Task from './admin-pages/Task';
 
 import { Auth } from './authentication/auth';
 
@@ -57,7 +57,10 @@ const AppContent = () => {
         <Route exact path="/manage" element={<Manage />} />
         <Route exact path="/reports" element={<Reports />} />
         <Route exact path="/requests" element={<Requests />} />
+        <Route exact path="/task/:id" element={<Task />} />
+
         <Route exact path="/tasks" element={<Tasks />} />
+
         <Route exact path="/profile" element={<ProfilePage />} />
 
 
