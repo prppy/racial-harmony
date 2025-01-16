@@ -43,7 +43,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<MainLayout />} />
         <Route path="/minimart" element={<MinimartPage />} />
-        <Route path="/product" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/vouchers" element={<VoucherPage />} />
         <Route path="/history" element={<HistoryPage />} />

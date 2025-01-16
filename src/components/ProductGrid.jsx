@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 const ProductGrid = ({ products }) => {
   const navigate = useNavigate();
 
-  const handleProductClick = (id) => {
-    navigate(`/product/${id}`);
-  };
+  const handleProductClick = (product) => {
+    navigate(`/product/${product.id}`, { state: { product } });
+  };  
 
   return (
     <div style={styles.productGrid}>
@@ -15,6 +15,7 @@ const ProductGrid = ({ products }) => {
           key={product.id}
           style={styles.productCard}
           onClick={() => handleProductClick(product)}
+
         >
           <img
             src={product.image}
@@ -23,7 +24,7 @@ const ProductGrid = ({ products }) => {
           />
           <div style={styles.productDetails}>
             <h3 style={styles.productName}>{product.name}</h3>
-            <p style={styles.productPoints}>{product.points} Points</p>
+            <p style={styles.productPoints}>{product.price} Points</p>
           </div>
         </div>
       ))}

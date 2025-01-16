@@ -1,134 +1,235 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext";
+import { updateMainRecord, fetchMainRecord } from "../utils/firebaseUtils";
+import SearchBar from "../components/SearchBar";
 
-const ProductPage = ({ product }) => {
-  const navigate = useNavigate();
-
-  // State for quantity and favorite status
+const ProductPage = () => {
+  const location = useLocation();
+  const product = location.state?.product;
+  const { userId } = useAuth();
+  const [user, setUser] = useState({});
+  const [userFavorites, setUserFavorites] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Handle favorite toggle
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  // Fetch user favorites on component mount
+  useEffect(() => {
+    if (userId && product) {
+      const getUserFavorites = async () => {
+        try {
+          const fetchedUser = await fetchMainRecord("users", userId);
+          setUser(fetchedUser);
+          const favorites = fetchedUser?.favorites || [];
+          setUserFavorites(favorites);
+          setQuantity(product.quantity);
+          setIsFavorite(favorites.includes(product.id));
+        } catch (e) {
+          console.error("Error fetching user data: ", e);
+        }
+      };
+
+      getUserFavorites();
+    }
+  }, [userId, product]);
+
+  // Update isFavorite state when userFavorites changes
+  useEffect(() => {
+    if (product) {
+      setIsFavorite(userFavorites.includes(product.id));
+    }
+  }, [userFavorites, product]);
+
+  // Handle adding/removing from favorites
+  const handleFavorite = async () => {
+    if (!userId || !product) return;
+
+    try {
+      const updatedFavorites = isFavorite
+        ? userFavorites.filter((fav) => fav !== product.id) // Remove
+        : [...userFavorites, product.id]; // Add
+
+      // Update Firestore
+      await updateMainRecord("users", userId, { favorites: updatedFavorites });
+
+      // Update local state
+      setUserFavorites(updatedFavorites);
+    } catch (e) {
+      console.error("Error updating favorite: ", e);
+    }
   };
 
-  // Handle redeeming the product
-  const redeemProduct = () => {
-    alert(`Redeemed ${quantity} ${product.name}(s) for ${product.points * quantity} points`);
-    navigate("/minimart"); // Navigate back to minimart after redeeming
+  const handleRequest = async () => {
+    try {
+      await updateMainRecord("users", userId, { cart: { product } });
+      console.log(`Requested ${quantity} of ${product.name}`);
+    } catch (e) {
+      console.error("Error handling request: ", e);
+    }
   };
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
 
   return (
     <div style={styles.page}>
-      <div style={styles.container}>
-        {/* Product Image */}
-        <div style={styles.imageContainer}>
-          <img src={product.image} alt={product.name} style={styles.productImage} />
+      {/* Top Section */}
+      <div style={styles.topSection}>
+        <SearchBar />
+        <div style={styles.voucherBalance}>
+          Voucher Balance: {user.voucherBalance} pts
         </div>
+      </div>
 
-        {/* Product Details */}
-        <div style={styles.detailsContainer}>
-          <h2 style={styles.productName}>{product.name}</h2>
-          <p style={styles.category}>Category: {product.category}</p>
-          <p style={styles.quantity}>Available: {product.quantity}</p>
-
-          {/* Quantity Selection */}
-          <div style={styles.quantitySelection}>
-            <label>Quantity: </label>
-            <input
-              type="number"
-              value={quantity}
-              min="1"
-              max={product.quantity}
-              onChange={(e) => setQuantity(Math.min(e.target.value, product.quantity))}
-              style={styles.quantityInput}
+      {/* Product Details */}
+      <div style={styles.productContainer}>
+        <div style={styles.productImage}>
+          {/* Placeholder or Image */}
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              style={{ width: "100%", height: "100%", borderRadius: "10px" }}
             />
+          ) : (
+            "No Image Available"
+          )}
+        </div>
+        <div style={styles.productDetails}>
+          <div style={styles.productTitle}>{product.name}</div>
+          <div style={styles.points}>{product.price} pts</div>
+          <div style={styles.productInfo}>
+            <p>
+              <strong>Category:</strong> {product.category}
+            </p>
+            <p>
+              <strong>Quantity Available:</strong> {product.quantity}
+            </p>
           </div>
-
-          {/* Favorite Button */}
-          <button onClick={toggleFavorite} style={isFavorite ? styles.favButtonActive : styles.favButton}>
-            {isFavorite ? "Unfavorite" : "Favorite"}
-          </button>
-
-          {/* Redeem Button */}
-          <button onClick={redeemProduct} style={styles.redeemButton}>
-            Redeem {product.points * quantity} Points
-          </button>
+          <div style={styles.quantitySelector}>
+            <label>Quantity: </label>
+            <select
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+            >
+              {[...Array(product.quantity).keys()].map((num) => (
+                <option key={num + 1} value={num + 1}>
+                  {num + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div style={styles.buttonContainer}>
+            <span
+              style={{
+                ...styles.favoriteIcon,
+                color: isFavorite ? "#FF5722" : "#ccc",
+              }}
+              onClick={handleFavorite}
+              title={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            >
+              {isFavorite ? "♥" : "♡"}
+            </span>
+            <button style={styles.requestButton} onClick={handleRequest}>
+              Request
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// Styles
+// Define styles below the component
 const styles = {
   page: {
-    padding: "20px",
     fontFamily: "Arial, sans-serif",
+    color: "#333",
+    padding: "20px",
+    maxWidth: "1200px",
+    margin: "0 auto",
   },
-  container: {
+  topSection: {
     display: "flex",
-    alignItems: "center",
     justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
   },
-  imageContainer: {
-    flex: 1,
-    marginRight: "20px",
+  voucherBalance: {
+    backgroundColor: "#e6f7ff",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+  },
+  productContainer: {
+    display: "flex",
+    gap: "20px",
+    alignItems: "flex-start",
   },
   productImage: {
-    width: "100%",
-    height: "auto",
+    width: "400px",
+    height: "400px",
+    backgroundColor: "#f9f9f9",
     borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "18px",
+    color: "#999",
   },
-  detailsContainer: {
-    flex: 2,
-    maxWidth: "500px",
+  productDetails: {
+    height: "400px",
+    flex: 1,
+    padding: "10px 20px",
+    backgroundColor: "#fff",
+    borderRadius: "10px",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
   },
-  productName: {
+  productTitle: {
     fontSize: "28px",
     fontWeight: "bold",
+    marginBottom: "15px",
   },
-  category: {
-    fontSize: "18px",
-    color: "#555",
-  },
-  quantity: {
+  productInfo: {
+    marginBottom: "20px",
     fontSize: "16px",
-    color: "#777",
+    lineHeight: "1.5",
+    color: "#666",
   },
-  quantitySelection: {
-    margin: "10px 0",
+  points: {
+    fontSize: "22px",
+    color: "#FF5722",
+    fontWeight: "bold",
+    marginBottom: "15px",
+  },
+  quantitySelector: {
+    marginBottom: "20px",
     fontSize: "16px",
   },
-  quantityInput: {
-    padding: "5px",
-    marginLeft: "10px",
-    width: "60px",
+  buttonContainer: {
+    display: "flex",
+    gap: "15px",
+    alignItems: "center",
   },
-  favButton: {
-    padding: "10px 20px",
-    backgroundColor: "#f0f0f0",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    marginRight: "10px",
+  favoriteIcon: {
+    fontSize: "24px",
     cursor: "pointer",
+    transition: "color 0.3s",
   },
-  favButtonActive: {
-    padding: "10px 20px",
-    backgroundColor: "#ffcc00",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-    marginRight: "10px",
-    cursor: "pointer",
-  },
-  redeemButton: {
-    padding: "10px 20px",
-    backgroundColor: "#4caf50",
-    color: "#fff",
+  requestButton: {
+    padding: "12px 25px",
+    backgroundColor: "#4CAF50",
+    color: "white",
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
+    fontSize: "16px",
+    fontWeight: "bold",
+    transition: "background-color 0.3s",
   },
 };
 
