@@ -98,7 +98,15 @@ const Tasks = () => {
   return (
     <div className={styles.container}>
 
-<div className={styles.categorySection}>
+
+
+      {/* Search Bar */}
+
+      <div className={styles.topSection}>
+        <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch} type={"tasks"} />
+      </div>
+
+      <div className={styles.categorySection}>
   <button
     className={`${styles.categoryButton}`}
     style={selectedCategory === "" ? pageStyles.selectedCategory : {}}
@@ -121,12 +129,6 @@ const Tasks = () => {
     Individual
   </button>
 </div>
-
-      {/* Search Bar */}
-
-      <div className={styles.topSection}>
-        <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch} type={"tasks"} />
-      </div>
       <div className={styles.tasksGrid}>
         {/* Add Button */}
         <div className={styles.addButton} onClick={() => setIsModalOpen(true)}>
@@ -263,7 +265,7 @@ const Tasks = () => {
 
             <p className={styles.taskDetail}><strong>Description:</strong> {selectedTask.description}</p>
             <p style={{color:RED, fontWeight:'bold'}}>Due By: {selectedTask.dueDate}</p>
-           <NavigateTaskButton  task={selectedTask} className='button' style={{fontWeight:'bold', fontSize:20, width:'100%', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',}}>View Details</NavigateTaskButton>
+           <NavigateTaskButton  task={selectedTask} admin={true} className='button' style={{fontWeight:'bold', fontSize:20, width:'100%', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',}}>View Details</NavigateTaskButton>
           </div>
         </div>
         
