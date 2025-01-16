@@ -116,16 +116,22 @@ const BatchCreateUsers = () => {
   </button>
 
   {/* Replace the button with a clickable span */}
+  <div style={styles.buttonContainer}>
   <span
     onClick={handleReset}
     style={{
       color: RED,
       cursor: 'pointer',
       fontWeight: 'bold',
+      fontSize: '14px',
+      marginLeft: '10px',
     }}
   >
     Create more users
   </span>
+   
+  </div>
+ 
 
   {message && <pre style={{color:'black'}}>{message}</pre>} {/* Display messages */}
 </div>
@@ -134,3 +140,10 @@ const BatchCreateUsers = () => {
 };
 
 export default BatchCreateUsers;
+const styles = {
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '20px',
+  },
+}

@@ -160,7 +160,7 @@ const Tasks = () => {
 {isTaskDetailModalOpen && selectedTask && (
   <div className={styles.modalOverlayTaskDetails}>
     <div className={styles.modalTaskDetails}>
-      <h2 className={styles.modalTaskDetailsHeader}>Task Details</h2>
+      <h2 className={styles.modalTaskDetailsHeader}>Task Overview</h2>
       <div>
         <p className={styles.taskDetail}><strong>Title:</strong> {selectedTask.title}</p>
         <p className={styles.taskDetail}><strong>Description:</strong> {selectedTask.description}</p>

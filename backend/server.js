@@ -73,6 +73,57 @@ app.post("/createBatchUsers", async (req, res) => {
   }
 });
 
+app.post("/createUser", async (req, res) => {
+  try {
+    const user = req.body; 
+
+    // Validate user data
+    if (!user || !user.name || !user.email || !user.birthday || !user.admission_date || !user.class) {
+      return res.status(400).json({ error: "Invalid user data. All fields are required." });
+    }
+
+    try {
+      // Generate password from name + birthday
+      const password = `${user.name}${user.birthday}`;
+
+      // Create user in Firebase Authentication
+      const newUser = await admin.auth().createUser({
+        email: user.email,
+        password: password,
+        displayName: user.name,
+      });
+
+      // Store user data in Firestore
+      await admin.firestore().collection("users").doc(newUser.uid).set({
+        name: user.name,
+        email: user.email,
+        userId: newUser.uid,
+        admin: user.admin || false,
+        voucher_balance: 0, // Set initial values as needed
+        bg: 0, // Set background default value
+        default_password: password,
+        admission_date: new Date(user.admission_date),
+        class: user.class,
+      });
+
+      // Respond with success message
+      return res.json({
+        success: true,
+        user: {
+          uid: newUser.uid,
+          email: newUser.email,
+          name: user.name,
+        },
+      });
+    } catch (error) {
+      console.error("Error creating user:", error.message);
+      return res.status(500).json({ error: error.message });
+    }
+  } catch (error) {
+    console.error("Error in createUser:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 {/* DELETE USER */}
 app.delete("/deleteUser/:userId", async (req, res) => {
