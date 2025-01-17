@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const HistoryPage = () => {
+const Cart = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll event
@@ -25,13 +25,18 @@ const HistoryPage = () => {
     <div style={pageStyles.pageContainer}>
       <div style={pageStyles.leftContainer}>
         <img
-          src={isScrolled ? "/voucherBalance1.png" : "/voucherBalance2.png"}
+          src={isScrolled ? "/CartEmpty.png" : "/CartFull.png"}
           alt="logo"
           style={styles.logo}
         />
       </div>
-    
-    
+      <div style={pageStyles.rightContainer}>
+        <img
+          src={isScrolled ? "/QR.png" : ""}
+          style={styles.logo}
+        />
+        {!isScrolled && <p style={styles.text}>Select Check Out when you are at the Minimart!</p>}
+      </div>
     </div>
   );
 };
@@ -50,12 +55,18 @@ const pageStyles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+  rightContainer: {
+    flex: 1, // Takes up the other half of the container
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column', // Align the QR and text vertically when not scrolled
+  },
 };
 
 const styles = {
   logo: {
-    width: '80%', // Makes the image take up the full width of the left container
+    width: '100%', // Makes the image take up the full width of the left container
     height: 'auto',
   },
   qrLogo: {
@@ -69,4 +80,4 @@ const styles = {
   },
 };
 
-export default HistoryPage;
+export default Cart;

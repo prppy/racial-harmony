@@ -25,6 +25,20 @@ const Navbar = ({ admin }) => {
             >
               Minimart
             </NavLink>
+            <NavLink
+              to="/cart"
+              style={({ isActive }) =>
+                isActive
+                  ? {
+                      ...navbarStyles.tab,
+                      color: RED,
+                      borderBottom: `2px solid ${RED}`,
+                    }
+                  : navbarStyles.tab
+              }
+            >
+              Cart
+            </NavLink>
 
             <NavLink
               to="/vouchers"

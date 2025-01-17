@@ -18,7 +18,7 @@ import Inventory from "./admin-pages/Inventory";
 import Tasks from './admin-pages/Tasks';
 import Task from './admin-pages/Task';
 import AuditLog from './admin-pages/AuditLog';
-
+import Cart from './pages/Cart';
 import { Auth } from "./authentication/auth";
 
 // Main Layout Component
@@ -56,6 +56,7 @@ const AppContent = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route exact path="/" element={<MainLayout />} />
         <Route exact path="/minimart" element={<MinimartPage />} />
+        <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         <Route exact path="/vouchers" element={<VoucherPage />} />
         <Route path="/voucher/:id" element={<VoucherView />} />
