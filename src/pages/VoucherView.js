@@ -21,11 +21,16 @@ const VoucherView = () => {
   const taskId = task.id;
 
 
-  useEffect(() => {
+useEffect(() => {
+    if (!task) {
+        console.error("Task not found!");
+        return;
+    }
+
     const fetchData = async () => {
       try {
         const userData = await fetchMainRecord("users", user.userId);
-        setUserData(userData)
+        setUserData(userData);
         if (userData?.favouriteTasks && userData.favouriteTasks.includes(taskId)) {
           setIsFavourite(true);  
         }
@@ -33,15 +38,15 @@ const VoucherView = () => {
         console.error("Error fetching user details:", error);
       }
     };
-  
-    if (user) {
+
+    if (user && task) {
       fetchData();
     }
-  }, []);
+}, [task, user]);
 
-  if (!task) {
-    return <div>Task not found.</div>;
-  }
+if (!task) {
+  return <div>Task not found. Please go back and try again.</div>;
+}
 
   const handleFavourite = async () => {
     if (!user?.userId || !taskId) {

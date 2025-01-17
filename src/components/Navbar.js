@@ -158,10 +158,12 @@ const navbarStyles = {
         alignItems: "center",
         backgroundColor: "#FFFFFF",
         paddingRight: "50px",
+        paddingLeft: "50px",
         color: "white",
+        height: "100px"
     },
     logo: {
-        height: "100px",
+        height: "75px",
         cursor: "pointer",
     },
     tabs: {

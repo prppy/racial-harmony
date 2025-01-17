@@ -59,16 +59,14 @@ const AppContent = () => {
         <Route exact path="/leaderboard" element={<LeaderboardPage />} />
         <Route exact path="/vouchers" element={<VoucherPage />} />
         <Route path="/voucher/:id" element={<VoucherView />} />
-
         <Route exact path="/history" element={<HistoryPage />} />
+
         {/* admin */}
         <Route exact path="/manage" element={<Manage />} />
         <Route exact path="/reports" element={<Reports />} />
         <Route exact path="/inventory" element={<Inventory />} />
         <Route exact path="/task/:id" element={<Task />} />
-
         <Route exact path="/tasks" element={<Tasks />} />
-
         <Route exact path="/profile" element={<ProfilePage />} />
       </Routes>
     </>

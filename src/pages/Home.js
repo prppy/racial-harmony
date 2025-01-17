@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/authContext";
 import { App } from "../App.css";
 import { DARK_GREEN, DARK_PURPLE, RED } from "../constants/colors";
 import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useNavigate } from "react-router-dom";
+import { VoucherSliderComp } from "../components/SliderComps";
 
-const HomePage = () => {
+const Home = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
     const [applications, setApplications] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [voucherBalance, setVoucherBalance] = useState();
+    const [favouriteTask, setFavouriteTask] = useState([]);
 
     useEffect(() => {
         const getApplications = async () => {
@@ -35,6 +37,24 @@ const HomePage = () => {
             }
         };
 
+        const getFavouriteTask = async () => {
+            try {
+                const taskData = await fetchMainCollection("tasks");
+                const userFavourites = (
+                    await fetchMainRecord("users", user.userId)
+                ).favouriteTasks;
+                const filteredTasks = taskData.filter((task) =>
+                    userFavourites.includes(task.id)
+                );
+                console.log("Data Fetched: ", filteredTasks);
+                setTasks(taskData);
+                setFavouriteTask(filteredTasks);
+                console.log("Fav Task Set: ", filteredTasks);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         const getVoucherBalance = async () => {
             try {
                 let data = await fetchMainRecord("users", user.userId);
@@ -44,10 +64,14 @@ const HomePage = () => {
                 console.error(error);
             }
         };
-        getApplications();
-        getTasks();
-        getVoucherBalance();
-    }, []);
+
+        if (!user?.admin) {
+            getTasks();
+            getFavouriteTask();
+            getApplications();
+            getVoucherBalance();
+        }
+    }, [user]);
 
     const RecentTransactions = () => {
         if (applications.length === 0) {
@@ -59,17 +83,27 @@ const HomePage = () => {
         }
 
         return (
-            <ol style={{ justifySelf: "start" }}>
+            <ul
+                style={{
+                    justifySelf: "start",
+                    width: "100%",
+                    boxSizing: "border-box",
+                }}
+            >
                 {applications.map((app) => {
                     const myTask = tasks.find((task) => task.id === app.taskId);
+                    if (!myTask) {
+                        // Skip rendering if myTask is not found
+                        return null;
+                    }
                     return (
                         <div
                             key={app.id}
                             style={{
                                 display: "flex",
                                 width: "100%",
-                                flexDirection: "row", // Horizontal alignment
-                                alignItems: "center", // Vertically align items
+                                flexDirection: "row",
+                                alignItems: "center",
                                 justifyContent: "space-between",
                                 marginBottom: "25px",
                             }}
@@ -79,15 +113,13 @@ const HomePage = () => {
                                     width: "70%",
                                 }}
                             >
-                                {myTask
-                                    ? `Completed "${myTask.title}" Task`
-                                    : "Task not found"}
+                                {`Completed "${myTask.title}" Task`}
                             </li>
-                            <div style={styles.points}>+ {myTask.points}</div>
+                            <div style={styles.points}>+{myTask.points}</div>
                         </div>
                     );
                 })}
-            </ol>
+            </ul>
         );
     };
 
@@ -105,12 +137,21 @@ const HomePage = () => {
                 }}
             >
                 <div style={styles.left}>
-                    <h2 className="large-heading">Vouchers</h2>
+                    <h2 className="large-heading">My Favourite Vouchers:</h2>
+                    <div style={styles.slide}>
+                        <VoucherSliderComp vouchers={favouriteTask} />
+                    </div>
+                    <h2 className="large-heading">My Favourite Products:</h2>
+					<div style={styles.slide}>
+                        <VoucherSliderComp vouchers={favouriteTask} />
+                    </div>
+                    <h2 className="large-heading">Ongoing Auctions:</h2>
+					<div style={styles.slide}>
+                        <VoucherSliderComp vouchers={favouriteTask} />
+                    </div>
                 </div>
 
-                <hr
-                    className="vertical-line"
-                ></hr>
+                <hr className="vertical-line"></hr>
                 <div style={styles.right}>
                     <h2 className="large-heading">Voucher Balance:</h2>
                     <span style={{ fontSize: 50 }}>{voucherBalance}</span>
@@ -119,9 +160,9 @@ const HomePage = () => {
                     <h3 style={{ justifySelf: "start" }}>
                         Recent Transactions:
                     </h3>
-                    <RecentTransactions></RecentTransactions>
+                    <RecentTransactions />
                     <u
-                        style={{ cursor: "pointer" }}
+                        style={{ cursor: "pointer", alignSelf: "end" }}
                         onClick={() => navigate("/history")}
                     >
                         All Transactions
@@ -137,12 +178,12 @@ const styles = {
         padding: "50px",
     },
     left: {
-        minWidth: "40%",
-        border: "2px solid black",
+        width: "60%",
+        flexDirection: "column",
+        boxSizing: "border-box",
     },
     right: {
         border: `2px solid ${DARK_PURPLE}`,
-        minWidth: "40%",
         justifyItems: "center",
         backgroundColor: "white",
         borderRadius: "10px",
@@ -156,12 +197,16 @@ const styles = {
         backgroundColor: DARK_GREEN,
         borderRadius: "10px",
         color: "white",
-        justifyContent: "center", // Centers horizontally
-        alignItems: "center", // Centers vertically
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "end",
         fontSize: "16px",
         padding: "10px",
         boxSizing: "border-box",
     },
+    slide: {
+        width: "100%",
+    },
 };
 
-export default HomePage;
+export default Home;
