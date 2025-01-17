@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import BatchCreateUsers from "../components/BatchCreateUsers";
 import SearchBar from "../components/SearchBar";
-import { LIGHT_PURPLE, DARK_PURPLE, RED, DARK_GREEN} from "../constants/colors";
+import { LIGHT_PURPLE, DARK_PURPLE, RED, DARK_GREEN, PALE_PURPLE, LIGHT_GRAY} from "../constants/colors";
 import axios from "axios";
 import { fetchMainCollection, updateMainRecord } from "../utils/firebaseUtils";
 import { FaRegTrashCan } from "react-icons/fa6";
-
 const Manage = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,6 +12,7 @@ const Manage = () => {
   const [filterAdmin, setFilterAdmin] = useState("");
   const [message, setMessage] = useState("");
   const [newUser, setNewUser] = useState({
+    
     name: "",
     class: "",
     admission_date: "",
@@ -183,19 +183,19 @@ const Manage = () => {
 
         <div style={pageStyles.tableWrapper}>
           <table style={pageStyles.table}>
-            <thead>
+            <thead >
               <tr>
-                <th>Name</th>
-                <th>Class</th>
-                <th>Admission Date</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Actions</th>
+                <th style={{backgroundColor:LIGHT_GRAY, color:'black', padding:'10px', borderBottom:'1px solid black'}}>Name</th>
+                <th style={{backgroundColor:LIGHT_GRAY, color:'black', padding:'10px', borderBottom:'1px solid black'}}>Class</th>
+                <th style={{backgroundColor:LIGHT_GRAY, color:'black', padding:'10px', borderBottom:'1px solid black'}}>Admission Date</th>
+                <th style={{backgroundColor:LIGHT_GRAY, color:'black', padding:'10px', borderBottom:'1px solid black'}}>Email</th>
+                <th style={{backgroundColor:LIGHT_GRAY, color:'black', padding:'10px', borderBottom:'1px solid black'}}>Role</th>
+                <th style={{backgroundColor:LIGHT_GRAY, color:'black', padding:'10px', borderBottom:'1px solid black'}}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user) => (
-                <tr key={user.userId}>
+              {filteredUsers.map((user, index) => (
+              <tr key={user.id} className={index % 2 === 0 ? "odd-row" : "even-row"}>
                   <td>{user.name}</td>
                   <td>{user.class || "N/A"}</td>
                   <td>{formatDate(user.admission_date) || "N/A"}</td>
@@ -399,6 +399,7 @@ const pageStyles = {
     width: "100%",
     borderCollapse: "collapse",
     textAlign: "left",
+    border: '1px solid black'
     
   },
   actionMenu: {

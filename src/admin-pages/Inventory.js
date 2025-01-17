@@ -3,9 +3,9 @@ import { fetchMainCollection, updateMainRecord } from "../utils/firebaseUtils";
 import { createMainRecord, deleteMainRecord } from "../utils/firebaseUtils";
 import { FaRegTrashCan } from "react-icons/fa6";
 import SearchBar from "../components/SearchBar";
-import { DARK_PURPLE } from "../constants/colors";
+import { DARK_GREEN, DARK_PURPLE, RED } from "../constants/colors";
 import BatchCreateProducts from "../components/BatchCreateProducts";
-
+import "../styles/tableStyles.css"
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -189,19 +189,19 @@ const Inventory = () => {
 
         <div style={pageStyles.tableWrapper}>
           <table style={pageStyles.table}>
-            <thead>
+            <thead className="header">
               <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Restock Threshold</th>
-                <th>Restock Flag</th>
-                <th>Actions</th>
+                <th className="header">Name</th>
+                <th className="header">Category</th>
+                <th className="header">Quantity</th>
+                <th className="header">Restock Threshold</th>
+                <th className="header">Restock Flag</th>
+                <th className="header">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {sortedProducts.map((product) => (
-                <tr key={product.id}>
+              {sortedProducts.map((product, index) => (
+                <tr key={product.id} className={index % 2 === 0 ? "odd-row" : "even-row"}>
                   <td>{product.name}</td>
                   <td>{product.category || "N/A"}</td>
                   <td>{product.quantity || "N/A"}</td>
@@ -210,13 +210,13 @@ const Inventory = () => {
                     style={{
                       color:
                         product.quantity < product.restockThreshold
-                          ? "red"
-                          : "green",
+                          ? RED
+                          : DARK_GREEN,
                     }}
                   >
                     {product.quantity < product.restockThreshold
-                      ? "Restock"
-                      : "Safe"}
+                      ? "RESTOCK"
+                      : "SAFE"}
                   </td>
                   <td>
                     <div style={pageStyles.actionMenu}>

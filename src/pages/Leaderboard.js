@@ -8,6 +8,7 @@ import { useAuth } from "../context/authContext";
 import { DARK_PURPLE } from "../constants/colors";
 import AWARDS from "../constants/awards";
 import { startOfMonth, endOfMonth, format } from "date-fns";  // Make sure date-fns is installed
+import "../styles/tableStyles.css"
 
 const LeaderboardPage = () => {
   const { user } = useAuth();
@@ -151,10 +152,10 @@ const LeaderboardPage = () => {
     </thead>
     <tbody>
       {leaderboard.map((user, index) => (
-        <tr key={user.residentID} style={styles.tableRow}>
+        <tr key={user.residentID} style={styles.tableRow} className={index % 2 === 0 ? "odd-row" : "even-row"}>
           <td style={styles.tableCell}>{index + 1}</td>
           <td style={styles.tableCell}>{user.residentName}</td>
-          <td style={styles.tableCell}>{user.residentClass}</td>
+          <td style={styles.tableCell}>{user.residentClass ? user.residentClass : "N/A"}</td>
           <td style={styles.tableCell}>{user.totalPoints} pts</td>
         </tr>
       ))}
