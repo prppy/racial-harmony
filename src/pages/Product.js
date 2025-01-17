@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Add useNavigate
 import { useAuth } from "../context/authContext";
-import { updateMainRecord, fetchMainRecord } from "../utils/firebaseUtils";
+import { updateMainRecord, fetchMainRecord, saveRecord } from "../utils/firebaseUtils";
 import SearchBar from "../components/SearchBar";
 
 const ProductPage = () => {
@@ -9,12 +9,13 @@ const ProductPage = () => {
   const navigate = useNavigate(); // Use navigate
   const product = location.state?.product;
   const [searchQuery, setSearchQuery] = useState("")
-
-  const { userId } = useAuth();
-  const [user, setUser] = useState({});
+  const [userData, setUserData] = useState(null)
+  const { user } = useAuth();
   const [userFavorites, setUserFavorites] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const userId = user?.userId
 
   useEffect(() => {
     setSearchQuery(location.state?.searchQuery || "");
@@ -25,9 +26,9 @@ const ProductPage = () => {
     if (userId && product) {
       const getUserFavorites = async () => {
         try {
-          const fetchedUser = await fetchMainRecord("users", userId);
-          setUser(fetchedUser);
-          const favorites = fetchedUser?.favorites || [];
+          const fetchedUserData = await fetchMainRecord("users", userId);
+          setUserData(fetchedUserData)
+          const favorites =fetchedUserData ?.favorites || [];
           setUserFavorites(favorites);
           setQuantity(product.quantity);
           setIsFavorite(favorites.includes(product.id));
@@ -68,8 +69,17 @@ const ProductPage = () => {
 
   const handleRequest = async () => {
     try {
-      await updateMainRecord("users", userId, { cart: { product } });
+
+     await saveRecord("users", userId,  "cart", {
+      productId: product.id,
+      productName:product.name,
+      quantity: quantity,
+      requestDate: new Date()
+     } )
+
+
       console.log(`Requested ${quantity} of ${product.name}`);
+      alert(`Requested ${quantity} of ${product.name}`);
     } catch (e) {
       console.error("Error handling request: ", e);
     }
@@ -97,7 +107,7 @@ const ProductPage = () => {
           handleSearch={handleSearch}
         />
         <div style={styles.voucherBalance}>
-          Voucher Balance: {user.voucherBalance} pts
+          Voucher Balance: {userData?.voucher_balance || 0} pts
         </div>
       </div>
 
@@ -150,7 +160,7 @@ const ProductPage = () => {
             >
               {isFavorite ? "♥" : "♡"}
             </span>
-            <button style={styles.requestButton} onClick={handleRequest}>
+            <button className="button" style={styles.requestButton} onClick={handleRequest}>
               Request
             </button>
           </div>
