@@ -18,7 +18,16 @@ const ProductPage = () => {
   const userId = user?.userId
 
   useEffect(() => {
-    setSearchQuery(location.state?.searchQuery || "");
+    // Set default quantity based on product availability
+    if (product.quantity === 0) {
+      setQuantity(0); // No stock
+    } else {
+      setQuantity(1); // Minimum 1 item available
+    }
+  }, [product.quantity]);
+
+  useEffect(() => {
+    setSearchQuery(location.state?.searchQuery || "")
   }, [location.state?.searchQuery]);
   
   // Fetch user favorites on component mount
@@ -30,7 +39,6 @@ const ProductPage = () => {
           setUserData(fetchedUserData)
           const favorites =fetchedUserData ?.favorites || [];
           setUserFavorites(favorites);
-          setQuantity(product.quantity);
           setIsFavorite(favorites.includes(product.id));
         } catch (e) {
           console.error("Error fetching user data: ", e);
@@ -68,24 +76,31 @@ const ProductPage = () => {
   };
 
   const handleRequest = async () => {
-    try {
+    const totalCost = quantity * product.points
+    if (totalCost <= userData.voucher_balance) {
+      try {
 
-     await saveRecord("users", userId,  "cart", {
-      productId: product.id,
-      productName:product.name,
-      quantity: quantity,
-      requestDate: new Date(),
-      unitPoint: product.points
+        await saveRecord("users", userId,  "cart", {
+         productId: product.id,
+         productName:product.name,
+         quantity: quantity,
+         requestDate: new Date(),
+         unitPoint: product.points
+   
+        } )
+   
+   
+         console.log(`Requested ${quantity} of ${product.name}`);
+         alert(`Requested ${quantity} of ${product.name}`);
+       } catch (e) {
+         console.error("Error handling request: ", e);
+       }
 
-     } )
-
-
-      console.log(`Requested ${quantity} of ${product.name}`);
-      alert(`Requested ${quantity} of ${product.name}`);
-    } catch (e) {
-      console.error("Error handling request: ", e);
+    } else {
+      alert("Not enough voucher points!")
     }
-  };
+
+  }; 
 
 
 
@@ -139,18 +154,27 @@ const ProductPage = () => {
             </p>
           </div>
           <div style={styles.quantitySelector}>
-            <label>Quantity: </label>
-            <select
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-            >
-              {[...Array(product.quantity).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>
-                  {num + 1}
-                </option>
-              ))}
-            </select>
-          </div>
+      <label>Quantity: </label>
+      <button
+        style={styles.quantityButton}
+        onClick={() => setQuantity((prev) => Math.max(0, prev - 1))} // Decrease, minimum 0 if no stock
+        disabled={quantity <= 0} // Disable if quantity is 0
+      >
+        -
+      </button>
+      <span style={styles.quantityDisplay}>{quantity}</span>
+      <button
+        style={styles.quantityButton}
+        onClick={() =>
+          setQuantity((prev) => Math.min(product.quantity, prev + 1)) // Increase, maximum is product quantity
+        }
+        disabled={quantity >= product.quantity || product.quantity === 0} // Disable if quantity is max or no stock
+      >
+        +
+      </button>
+      {product.quantity === 0 && <p style={styles.outOfStock}>Out of Stock</p>}
+    </div>
+
           <div style={styles.buttonContainer}>
             <span
               style={{
@@ -261,6 +285,44 @@ const styles = {
     fontSize: "16px",
     fontWeight: "bold",
     transition: "background-color 0.3s",
+  }, quantitySelector: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "20px",
+  },
+  quantityButton: {
+    padding: "5px 10px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "3px",
+    cursor: "pointer",
+    fontSize: "16px",
+    fontWeight: "bold",
+    transition: "background-color 0.3s",
+    width: "40px",
+    textAlign: "center",
+    disabledStyle: {
+      backgroundColor: "#ccc",
+      cursor: "not-allowed",
+    },
+  },
+  quantityDisplay: {
+    fontSize: "18px",
+    fontWeight: "bold",
+    padding: "5px 10px",
+    border: "1px solid #ddd",
+    borderRadius: "3px",
+    minWidth: "40px",
+    textAlign: "center",
+    backgroundColor: "#f9f9f9",
+  },
+  outOfStock: {
+    color: "red",
+    fontSize: "14px",
+    fontWeight: "bold",
+    marginLeft: "10px",
   },
 };
 
