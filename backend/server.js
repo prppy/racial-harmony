@@ -163,6 +163,39 @@ app.post("/resetPassword/:userId", async (req, res) => {
   }
 });
 
+{/*SUSPEND USER */}
+
+app.post("/suspendUser/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Disable the user (suspend)
+    await admin.auth().updateUser(userId, { disabled: true });
+
+    res.status(200).json({ success: true, message: "User suspended successfully" });
+  } catch (error) {
+    console.error("Error suspending user:", error);
+    res.status(500).json({ error: "Failed to suspend user" });
+  }
+});
+{/*RESTORE USER*/}
+
+app.post("/restoreUser/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Enable the user (restore)
+    await admin.auth().updateUser(userId, { disabled: false });
+
+    res.status(200).json({ success: true, message: "User restored successfully" });
+  } catch (error) {
+    console.error("Error restoring user:", error);
+    res.status(500).json({ error: "Failed to restore user" });
+  }
+});
+
+
+
 
 
 // Start the server

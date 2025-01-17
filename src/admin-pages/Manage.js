@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import BatchCreateUsers from "../components/BatchCreateUsers";
 import SearchBar from "../components/SearchBar";
-import { LIGHT_PURPLE, DARK_PURPLE } from "../constants/colors";
+import { LIGHT_PURPLE, DARK_PURPLE, RED, DARK_GREEN} from "../constants/colors";
 import axios from "axios";
-import { fetchMainCollection } from "../utils/firebaseUtils";
+import { fetchMainCollection, updateMainRecord } from "../utils/firebaseUtils";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 const Manage = () => {
@@ -94,7 +94,48 @@ const Manage = () => {
       alert("Failed to reset password");
     }
   };
-
+  const handleSuspendUser = async (userId, isSuspended) => {
+    try {
+      const endpoint = isSuspended
+        ? `http://localhost:5001/restoreUser/${userId}`
+        : `http://localhost:5001/suspendUser/${userId}`;
+  
+      const response = await axios.post(endpoint);
+      
+      if (response.data.success) {
+        alert(
+          isSuspended
+            ? "User restored successfully!"
+            : "User suspended successfully!"
+        );
+  
+        // Fetch the user and update the suspended status
+        const updatedUser = users.find((user) => user.userId === userId);
+  
+        // If the user doesn't have a suspended field, set it now
+        if (updatedUser && updatedUser.suspended === undefined) {
+          updatedUser.suspended = !isSuspended; // Add the suspended field
+        } else {
+          updatedUser.suspended = !isSuspended;
+        }
+  
+        // Update the user in Firebase or database
+        await updateMainRecord("users", userId, { suspended: updatedUser.suspended });
+  
+        // Update the users state
+        setUsers((prev) =>
+          prev.map((user) =>
+            user.userId === userId ? { ...user, suspended: updatedUser.suspended } : user
+          )
+        );
+      } else {
+        alert(response.data.error || "Failed to update user status");
+      }
+    } catch {
+      alert("Failed to update user status");
+    }
+  };
+  
   const filteredUsers = users
     .filter((user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -173,6 +214,21 @@ const Manage = () => {
                       >
                         Change Password
                       </button>
+                  
+                      <button
+                      className="button"
+                        onClick={() =>
+                          handleSuspendUser(user.userId, user.suspended)
+                        }
+                        style={{
+                          backgroundColor: user.suspended ? DARK_GREEN : RED,
+                          color: "white",
+                        }}
+                      >
+                        {user.suspended ? "Restore User" : "Suspend User"}
+                      </button>
+
+
                       <button
                         style={pageStyles.iconButton}
                         onClick={() => handleDeleteUser(user.userId)}
@@ -337,11 +393,13 @@ const pageStyles = {
   tableWrapper: {
     overflowX: "auto",
     marginTop: "20px",
+    maxHeight:'400px'
   },
   table: {
     width: "100%",
     borderCollapse: "collapse",
     textAlign: "left",
+    
   },
   actionMenu: {
     display: "flex",

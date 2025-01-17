@@ -325,6 +325,8 @@ const pageStyles = {
     width: "100%",
     borderCollapse: "collapse",
     textAlign: "left",
+    overflow:'auto',
+    maxHeight:'400px'
   },
   button: {
     padding: "8px 12px",
