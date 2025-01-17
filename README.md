@@ -7,6 +7,7 @@ Link to webapp: [Racial Harmony](https://racial-harmony-5.web.app/)
 
 ## Inspiration
 Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. Living in a diverse society, we recognized the importance of fostering responsibility through actionable initiatives. We aimed to develop a solution that strengthens community bonds and promotes shared responsibility.
+
 With our personalisation and gamification features that encourages residents to actively participate in the voucher system, and automated processes of user and product batch creations and updates, we hope our webapp offers a seamless experience for the residents and admins 
 
 #### For Residents:
