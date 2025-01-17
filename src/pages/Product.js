@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // Add useNavigate
 import { useAuth } from "../context/authContext";
-import { updateMainRecord, fetchMainRecord } from "../utils/firebaseUtils";
+import { updateMainRecord, fetchMainRecord, saveRecord } from "../utils/firebaseUtils";
 import SearchBar from "../components/SearchBar";
 
 const ProductPage = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Use navigate
   const product = location.state?.product;
-  const { userId } = useAuth();
-  const [user, setUser] = useState({});
+  const [searchQuery, setSearchQuery] = useState("")
+  const [userData, setUserData] = useState(null)
+  const { user } = useAuth();
   const [userFavorites, setUserFavorites] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
+  const userId = user?.userId
+
+  useEffect(() => {
+    // Set default quantity based on product availability
+    if (product.quantity === 0) {
+      setQuantity(0); // No stock
+    } else {
+      setQuantity(1); // Minimum 1 item available
+    }
+  }, [product.quantity]);
+
+  useEffect(() => {
+    setSearchQuery(location.state?.searchQuery || "")
+  }, [location.state?.searchQuery]);
+  
   // Fetch user favorites on component mount
   useEffect(() => {
     if (userId && product) {
       const getUserFavorites = async () => {
         try {
-          const fetchedUser = await fetchMainRecord("users", userId);
-          setUser(fetchedUser);
-          const favorites = fetchedUser?.favorites || [];
+          const fetchedUserData = await fetchMainRecord("users", userId);
+          setUserData(fetchedUserData)
+          const favorites =fetchedUserData ?.favorites || [];
           setUserFavorites(favorites);
-          setQuantity(product.quantity);
           setIsFavorite(favorites.includes(product.id));
         } catch (e) {
           console.error("Error fetching user data: ", e);
@@ -60,12 +76,37 @@ const ProductPage = () => {
   };
 
   const handleRequest = async () => {
-    try {
-      await updateMainRecord("users", userId, { cart: { product } });
-      console.log(`Requested ${quantity} of ${product.name}`);
-    } catch (e) {
-      console.error("Error handling request: ", e);
+    const totalCost = quantity * product.points
+    if (totalCost <= userData.voucher_balance) {
+      try {
+
+        await saveRecord("users", userId,  "cart", {
+         productId: product.id,
+         productName:product.name,
+         quantity: quantity,
+         requestDate: new Date(),
+         unitPoint: product.points
+   
+        } )
+   
+   
+         console.log(`Requested ${quantity} of ${product.name}`);
+         alert(`Requested ${quantity} of ${product.name}`);
+       } catch (e) {
+         console.error("Error handling request: ", e);
+       }
+
+    } else {
+      alert("Not enough voucher points!")
     }
+
+  }; 
+
+
+
+  const handleSearch = () => {
+    // Navigate to /minimart with the search query as a parameter
+    navigate("/minimart", { state: { searchQuery } });
   };
 
   if (!product) {
@@ -76,9 +117,14 @@ const ProductPage = () => {
     <div style={styles.page}>
       {/* Top Section */}
       <div style={styles.topSection}>
-        <SearchBar />
+        <SearchBar 
+          searchQuery={searchQuery} 
+          setSearchQuery={setSearchQuery} 
+          type={"products"}
+          handleSearch={handleSearch}
+        />
         <div style={styles.voucherBalance}>
-          Voucher Balance: {user.voucherBalance} pts
+          Voucher Balance: {userData?.voucher_balance || 0} pts
         </div>
       </div>
 
@@ -108,18 +154,27 @@ const ProductPage = () => {
             </p>
           </div>
           <div style={styles.quantitySelector}>
-            <label>Quantity: </label>
-            <select
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-            >
-              {[...Array(product.quantity).keys()].map((num) => (
-                <option key={num + 1} value={num + 1}>
-                  {num + 1}
-                </option>
-              ))}
-            </select>
-          </div>
+      <label>Quantity: </label>
+      <button
+        style={styles.quantityButton}
+        onClick={() => setQuantity((prev) => Math.max(0, prev - 1))} // Decrease, minimum 0 if no stock
+        disabled={quantity <= 0} // Disable if quantity is 0
+      >
+        -
+      </button>
+      <span style={styles.quantityDisplay}>{quantity}</span>
+      <button
+        style={styles.quantityButton}
+        onClick={() =>
+          setQuantity((prev) => Math.min(product.quantity, prev + 1)) // Increase, maximum is product quantity
+        }
+        disabled={quantity >= product.quantity || product.quantity === 0} // Disable if quantity is max or no stock
+      >
+        +
+      </button>
+      {product.quantity === 0 && <p style={styles.outOfStock}>Out of Stock</p>}
+    </div>
+
           <div style={styles.buttonContainer}>
             <span
               style={{
@@ -131,7 +186,7 @@ const ProductPage = () => {
             >
               {isFavorite ? "♥" : "♡"}
             </span>
-            <button style={styles.requestButton} onClick={handleRequest}>
+            <button className="button" style={styles.requestButton} onClick={handleRequest}>
               Request
             </button>
           </div>
@@ -230,6 +285,44 @@ const styles = {
     fontSize: "16px",
     fontWeight: "bold",
     transition: "background-color 0.3s",
+  }, quantitySelector: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "20px",
+  },
+  quantityButton: {
+    padding: "5px 10px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "3px",
+    cursor: "pointer",
+    fontSize: "16px",
+    fontWeight: "bold",
+    transition: "background-color 0.3s",
+    width: "40px",
+    textAlign: "center",
+    disabledStyle: {
+      backgroundColor: "#ccc",
+      cursor: "not-allowed",
+    },
+  },
+  quantityDisplay: {
+    fontSize: "18px",
+    fontWeight: "bold",
+    padding: "5px 10px",
+    border: "1px solid #ddd",
+    borderRadius: "3px",
+    minWidth: "40px",
+    textAlign: "center",
+    backgroundColor: "#f9f9f9",
+  },
+  outOfStock: {
+    color: "red",
+    fontSize: "14px",
+    fontWeight: "bold",
+    marginLeft: "10px",
   },
 };
 

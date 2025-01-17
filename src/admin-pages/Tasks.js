@@ -4,9 +4,9 @@ import { DARK_PURPLE, RED } from "../constants/colors";
 import SearchBar from "../components/SearchBar";
 import styles from "./Tasks.module.css"; // Import the styles
 import NavigateTaskButton from "../components/NavigateTaskButton";
-
+import { useNavigate } from "react-router-dom";
 const Tasks = () => {
-
+  const navigate = useNavigate(); 
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -101,6 +101,11 @@ const Tasks = () => {
     setSelectedTask(null); // Clear the selected task when closing
   };
 
+  const goAuditLog = () => {
+    navigate("/auditLog")
+  };
+
+
   return (
     <div className={styles.container}>
 
@@ -110,6 +115,9 @@ const Tasks = () => {
 
       <div className={styles.topSection}>
         <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearch} type={"tasks"} />
+        <div className={styles.voucherBalanceContainer} style={{cursor:'pointer'}} onClick={goAuditLog}>
+          <span className={styles.voucherBalanceText}>Audit Log</span>
+        </div>
       </div>
 
       <div className={styles.categorySection}>

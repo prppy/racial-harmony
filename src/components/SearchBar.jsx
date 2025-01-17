@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
-const SearchBar = ({ searchQuery, setSearchQuery, type }) => {
+const SearchBar = ({ searchQuery, setSearchQuery, type, handleSearch}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(); // Call the passed handleSearch function on Enter
+    }
+  };
+
 
   return (
     <div style={styles.searchWrapper}>
@@ -21,6 +28,7 @@ const SearchBar = ({ searchQuery, setSearchQuery, type }) => {
         }}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyPress}
       />
     </div>
   );

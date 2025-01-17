@@ -8,7 +8,7 @@ import {
   FaRunning,
 } from "react-icons/fa";
 
-export const AWARDS = [
+const AWARDS = [
   {
     id: "most_obedient",
     name: "Most Obedient",

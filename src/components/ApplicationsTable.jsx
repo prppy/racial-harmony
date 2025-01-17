@@ -3,6 +3,8 @@ import { fetchMainCollection, fetchMainRecord, updateMainRecord } from '../utils
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { RED } from '../constants/colors';
 import { GiCheckMark } from 'react-icons/gi';
+import "../styles/tableStyles.css"
+
 const ApplicationsTable = ({ user, taskId }) => {
   const [applications, setApplications] = useState([]);
   const [users, setUsers] = useState([]);
@@ -124,9 +126,9 @@ const ApplicationsTable = ({ user, taskId }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredApplications.map((application) => (
-              <tr key={application.id}>
- <td style={pageStyles.td}>{getResidentName(application.residentID)}</td>
+            {filteredApplications.map((application, index) => (
+              <tr key={application.id} className={index % 2 === 0 ? "odd-row" : "even-row"}>
+              <td style={pageStyles.td}>{getResidentName(application.residentID)}</td>
           <td style={pageStyles.td}>{application.class}</td>
           <td style={pageStyles.td}>{getFormTeacher(application.class)}</td>
           <td style={pageStyles.td}>

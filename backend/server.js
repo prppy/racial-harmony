@@ -31,6 +31,7 @@ app.post("/createBatchUsers", async (req, res) => {
 
     for (const user of users) {
       try {
+       
         // Generate password from name + birthday
         const password = `${user.name}${user.birthday}`;
 
@@ -52,6 +53,7 @@ app.post("/createBatchUsers", async (req, res) => {
           default_password: password,
           admission_date: new Date(user.admission_date),
           class: user.class,
+          profile_picture: user.profile_picture || null
         });
 
 

@@ -1,0 +1,17 @@
+.odd-row {
+    background-color: white;
+    color: #6B71AB
+  }
+  
+.even-row {
+    background-color: #a5a8cc;
+    color:white
+}
+.header {
+  background-color: #f4f4f4;
+  color: black;
+  padding:10px;
+  border-bottom: 1px solid black
+}
+
+  

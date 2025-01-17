@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# Racial Harmony
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personalized minimart with customizable themes: residents track vouchers and view spending insights, while admins manage inventory, access reports, and see class-wide trends—all seamlessly automated
 
-## Available Scripts
+## Try it out
+Link to webapp: [Racial Harmony](https://racial-harmony-5.web.app/)
 
-In the project directory, you can run:
+## Inspiration
+Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. 
 
-### `npm start`
+With our personalisation and gamification features that encourages residents to actively participate in the voucher system, and automated processes of user and product batch creations and updates, we hope our webapp offers a seamless experience for the residents and admins 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### For Residents (Users):
 
-### `npm test`
+#### **Wishlist for Products**
+- Add unavailable or desired products to a personal wishlist.
+- Admins gain insights into product demand and can prioritize restocking.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### **Leaderboard & Achievement Badges**
+- Unlock badges for milestones such as consistent good behavior, academic improvement, or completing community tasks.
+- Badges incentivize participation with small voucher bonuses.
 
-### `npm run build`
+#### **Additional Gamified Tasks**
+- **Personal Tasks**: E.g., maintain punctuality for a week to earn vouchers.
+- **Group Tasks**: Collaborate to clean the courtyard or organize an event to earn group rewards.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Streamlined Dashboard  
+- Easily track voucher balances, transaction history, and available products.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Seamless Checkout System  
+- Redeem products earned from vouchers without hassle through a convenient QR code system
 
-### `npm run eject`
+#### Personalization  
+- Add a personal touch with customizable wallpapers and profile settings.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+####  Item Requests & Preorders  
+- Request items or place preorders for out-of-stock products.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Secure Login  
+- Secure login process with optional password reset via mobile.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### For Admins (Staff):
 
-## Learn More
+#### **Inventory Analytics**
+- View analytics for popular or frequently requested products.
+- Gain insights into wishlist trends to adjust inventory based on demand.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### **User Management System**
+- Add, suspend, and reset user passwords.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+####  Task and Request Approval  
+- Approve or reject voucher tasks and product requests with detailed tracking of actions.
 
-### Code Splitting
+####  Inventory Management  
+- Tools to manage stock levels and ensure availability of popular items.  
+- Audit logs for transparency and accountability.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+#### **Future Plans**
+- **Notifications System**:
+  - **For Residents**: Alerts for voucher issuance, approvals, rejections, or auction outcomes.
+  - **For Admins**: Notifications for pending approvals, low inventory, or upcoming auctions.
+- **Community Board**: 
+  - A virtual noticeboard for updates, goals, and upcoming events.
+  - Interaction between residents and admins to foster a sense of community.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+This system is designed to enhance efficiency, provide transparency, and deliver a seamless experience for all users.
 
-### Advanced Configuration
+## How we built it
+We utilized a user-centered approach to design and development:
+1. **Frameworks & Tools**: React for the front-end, Node.js for the back-end, and Firebase for real-time data synchronization.
+2. **Client Research**: We conducted in-depth research on Muhammadiyah to ensure the platform aligns with their mission and values.
+3. **Focus on Accessibility**: Ensuring the platform is inclusive and easy to use for individuals of all backgrounds and abilities.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Challenges we ran into
+1. **Identifying Key Needs**: Determining the most impactful features to address the needs of youth-at-risk.
+2. **Resource Limitations**: Working within a limited timeline to develop a functional and scalable prototype.
+3. **Engagement Strategies**: Designing features that effectively motivate youth participation and sustained engagement.
 
-### Deployment
+## Accomplishments that we're proud of
+- Successfully launching a platform prototype within the project timeline.
+- Receiving positive feedback from Muhammadiyah and community representatives for the project's potential.
+- Building a scalable foundation that can be adapted for future initiatives across different regions or organizations.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## What we learned
+- Successfully delivering a functional prototype that aligns with Muhammadiyah's objectives.
+- Developing a robust and scalable platform foundation for future enhancements.
 
-### `npm run build` fails to minify
+## What's next for Racial Harmony
+1. **Feature Expansion**: Adding personalized recommendations for events, initiatives, and other opportunities.
+2. **Broader Deployment**: Scaling the platform for use by other organizations or communities.
+3. **Impact Metrics**: Implementing tools to measure the platform's effectiveness in fostering community engagement.
+4. **Mobile Accessibility**: Developing a mobile application to increase usability and reach.
+5. **User Feedback Integration**: Continuously improving the platform based on user input and evolving community needs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+We believe this project has the potential to make a meaningful difference and are excited to continue evolving it to support Muhammadiyah's vision of unity and growth. This project represents our commitment to building tools that make a meaningful difference in community development and engagement.
+

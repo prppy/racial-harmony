@@ -3,7 +3,6 @@ import * as XLSX from "xlsx";
 import axios from "axios"; // Axios for HTTP requests
 import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
 import { fetchMainCollection } from "../utils/firebaseUtils";
-
 const BatchCreateUsers = () => {
   const [fileName, setFileName] = useState(''); // New state for file name
   const [users, setUsers] = useState([]);
@@ -18,7 +17,6 @@ const BatchCreateUsers = () => {
     handleParse(uploadedFile)}
   };
 
-  // Parse the Excel file
   const handleParse = (file) => {
     if (!file) {
       alert("Please upload a file first!");
@@ -29,27 +27,57 @@ const BatchCreateUsers = () => {
     reader.onload = (e) => {
       const data = e.target.result;
       const workbook = XLSX.read(data, { type: "binary" });
-      const sheetName = workbook.SheetNames[0]; // Assuming a single sheet
+      const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-      const parsedData = XLSX.utils.sheet_to_json(sheet, { raw: false }); // Convert to JSON and format data
   
-      // Format date fields
-      const formattedData = parsedData.map((user) => {
-        if (user.admission_date) {
-          // Convert Excel serial date number to Date object
-          user.admission_date = XLSX.utils.format_cell({ t: 'd', v: user.admission_date });
-        }
-        if (user.birthday) {
-          // Convert Excel serial date number to Date object
-          user.birthday = XLSX.utils.format_cell({ t: 'd', v: user.birthday });
-        }
-        return user;
-      });
+      const rawParsedData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
   
-      setUsers(formattedData); // Save the formatted data
+      if (rawParsedData.length > 0) {
+        const headers = rawParsedData[0].map((header) =>
+          header.toLowerCase().replace(/\s+/g, "_")
+        );
+  
+        const parsedData = rawParsedData.slice(1).map((row) =>
+          row.reduce((acc, value, index) => {
+            acc[headers[index]] = value;
+            return acc;
+          }, {})
+        );
+  
+        const formattedData = parsedData.map((user) => {
+          const excelDateToJSDate = (excelDate) => {
+            const epoch = new Date(Date.UTC(1899, 11, 30)); // Excel's epoch
+            const days = Math.floor(excelDate); // Ignore fractions (time of day)
+            return new Date(epoch.getTime() + days * 24 * 60 * 60 * 1000);
+          };
+        
+          if (user.admission_date) {
+            // Convert Excel serial date number to JavaScript Date
+            user.admission_date = excelDateToJSDate(user.admission_date);
+          }
+          if (user.birthday) {
+            // Convert Excel serial date number to JavaScript Date
+            user.birthday = excelDateToJSDate(user.birthday);
+          }
+        
+          if (user.profile_picture) {
+            user.profile_picture = user.profile_picture; // Store as-is or process if needed
+          }
+        
+          return user;
+        });
+        
+  
+        setUsers(formattedData);
+      } else {
+        alert("No data found in the uploaded file!");
+      }
     };
+  
     reader.readAsArrayBuffer(file);
   };
+  
+  
   
 
   // Handle batch creation of users
@@ -69,7 +97,8 @@ const BatchCreateUsers = () => {
 
       // Handle success or error based on response
       if (response.data.success) {
-        setMessage("All users created successfully!");
+        setMessage("All users created successfully! Please reload the page to see the updates");
+        
       } else {
         // Display errors for users that couldn't be created
         const errorMessages = response.data.errors.map(
