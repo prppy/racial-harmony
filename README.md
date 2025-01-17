@@ -10,6 +10,7 @@ Our project for Muhammadiyah was inspired by the organization's longstanding com
 
 #### For Residents:
 - A streamlined dashboard to easily track voucher balances, transaction history, and available products.
+- A seamless checkout system for redeeming products.
 - The ability to add their own personal touch with customisable wallpapers and profile settings.
 - The ability to request items or place preorders for out-of-stock products.
 - A secure login process with optional password reset via mobile.
