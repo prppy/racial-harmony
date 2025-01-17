@@ -10,6 +10,7 @@ import AWARDS from "../constants/awards";
 import { startOfMonth, endOfMonth, format } from "date-fns";  // Make sure date-fns is installed
 import "../styles/tableStyles.css"
 
+
 const LeaderboardPage = () => {
   const { user } = useAuth();
   const [leaderboard, setLeaderboard] = useState([]);
@@ -100,26 +101,33 @@ const LeaderboardPage = () => {
         console.error("Error fetching leaderboard data:", error);
       }
     };
+    
+    // Call both functions
+    fetchLeaderboardData();
+    
+  }, []);  // The effect runs when `user` changes
 
+  useEffect(() => {
     const fetchUserAwards = async () => {
       try {
         if (user?.userId) {
+          console.log('User:', user);  // Check if userId is present
           const userAwards = await fetchCollection(
             "users",
             user.userId,
             "awards"
           );
+          console.log("Fetched user awards:", userAwards);  // Log the fetched awards
           setAwards(userAwards || []);
         }
       } catch (error) {
-        console.error("Error fetching awards:", error);
+        console.error("Error fetching awards:", error);  // Log any error
       }
     };
-
-    // Call both functions
-    fetchLeaderboardData();
     fetchUserAwards();
-  }, []);  // The effect runs when `user` changes
+
+    
+  }, [])
 
   return (
     <div style={styles.pageContainer}>
@@ -168,20 +176,23 @@ const LeaderboardPage = () => {
       <div style={styles.awardsContainer}>
         <h3>Your Awards</h3>
         <div style={styles.awardsGrid}>
-          {awards.map((awardId, index) => {
-            const award = AWARDS.find((a) => a.id === awardId);
-            if (!award) return null;
+        {awards.map((award) => {
+  const actualAward = AWARDS.find((a) => a.name === award.name);
+  if (!actualAward) return null;  // Ensure the award is valid
 
-            const { Icon } = award;
-            return (
-              <div key={index} style={styles.awardCard}>
-                <Icon style={styles.awardIcon} />
-                <h4>{award.name}</h4>
-                <p>{award.description}</p>
-              </div>
-            );
-          })}
-        </div>
+  const { Icon } = actualAward;
+  return (
+    <div key={award.id} style={styles.awardCard}>
+      {Icon && <Icon style={styles.awardIcon} />}  {/* Check if Icon is valid */}
+      <h4>{award.name}</h4>
+      <p>{award.description}</p>
+    </div>
+  );
+})}
+
+</div>
+
+      
       </div>
     </div>
   );
@@ -236,6 +247,7 @@ const styles = {
   },
   awardsContainer: {
     marginTop: "20px",
+    
   },
   awardsGrid: {
     display: "grid",
