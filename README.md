@@ -13,7 +13,7 @@ With our personalisation and gamification features that encourages residents to 
 #### For Residents:
 - A streamlined dashboard to easily track voucher balances, transaction history, and available products.
 - A seamless checkout system for redeeming products.
-- Gamification via a monthly leaderboard system. 
+- Gamification via a monthly leaderboard system, and the introduction of Group Tasks that encourages residents to collaborate positively with one another
 - The ability to add their own personal touch with customisable wallpapers and profile settings.
 - The ability to request items or place preorders for out-of-stock products.
 - A secure login process with optional password reset via mobile.
