@@ -1,5 +1,10 @@
 # Racial Harmony
 
+Personalized minimart with customizable themes: residents track vouchers and view spending insights, while admins manage inventory, access reports, and see class-wide trends—all seamlessly automated
+
+## Try it out
+ [Racial Harmony](https://racial-harmony-5.web.app/)
+
 ## Inspiration
 Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. Living in a diverse society, we recognized the importance of fostering responsibility through actionable initiatives. We aimed to develop a solution that strengthens community bonds and promotes shared responsibility.
 
