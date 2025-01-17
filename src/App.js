@@ -1,3 +1,4 @@
+
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -14,6 +15,7 @@ import ProductPage from './pages/Product';
 import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
 import Requests from './admin-pages/Requests';
+import Inventory from "./admin-pages/Inventory";
 import Tasks from './admin-pages/Tasks';
 import Task from './admin-pages/Task';
 
@@ -28,12 +30,15 @@ const MainLayout = () => {
         return <Auth />;
     }
 
-    return (
-        <div style={{ padding: "20px" }}>
-            <HomePage />
-        </div>
-    );
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <HomePage />
+    </div>
+  );
 };
+
+
 
 const AppContent = () => {
 
@@ -41,7 +46,7 @@ const AppContent = () => {
 
   return (
     <>
-      {user && isAuthenticated && <Navbar admin={user?.admin}/>} 
+      {user && isAuthenticated && <Navbar admin={user?.admin} />}
       <Routes>
         <Route path="/" element={<MainLayout />} />
         <Route path="/minimart" element={<MinimartPage />} />
@@ -57,21 +62,19 @@ const AppContent = () => {
         <Route path="/voucher/:id" element={<VoucherView />} />
 
         <Route exact path="/history" element={<HistoryPage />} />
-        {/* admin */ }
+        {/* admin */}
         <Route exact path="/manage" element={<Manage />} />
         <Route exact path="/reports" element={<Reports />} />
-        <Route exact path="/requests" element={<Requests />} />
+        <Route exact path="/inventory" element={<Inventory />} />
         <Route exact path="/task/:id" element={<Task />} />
 
         <Route exact path="/tasks" element={<Tasks />} />
 
         <Route exact path="/profile" element={<ProfilePage />} />
+      </Routes>
+    </>
+  );
 
-</Routes>
-
-
-        </>
-    );
 };
 
 // App Component

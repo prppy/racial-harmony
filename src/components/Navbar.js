@@ -114,6 +114,20 @@ const Navbar = ({ admin }) => {
                         >
                             Requests
                         </NavLink>
+  <NavLink
+              to="/inventory"
+              style={({ isActive }) =>
+                isActive
+                  ? {
+                      ...navbarStyles.tab,
+                      color: RED,
+                      borderBottom: `2px solid ${RED}`,
+                    }
+                  : navbarStyles.tab
+              }
+            >
+              Inventory
+            </NavLink>
                         <NavLink
                             to="/tasks"
                             style={({ isActive }) =>
@@ -174,6 +188,7 @@ const navbarStyles = {
         fontWeight: "bold",
         paddingBottom: "5px", // Space between text and underline
     },
+
 };
 
 export default Navbar;
