@@ -1,11 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const NavigateTaskButton = ({ task }) => {
+const NavigateTaskButton = ({ task, admin}) => {
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate(`/task/${task.id}`,  { state: { task } });
+    if (admin) {
+      navigate(`/task/${task.id}`,  { state: { task } });
+    } else {
+      navigate(`/voucher/${task.id}`,  { state: { task } });
+    }
   };
 
   return (
