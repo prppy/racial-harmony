@@ -40,7 +40,7 @@
 
 
   .button:hover {
-    background-color: #2B3487;
+    filter: brightness(85%);
   }
   
 
