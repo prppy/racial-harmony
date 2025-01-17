@@ -353,7 +353,7 @@ const styles = {
     left: {
         flex: 1,
         backgroundImage:
-            "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('/school.png')",
+            "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('/school.png')",
         backgroundSize: "cover",
         display: "flex",
         flexDirection: "column",
@@ -362,7 +362,7 @@ const styles = {
         padding: "20px",
     },
     logo: {
-        maxWidth: "100%",
+        maxWidth: "80%",
         height: "auto",
     },
     right: {

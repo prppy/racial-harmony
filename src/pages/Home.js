@@ -83,7 +83,7 @@ const HomePage = () => {
                                     ? `Completed "${myTask.title}" Task`
                                     : "Task not found"}
                             </li>
-                            <div style={styles.points}>+ {myTask.points}</div>
+                            <div style={styles.points}>+ {myTask?.points}</div>
                         </div>
                     );
                 })}
