@@ -74,7 +74,9 @@ const ProductPage = () => {
       productId: product.id,
       productName:product.name,
       quantity: quantity,
-      requestDate: new Date()
+      requestDate: new Date(),
+      unitPoint: product.points
+
      } )
 
 
