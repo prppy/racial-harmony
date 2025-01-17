@@ -100,20 +100,7 @@ const Navbar = ({ admin }) => {
                             Reports
                         </NavLink>
 
-                        <NavLink
-                            to="/requests"
-                            style={({ isActive }) =>
-                                isActive
-                                    ? {
-                                          ...navbarStyles.tab,
-                                          color: RED,
-                                          borderBottom: `2px solid ${RED}`,
-                                      }
-                                    : navbarStyles.tab
-                            }
-                        >
-                            Requests
-                        </NavLink>
+          
   <NavLink
               to="/inventory"
               style={({ isActive }) =>

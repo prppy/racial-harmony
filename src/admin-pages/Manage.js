@@ -163,7 +163,7 @@ const Manage = () => {
                   <td>
                     <div style={pageStyles.actionMenu}>
                       <button
-                        style={pageStyles.button}
+                        className="button"
                         onClick={() =>
                           handleResetPassword(
                             user.userId,
@@ -266,7 +266,7 @@ const Manage = () => {
             </label>
           </div>
           <div style={pageStyles.buttonContainer}>
-            <button type="submit" style={pageStyles.button}>
+            <button type="submit" className="button">
               Add User
             </button>
           </div>

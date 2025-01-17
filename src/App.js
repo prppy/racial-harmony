@@ -14,7 +14,6 @@ import HistoryPage from './pages/History';
 import ProductPage from './pages/Product';
 import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
-import Requests from './admin-pages/Requests';
 import Inventory from "./admin-pages/Inventory";
 import Tasks from './admin-pages/Tasks';
 import Task from './admin-pages/Task';
