@@ -91,7 +91,8 @@ const VoucherView = () => {
         residentID: user?.userId,
         status:"pending",
         taskId: taskId,
-        class:userData?.class || "N/A"
+        class:userData?.class || "N/A",
+        applicationDate: new Date()
         }
       await createMainRecord("applications", application)
       alert("Application submitted successfully!");
