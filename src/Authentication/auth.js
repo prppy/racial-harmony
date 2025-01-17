@@ -385,6 +385,7 @@ const styles = {
     signIn: {
         fontSize: "30px",
         marginBottom: "25px",
+        marginTop: "0"
     },
     button: {
         padding: "10px",

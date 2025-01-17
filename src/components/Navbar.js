@@ -169,7 +169,7 @@ const navbarStyles = {
         fontSize: "16px",
     },
     tab: {
-        color: { DARK_PURPLE },
+        color: DARK_PURPLE,
         textDecoration: "none",
         fontWeight: "bold",
         paddingBottom: "5px", // Space between text and underline
