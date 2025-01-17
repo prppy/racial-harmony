@@ -45,16 +45,28 @@ const BatchCreateUsers = () => {
         );
   
         const formattedData = parsedData.map((user) => {
+          const excelDateToJSDate = (excelDate) => {
+            const epoch = new Date(Date.UTC(1899, 11, 30)); // Excel's epoch
+            const days = Math.floor(excelDate); // Ignore fractions (time of day)
+            return new Date(epoch.getTime() + days * 24 * 60 * 60 * 1000);
+          };
+        
           if (user.admission_date) {
-            // Convert Excel serial date to JS Date
-            user.admission_date = convertExcelDate(user.admission_date);
+            // Convert Excel serial date number to JavaScript Date
+            user.admission_date = excelDateToJSDate(user.admission_date);
           }
           if (user.birthday) {
-            // Convert Excel serial date to JS Date
-            user.birthday = convertExcelDate(user.birthday);
+            // Convert Excel serial date number to JavaScript Date
+            user.birthday = excelDateToJSDate(user.birthday);
           }
+        
+          if (user.profile_picture) {
+            user.profile_picture = user.profile_picture; // Store as-is or process if needed
+          }
+        
           return user;
         });
+        
   
         setUsers(formattedData);
       } else {
@@ -65,19 +77,7 @@ const BatchCreateUsers = () => {
     reader.readAsArrayBuffer(file);
   };
   
-  // Helper function to convert Excel date serial to JavaScript Date
-  const convertExcelDate = (excelDate) => {
-    const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // Excel's epoch (Dec 30, 1899)
-    const msPerDay = 24 * 60 * 60 * 1000;
   
-    if (!isNaN(excelDate)) {
-      // Convert serial date to milliseconds and add to epoch
-      return new Date(excelEpoch.getTime() + (excelDate - 1) * msPerDay);
-    }
-  
-    // If not a valid Excel date, return null or handle gracefully
-    return null;
-  };
   
 
   // Handle batch creation of users
