@@ -6,23 +6,71 @@ Personalized minimart with customizable themes: residents track vouchers and vie
 Link to webapp: [Racial Harmony](https://racial-harmony-5.web.app/)
 
 ## Inspiration
-Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. Living in a diverse society, we recognized the importance of fostering responsibility through actionable initiatives. We aimed to develop a solution that strengthens community bonds and promotes shared responsibility.
+Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. 
 
 With our personalisation and gamification features that encourages residents to actively participate in the voucher system, and automated processes of user and product batch creations and updates, we hope our webapp offers a seamless experience for the residents and admins 
 
-#### For Residents:
-- A streamlined dashboard to easily track voucher balances, transaction history, and available products.
-- A seamless checkout system for redeeming products.
-- Gamification via a monthly leaderboard system, and the introduction of Group Tasks that encourages residents to collaborate positively with one another
-- The ability to add their own personal touch with customisable wallpapers and profile settings.
-- The ability to request items or place preorders for out-of-stock products.
-- A secure login process with optional password reset via mobile.
+## Features
 
-#### For Admins:
-- User management features, including adding, suspending, and resetting passwords.
-- The ability to approve or reject voucher tasks and product requests, with detailed tracking of actions.
-- Tools for managing inventory, along with audit logs for transparency and accountability.
-- Reporting capabilities to generate insights such as weekly requests and inventory summaries.
+### For Residents (Users):
+
+#### **Wishlist for Products**
+- Add unavailable or desired products to a personal wishlist.
+- Admins gain insights into product demand and can prioritize restocking.
+
+#### **Leaderboard & Achievement Badges**
+- Unlock badges for milestones such as consistent good behavior, academic improvement, or completing community tasks.
+- Badges incentivize participation with small voucher bonuses.
+
+#### **Additional Gamified Tasks**
+- **Personal Tasks**: E.g., maintain punctuality for a week to earn vouchers.
+- **Group Tasks**: Collaborate to clean the courtyard or organize an event to earn group rewards.
+
+
+#### Streamlined Dashboard  
+- Easily track voucher balances, transaction history, and available products.
+
+#### Seamless Checkout System  
+- Redeem products earned from vouchers without hassle through a convenient QR code system
+
+#### Personalization  
+- Add a personal touch with customizable wallpapers and profile settings.
+
+####  Item Requests & Preorders  
+- Request items or place preorders for out-of-stock products.
+
+#### Secure Login  
+- Secure login process with optional password reset via mobile.
+
+---
+
+### For Admins (Staff):
+
+#### **Inventory Analytics**
+- View analytics for popular or frequently requested products.
+- Gain insights into wishlist trends to adjust inventory based on demand.
+
+#### **User Management System**
+- Add, suspend, and reset user passwords.
+
+####  Task and Request Approval  
+- Approve or reject voucher tasks and product requests with detailed tracking of actions.
+
+####  Inventory Management  
+- Tools to manage stock levels and ensure availability of popular items.  
+- Audit logs for transparency and accountability.
+
+
+#### **Future Plans**
+- **Notifications System**:
+  - **For Residents**: Alerts for voucher issuance, approvals, rejections, or auction outcomes.
+  - **For Admins**: Notifications for pending approvals, low inventory, or upcoming auctions.
+- **Community Board**: 
+  - A virtual noticeboard for updates, goals, and upcoming events.
+  - Interaction between residents and admins to foster a sense of community.
+
+---
+
 
 This system is designed to enhance efficiency, provide transparency, and deliver a seamless experience for all users.
 
