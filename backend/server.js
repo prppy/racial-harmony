@@ -32,7 +32,7 @@ app.post("/createBatchUsers", async (req, res) => {
     for (const user of users) {
       try {
         // Generate password from name + birthday
-        const password = `${user.name}${user.birthday}`;
+        const password = `${user.name}${user.birthday ? user.birthday.toISOString().slice(0, 10) : ''}`;
 
         // Create user in Firebase Authentication
         const newUser = await admin.auth().createUser({
