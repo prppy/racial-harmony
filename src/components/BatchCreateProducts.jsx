@@ -4,9 +4,9 @@ import axios from "axios"; // Axios for HTTP requests
 import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
 import { fetchMainCollection } from "../utils/firebaseUtils";
 
-const BatchCreateUsers = () => {
+const BatchCreateProducts = () => {
   const [fileName, setFileName] = useState(''); // New state for file name
-  const [users, setUsers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -46,16 +46,16 @@ const BatchCreateUsers = () => {
         return user;
       });
   
-      setUsers(formattedData); // Save the formatted data
+      setProducts(formattedData); // Save the formatted data
     };
     reader.readAsArrayBuffer(file);
   };
   
 
-  // Handle batch creation of users
-  const handleCreateUsers = async () => {
-    if (users.length === 0) {
-      alert("No users to create. Please parse a file first.");
+  // Handle batch creation of products
+  const handleCreateProducts = async () => {
+    if (products.length === 0) {
+      alert("No products to create. Please parse a file first.");
       return;
     }
 
@@ -63,23 +63,23 @@ const BatchCreateUsers = () => {
     setMessage(""); // Reset message before starting
 
     try {
-      const response = await axios.post("http://localhost:5001/createBatchUsers", {
-        users,
+      const response = await axios.post("http://localhost:5001/createBatchProducts", {
+        products,
       });
 
       // Handle success or error based on response
       if (response.data.success) {
-        setMessage("All users created successfully!");
+        setMessage("All products created successfully!");
       } else {
-        // Display errors for users that couldn't be created
+        // Display errors for products that couldn't be created
         const errorMessages = response.data.errors.map(
           (e) => `${e.email}: ${e.error}`
         ).join("\n");
 
-        setMessage(`Some users could not be created:\n${errorMessages}`);
+        setMessage(`Some products could not be created:\n${errorMessages}`);
       }
     } catch (error) {
-      console.error("Error creating users:", error);
+      console.error("Error creating products:", error);
       setMessage(`An error occurred: ${error.message || "Unknown error"}`);
     }
 
@@ -87,7 +87,7 @@ const BatchCreateUsers = () => {
   };
 
   const handleReset = () => {
-    setUsers([]); // Clear the users data
+    setProducts([]); // Clear the products data
     setMessage(""); // Reset the message
     setFileName(''); // Reset the file name
   };
@@ -112,8 +112,8 @@ const BatchCreateUsers = () => {
     </p>
   )}
 
-  <button onClick={handleCreateUsers} disabled={!users.length || loading} className="button">
-    {loading ? "Creating Users..." : "Create Users"}
+  <button onClick={handleCreateProducts} disabled={!products.length || loading} className="button">
+    {loading ? "Creating Products..." : "Create Products"}
   </button>
 
   {/* Replace the button with a clickable span */}
@@ -128,7 +128,7 @@ const BatchCreateUsers = () => {
       marginLeft: '10px',
     }}
   >
-    Create more users
+    Create more products
   </span>
    
   </div>
@@ -140,8 +140,7 @@ const BatchCreateUsers = () => {
   );
 };
 
-export default BatchCreateUsers;
-
+export default BatchCreateProducts;
 const styles = {
   buttonContainer: {
     display: 'flex',

@@ -15,7 +15,7 @@ const Tasks = () => {
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
-    points: "",
+    points: 0,
     dueDate: "",
     category:""
   });
@@ -63,13 +63,19 @@ const Tasks = () => {
   
   const handleAddTask = async () => {
     try {
-      const savedTask = await createMainRecord("tasks", { ...newTask, imageUrl: newTask.imageUrl });
+      const taskToSave = {
+        ...newTask,
+        points: Number(newTask.points),
+        imageUrl: newTask.imageUrl ? newTask.imageUrl : "",
+        
+      };
+      const savedTask = await createMainRecord("tasks", taskToSave);
   
       const updatedTasks = [...tasks, { id: savedTask.id, ...newTask }];
       setTasks(updatedTasks);
       setFilteredTasks(updatedTasks);
   
-      setNewTask({ title: "", description: "", points: "", dueDate: "", imageUrl: "" , category:""});
+      setNewTask({ title: "", description: "", points: 0, dueDate: "", imageUrl: "" , category:""});
       setIsModalOpen(false);
     } catch (e) {
       console.error("Error saving task:", e);

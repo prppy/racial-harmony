@@ -104,6 +104,9 @@ export const AuthContextProvider = ({children})  => {
             if (msg.includes('(auth/invalid-credential)')) {
                 msg='Wrong credentials'
             }
+            else if (msg.includes('auth/user-disabled')) {
+                msg = 'Your account has been suspended. Please contact support.';
+              }
             return {success:false, msg}
         }
     }

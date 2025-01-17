@@ -100,20 +100,21 @@ const Navbar = ({ admin }) => {
                             Reports
                         </NavLink>
 
-                        <NavLink
-                            to="/requests"
-                            style={({ isActive }) =>
-                                isActive
-                                    ? {
-                                          ...navbarStyles.tab,
-                                          color: RED,
-                                          borderBottom: `2px solid ${RED}`,
-                                      }
-                                    : navbarStyles.tab
-                            }
-                        >
-                            Requests
-                        </NavLink>
+          
+  <NavLink
+              to="/inventory"
+              style={({ isActive }) =>
+                isActive
+                  ? {
+                      ...navbarStyles.tab,
+                      color: RED,
+                      borderBottom: `2px solid ${RED}`,
+                    }
+                  : navbarStyles.tab
+              }
+            >
+              Inventory
+            </NavLink>
                         <NavLink
                             to="/tasks"
                             style={({ isActive }) =>
@@ -169,11 +170,12 @@ const navbarStyles = {
         fontSize: "16px",
     },
     tab: {
-        color: DARK_PURPLE,
+        color: DARK_PURPLE ,
         textDecoration: "none",
         fontWeight: "bold",
         paddingBottom: "5px", // Space between text and underline
     },
+
 };
 
 export default Navbar;
