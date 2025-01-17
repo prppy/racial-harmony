@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchMainCollection, updateMainRecord } from '../utils/firebaseUtils'; // Add necessary fetch functions
+import { fetchMainCollection, fetchMainRecord, updateMainRecord } from '../utils/firebaseUtils'; // Add necessary fetch functions
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { RED } from '../constants/colors';
 import { GiCheckMark } from 'react-icons/gi';
@@ -8,13 +8,15 @@ const ApplicationsTable = ({ user, taskId }) => {
   const [users, setUsers] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [statusFilter, setStatusFilter] = useState('pending'); // Default filter is 'pending'
-
+  const [taskData, setTaskData] = useState(null)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userData = await fetchMainCollection('users');
         setUsers(userData);
 
+        const taskData = await fetchMainRecord("tasks", taskId)
+        setTaskData(taskData)
         // Filter for admins
         const adminData = userData.filter(user => user.admin);
         setAdmins(adminData);
@@ -39,11 +41,20 @@ const ApplicationsTable = ({ user, taskId }) => {
     fetchData();
   }, []);
 
-  const handleApprove = async (applicationId) => {
+  const handleApprove = async (applicationId, residentID) => {
     await updateMainRecord('applications', applicationId, {
       status: 'approved',
       statusUpdateDate: new Date().toISOString(),
     });
+
+    const residentRecord = await fetchMainRecord("users", residentID)
+    let voucher_balance = residentRecord.voucher_balance || 0
+    voucher_balance  += taskData.points
+    await updateMainRecord("users", residentID, {
+      voucher_balance: voucher_balance
+    })
+
+
     alert('Application approved successfully!');
     setApplications((prev) =>
       prev.map((app) =>
@@ -123,7 +134,7 @@ const ApplicationsTable = ({ user, taskId }) => {
     <div style={pageStyles.actionButtons}>
       <button
         style={{ ...pageStyles.button, backgroundColor: '#1c660d' }}
-        onClick={() => handleApprove(application.id)}
+        onClick={() => handleApprove(application.id, application.residentID)}
       >
         <GiCheckMark style={pageStyles.icon} /> Approve
       </button>
