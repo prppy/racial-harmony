@@ -157,7 +157,7 @@ const ProfilePage = () => {
                 type="text"
                 value={
                   userDetails?.admission_date
-                    ? userDetails.admission_date
+                    ? userDetails.admission_date.toDate().toISOString().split("T")[0]
                     : "N/A"
                 }
                 style={pageStyles.input}
