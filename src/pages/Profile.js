@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const { logout, user, updateUserBackground } = useAuth();
   const navigate = useNavigate();
   const [selectedBg, setSelectedBg] = useState(userDetails?.bg || 0);
-  const defaultImageUrl = "/testResident.png";
+  const defaultImageUrl = "/defaultProfile.png";
 
   const [profileImage, setProfileImage] = useState(defaultImageUrl);
 
@@ -142,7 +142,7 @@ const ProfilePage = () => {
               <label style={pageStyles.label}>Email:</label>
               <input
                 type="email"
-                value={userDetails ? userDetails.email : "N/a"}
+                value={userDetails ? userDetails.email : "N/A"}
                 style={pageStyles.input}
                 readOnly
               />
