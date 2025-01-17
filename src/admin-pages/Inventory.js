@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { fetchMainCollection } from "../utils/firebaseUtils";
-import { createMainRecord } from "../utils/firebaseUtils"; // Import the createMainRecord function
+import { fetchMainCollection, updateMainRecord } from "../utils/firebaseUtils";
+import { createMainRecord, deleteMainRecord } from "../utils/firebaseUtils";
 import { FaRegTrashCan } from "react-icons/fa6";
 import SearchBar from "../components/SearchBar";
 import { DARK_PURPLE } from "../constants/colors";
@@ -11,8 +11,15 @@ const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [message, setMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [editProductData, setEditProductData] = useState({
+    quantity: "",
+    restockThreshold: "",
+  });
   const [newProduct, setNewProduct] = useState({
     name: "",
+    price: "",
     category: "",
     quantity: "",
     restockThreshold: "",
@@ -26,7 +33,11 @@ const Inventory = () => {
     fetchProducts();
   }, []);
 
-  const handleEditProduct = (productId, updatedQuantity, updatedThreshold) => {
+  const handleEditProduct = async (
+    productId,
+    updatedQuantity,
+    updatedThreshold
+  ) => {
     const updatedProducts = products.map((product) =>
       product.id === productId
         ? {
@@ -37,39 +48,101 @@ const Inventory = () => {
         : product
     );
     setProducts(updatedProducts);
+
+    try {
+      await updateMainRecord("products", productId, {
+        quantity: updatedQuantity,
+        restockThreshold: updatedThreshold,
+      });
+      setMessage("Product updated successfully");
+    } catch (error) {
+      setMessage("Error updating product. Please try again.");
+    }
   };
 
-  const handleDeleteProduct = (productId) => {
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setEditProductData({
+      quantity: product.quantity || "",
+      restockThreshold: product.restockThreshold || "",
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+    setEditProductData({ quantity: "", restockThreshold: "" });
+  };
+
+  const handleSaveChanges = async () => {
+    if (!selectedProduct) return;
+
+    try {
+      console.log("Updating product:", selectedProduct.id, editProductData);
+      await updateMainRecord("products", selectedProduct.id, editProductData);
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === selectedProduct.id
+            ? { ...product, ...editProductData }
+            : product
+        )
+      );
+      setMessage("Product updated successfully");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      setMessage("Error updating product. Please try again.");
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
     const updatedProducts = products.filter(
       (product) => product.id !== productId
     );
     setProducts(updatedProducts);
+
+    try {
+      await deleteMainRecord("products", productId);
+      setMessage("Product deleted successfully");
+    } catch (error) {
+      setMessage("Error deleting product. Please try again.");
+    }
   };
 
-  const handleAddProduct = async () => {
-    const { name, category, quantity, restockThreshold } = newProduct;
+  const handleAddProduct = async (e) => {
+    e.preventDefault();
+    const { name, category, price, quantity, restockThreshold } = newProduct;
 
-    if (!name || !category || !quantity || !restockThreshold) {
+    if (!name || !category || !price || !quantity || !restockThreshold) {
       setMessage("Please fill in all fields");
       return;
     }
 
     try {
-      // Create the new product record in Firestore
-      const newProductData = { name, category, quantity, restockThreshold };
-      await createMainRecord("products", newProductData);
-      setProducts([
-        ...products,
-        { ...newProductData, id: Date.now().toString() },
+      const newProductData = {
+        name,
+        category,
+        price: parseFloat(price),
+        quantity: parseInt(quantity, 10),
+        restockThreshold: parseInt(restockThreshold, 10),
+      };
+      console.log("New Product Data:", newProductData);
+      const createdProduct = await createMainRecord("products", newProductData);
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        { ...newProductData, id: createdProduct.id },
       ]);
       setNewProduct({
         name: "",
         category: "",
+        price: "",
         quantity: "",
         restockThreshold: "",
       });
       setMessage("Product added successfully");
     } catch (error) {
+      console.error("Error adding product:", error);
       setMessage("Error adding product. Please try again.");
     }
   };
@@ -79,7 +152,7 @@ const Inventory = () => {
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .filter((product) =>
-      filterCategory ? product.category === filterCategory : true
+      product.category.toLowerCase().includes(filterCategory.toLowerCase())
     );
 
   // Sorting: products needing restocking at the top
@@ -102,12 +175,11 @@ const Inventory = () => {
           />
 
           <div style={pageStyles.filterGroup}>
-            <label style={pageStyles.label}>Filter by Category:</label>
             <input
               type="text"
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              placeholder="Enter category"
+              placeholder="Filter by category"
               style={pageStyles.input}
             />
           </div>
@@ -150,15 +222,12 @@ const Inventory = () => {
                     <div style={pageStyles.actionMenu}>
                       <button
                         style={pageStyles.button}
-                        oonClick={() =>
-                          handleEditProduct(
-                            product.id,
-                            prompt("Enter new quantity:", product.quantity),
-                            prompt(
-                              "Enter new restock threshold:",
-                              product.restockThreshold
-                            )
-                          )
+                        onClick={() =>
+                          handleOpenModal({
+                            id: product.id,
+                            quantity: product.quantity,
+                            restockThreshold: product.restockThreshold,
+                          })
                         }
                       >
                         Edit
@@ -265,6 +334,63 @@ const Inventory = () => {
           {message && <p style={pageStyles.message}>{message}</p>}
         </div>
       </div>
+      {/* Edit Modal */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <h3>Edit Product</h3>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSaveChanges();
+          }}
+        >
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+          >
+            <label>
+              Quantity:
+              <input
+                type="number"
+                value={editProductData.quantity}
+                onChange={(e) =>
+                  setEditProductData({
+                    ...editProductData,
+                    quantity: parseInt(e.target.value, 10),
+                  })
+                }
+              />
+            </label>
+            <label>
+              Restock Threshold:
+              <input
+                type="number"
+                value={editProductData.restockThreshold}
+                onChange={(e) =>
+                  setEditProductData({
+                    ...editProductData,
+                    restockThreshold: parseInt(e.target.value, 10),
+                  })
+                }
+              />
+            </label>
+            <button type="submit">Save Changes</button>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  );
+};
+
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div style={modalStyles.overlay}>
+      <div style={modalStyles.modal}>
+        {children}
+        <button onClick={onClose} style={modalStyles.closeButton}>
+          Close
+        </button>
+      </div>
     </div>
   );
 };
@@ -325,8 +451,6 @@ const pageStyles = {
     width: "100%",
     borderCollapse: "collapse",
     textAlign: "left",
-    overflow:'auto',
-    maxHeight:'400px'
   },
   button: {
     padding: "8px 12px",
@@ -385,6 +509,39 @@ const pageStyles = {
     display: "flex",
     justifyContent: "space-between",
     marginTop: "20px",
+  },
+};
+
+const modalStyles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 1000,
+  },
+  modal: {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    zIndex: 1001,
+  },
+  button: {
+    marginTop: "10px",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    cursor: "pointer",
+    backgroundColor: "#6A3D9A",
+    color: "#fff",
+    fontWeight: "bold",
   },
 };
 
