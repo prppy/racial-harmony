@@ -3,13 +3,16 @@ import SearchBar from "../components/SearchBar";
 import CategoryTabs from "../components/CategoryTabs";
 import ProductGrid from "../components/ProductGrid";
 import { fetchMainCollection } from "../utils/firebaseUtils";
-
+import { useLocation } from "react-router-dom";
 const MinimartPage = ({ voucherBalance }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const location = useLocation();
+ const defaultSearchQuery = location.state?.searchQuery || "";
+    const [searchQuery, setSearchQuery] = useState(defaultSearchQuery)
+    const [selectedCategory, setSelectedCategory] = useState("All");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   // Fetch products data from firebase
   useEffect(() => {
@@ -51,7 +54,7 @@ const MinimartPage = ({ voucherBalance }) => {
         <>
           {/* Search Bar & Voucher Balance */}
           <div style={styles.topSection}>
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} type={"products"} />
             <div style={styles.voucherBalance}>
               <div style={styles.voucherAmount}>{voucherBalance}</div>
               <div style={styles.pointsLabel}>Points</div>

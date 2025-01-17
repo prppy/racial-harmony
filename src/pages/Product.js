@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // Add useNavigate
 import { useAuth } from "../context/authContext";
 import { updateMainRecord, fetchMainRecord } from "../utils/firebaseUtils";
 import SearchBar from "../components/SearchBar";
 
 const ProductPage = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Use navigate
   const product = location.state?.product;
+  const [searchQuery, setSearchQuery] = useState("")
+
   const { userId } = useAuth();
   const [user, setUser] = useState({});
   const [userFavorites, setUserFavorites] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
+  useEffect(() => {
+    setSearchQuery(location.state?.searchQuery || "");
+  }, [location.state?.searchQuery]);
+  
   // Fetch user favorites on component mount
   useEffect(() => {
     if (userId && product) {
@@ -68,6 +75,13 @@ const ProductPage = () => {
     }
   };
 
+
+
+  const handleSearch = () => {
+    // Navigate to /minimart with the search query as a parameter
+    navigate("/minimart", { state: { searchQuery } });
+  };
+
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -76,7 +90,12 @@ const ProductPage = () => {
     <div style={styles.page}>
       {/* Top Section */}
       <div style={styles.topSection}>
-        <SearchBar />
+        <SearchBar 
+          searchQuery={searchQuery} 
+          setSearchQuery={setSearchQuery} 
+          type={"products"}
+          handleSearch={handleSearch}
+        />
         <div style={styles.voucherBalance}>
           Voucher Balance: {user.voucherBalance} pts
         </div>
