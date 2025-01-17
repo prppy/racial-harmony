@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# Racial Harmony
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Inspiration
+Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. Living in a diverse society, we recognized the importance of fostering responsibility through actionable initiatives. We aimed to develop a solution that strengthens community bonds and promotes shared responsibility.
 
-## Available Scripts
+#### For Residents:
+- A streamlined dashboard to easily track voucher balances, transaction history, and available products.
+- The ability to add their own personal touch with customisable wallpapers and profile settings.
+- The ability to request items or place preorders for out-of-stock products.
+- A secure login process with optional password reset via mobile.
 
-In the project directory, you can run:
+#### For Admins:
+- User management features, including adding, suspending, and resetting passwords.
+- The ability to approve or reject voucher tasks and product requests, with detailed tracking of actions.
+- Tools for managing inventory, along with audit logs for transparency and accountability.
+- Reporting capabilities to generate insights such as weekly requests and inventory summaries.
 
-### `npm start`
+This system is designed to enhance efficiency, provide transparency, and deliver a seamless experience for all users.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How we built it
+We utilized a user-centered approach to design and development:
+1. **Frameworks & Tools**: React for the front-end, Node.js for the back-end, and Firebase for real-time data synchronization.
+2. **Client Research**: We conducted in-depth research on Muhammadiyah to ensure the platform aligns with their mission and values.
+3. **Focus on Accessibility**: Ensuring the platform is inclusive and easy to use for individuals of all backgrounds and abilities.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Challenges we ran into
+1. **Identifying Key Needs**: Determining the most impactful features to address the needs of youth-at-risk.
+2. **Resource Limitations**: Working within a limited timeline to develop a functional and scalable prototype.
+3. **Engagement Strategies**: Designing features that effectively motivate youth participation and sustained engagement.
 
-### `npm test`
+## Accomplishments that we're proud of
+- Successfully launching a platform prototype within the project timeline.
+- Receiving positive feedback from Muhammadiyah and community representatives for the project's potential.
+- Building a scalable foundation that can be adapted for future initiatives across different regions or organizations.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## What we learned
+- Successfully delivering a functional prototype that aligns with Muhammadiyah's objectives.
+- Developing a robust and scalable platform foundation for future enhancements.
 
-### `npm run build`
+## What's next for Racial Harmony
+1. **Feature Expansion**: Adding personalized recommendations for events, initiatives, and other opportunities.
+2. **Broader Deployment**: Scaling the platform for use by other organizations or communities.
+3. **Impact Metrics**: Implementing tools to measure the platform's effectiveness in fostering community engagement.
+4. **Mobile Accessibility**: Developing a mobile application to increase usability and reach.
+5. **User Feedback Integration**: Continuously improving the platform based on user input and evolving community needs.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+We believe this project has the potential to make a meaningful difference and are excited to continue evolving it to support Muhammadiyah's vision of unity and growth. This project represents our commitment to building tools that make a meaningful difference in community development and engagement.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
