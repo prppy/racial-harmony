@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/authContext';
-import { fetchCollection, fetchMainRecord, deleteRecord } from '../utils/firebaseUtils';
+import { fetchCollection, fetchMainRecord, deleteRecord, updateMainRecord } from '../utils/firebaseUtils';
 import { DARK_PURPLE } from '../constants/colors';
 
 const Cart = () => {
@@ -63,22 +63,37 @@ const Cart = () => {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      await Promise.all(
-        selectedItems.map(async (item) => {
+ const handleCheckout = async () => {
+  try {
+    await Promise.all(
+      selectedItems.map(async (item) => {
+        const product = await fetchMainRecord("products", item.productId);
+        const oldQuantity = product.quantity;
+        const newQuantity = oldQuantity - item.quantity;
+
+        if (newQuantity >= 0) {
+          // Update the product quantity
+          await updateMainRecord("products", item.productId, { quantity: newQuantity });
+
+          // Delete the item from the cart
           await deleteRecord("users", user?.userId, "cart", item.id);
-        })
-      );
+        } else {
+          throw new Error(`Not enough stock for ${item.productName}.`);
+        }
+      })
+    );
+    setQrCodeVisible(true);
       
-      setQrCodeVisible(true);
-      
-      setCart(cart.filter((item) => !item.selected));
-      setSelectedItems([]); // Reset selected items
-    } catch (error) {
-      console.error("Error during checkout:", error);
-    }
-  };
+    setCart(cart.filter((item) => !item.selected));
+    setSelectedItems([]); // Reset selected items
+    alert('Checkout successful!');
+  } catch (error) {
+    // If something fails, show an alert and stop the process
+    console.error('Checkout failed:', error);
+    alert(`Checkout failed: ${error.message}`);
+  }
+};
+
 
   return (
     <div style={pageStyles.pageContainer}>
