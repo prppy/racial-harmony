@@ -132,9 +132,9 @@ const ProductPage = () => {
       <div style={styles.productContainer}>
         <div style={styles.productImage}>
           {/* Placeholder or Image */}
-          {product.image ? (
+          {product.productImageUrl ? (
             <img
-              src={product.image}
+              src={product.productImageUrl}
               alt={product.name}
               style={{ width: "100%", height: "100%", borderRadius: "10px" }}
             />
