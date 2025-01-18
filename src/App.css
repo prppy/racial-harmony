@@ -5,7 +5,7 @@
 
 body {
   background-color: #6B71AA;
-  color:white;
+  color: white;
   font-weight: bold;
 }
 
@@ -44,22 +44,26 @@ body {
 
 .line {
   border: none;
-  border-top: 2px solid #2B3487; 
+  border-top: 2px solid #2B3487;
   margin-bottom: 25px;
 }
 
 .vertical-line {
   border: none;
-  border-left: 2px solid #2B3487; /* Makes the line vertical */
+  border-left: 2px solid #2B3487;
+  /* Makes the line vertical */
   margin-left: 50px;
   margin-right: 50px;
 }
 
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
   position: absolute;
-  top: 50%; /* Center vertically */
+  top: 50%;
+  /* Center vertically */
   transform: translateY(-50%);
-  z-index: 10;  /* Ensure buttons are above all other elements */
+  z-index: 10;
+  /* Ensure buttons are above all other elements */
   pointer-events: auto;
 }
 
@@ -69,11 +73,21 @@ body {
   margin-bottom: 25px;
 }
 
+.slick-slide>div {
+  margin-inline: 12.5px;
+}
+
+.slick-track {
+  display: flex;
+  /* Ensures consistent spacing between slides */
+}
+
 
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

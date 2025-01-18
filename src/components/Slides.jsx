@@ -47,22 +47,26 @@ export const ProductSlide = ({ product, style }) => {
 
 const styles = {
     container: {
-        height: "150px",
-        width: "200px", // Adjust dynamically for 2 slides
+        height: "250px",
+        width: "100px", // Adjust dynamically for 2 slides
         borderRadius: "10px",
         cursor: "pointer",
-        margin: "0 25px", // Reduced margin for better spacing
         position: "relative",
         overflow: "hidden",
         border: `2px solid ${DARK_PURPLE}`,
         backgroundColor: "white",
+        boxSizing: "border-box", 
     },
     image: {
         width: "100%",
-        height: "100px",
+        height: "150px",
         objectFit: "cover",
     },
     desc: {
-        textAlign: "center",
-    },
+        height: "100px",  // Adjust height as needed
+        textAlign: "center", // Horizontal alignment for text content
+        justifyContent: "center", // Horizontally center content
+        alignItems: "center", // Vertically center content
+        textOverflow: "ellipsis", // Optional: Handle long text
+    }
 };

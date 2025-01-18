@@ -12,7 +12,6 @@ export const VoucherSliderComp = ({ vouchers }) => {
         slidesToShow: 2,
         slidesToScroll: 1,
         initialSlide: 0,
-        centerPadding: "25px", // Account for spacing
         responsive: [
             {
                 breakpoint: 1350,
