@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import CategoryTabs from "../components/CategoryTabs";
 import ProductGrid from "../components/ProductGrid";
-import { fetchMainCollection } from "../utils/firebaseUtils";
+import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 const MinimartPage = ({ voucherBalance }) => {
   const location = useLocation();
  const defaultSearchQuery = location.state?.searchQuery || "";
@@ -12,8 +13,9 @@ const MinimartPage = ({ voucherBalance }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {user} = useAuth()
   
-
+  const [voucher_balance, setVoucher_balance] = useState(voucherBalance || 0)
   // Fetch products data from firebase
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,6 +38,18 @@ const MinimartPage = ({ voucherBalance }) => {
     fetchProducts();
   }, []);
 
+
+  useEffect(() => {
+    fetchMainRecord("users", user?.userId)
+        .then((data) => {
+            setVoucher_balance(data.voucher_balance)
+        })
+        .catch((error) => console.error("Error fetching tasks:", error));
+
+        
+}, []);
+
+
   // Filter products
   const filteredProducts = products.filter(
     (product) =>
@@ -56,7 +70,7 @@ const MinimartPage = ({ voucherBalance }) => {
           <div style={styles.topSection}>
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} type={"products"} />
             <div style={styles.voucherBalance}>
-              <div style={styles.voucherAmount}>{voucherBalance}</div>
+              <div style={styles.voucherAmount}>{voucher_balance}</div>
               <div style={styles.pointsLabel}>Points</div>
             </div>
           </div>
@@ -89,7 +103,18 @@ const styles = {
     marginBottom: "20px",
   },
   voucherBalance: {
-    textAlign: "center",
+    display: 'flex',
+  justifyContent:'space-between',
+  alignItems: 'center',
+  height: '50px',
+  backgroundColor: "white",
+  color:'#2B3487',
+  padding: '0px 10px',
+  borderRadius: '10px',
+
+  marginLeft: '25px',
+  border:' 1px solid #2B3487',
+  boxSizing: 'border-box'
   },
   voucherAmount: {
     fontSize: "48px",
@@ -98,6 +123,7 @@ const styles = {
   pointsLabel: {
     fontSize: "16px",
     color: "#555",
+    marginLeft:'10px'
   },
   error: {
     color: "red",

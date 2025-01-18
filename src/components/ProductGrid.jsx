@@ -18,7 +18,7 @@ const ProductGrid = ({ products }) => {
 
         >
           <img
-            src={product.image}
+            src={product.productImageUrl}
             alt={product.name}
             style={styles.productImage}
           />
