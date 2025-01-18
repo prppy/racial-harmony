@@ -74,8 +74,7 @@ Task Page
 - Access logs of all approved task applications.
 
  #### **Profie**
-- **Personalization**:
-  - Add a personal touch with customizable wallpapers and profile settings.
+- **Personalization**: Add a personal touch with customizable wallpapers and profile settings.
 ---
 
 ### For Admins (Staff):
