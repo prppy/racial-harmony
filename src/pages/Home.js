@@ -125,7 +125,7 @@ const Home = () => {
 
     return (
         <div style={styles.pageContainer}>
-            <h2 className="large-heading">
+            <h2 className="large-heading" style={{color: DARK_PURPLE}}> 
                 Welcome back Resident {user.name}!
             </h2>
             <hr className="line"></hr>
@@ -142,11 +142,11 @@ const Home = () => {
                         <VoucherSliderComp vouchers={favouriteTask} />
                     </div>
                     <h2 className="large-heading">My Favourite Products:</h2>
-					<div style={styles.slide}>
+                    <div style={styles.slide}>
                         <VoucherSliderComp vouchers={favouriteTask} />
                     </div>
                     <h2 className="large-heading">Ongoing Auctions:</h2>
-					<div style={styles.slide}>
+                    <div style={styles.slide}>
                         <VoucherSliderComp vouchers={favouriteTask} />
                     </div>
                 </div>
@@ -175,7 +175,7 @@ const Home = () => {
 
 const styles = {
     pageContainer: {
-        padding: "50px",
+        padding: "25px",
     },
     left: {
         width: "60%",
@@ -183,6 +183,7 @@ const styles = {
         boxSizing: "border-box",
     },
     right: {
+        width: "35%",
         border: `2px solid ${DARK_PURPLE}`,
         justifyItems: "center",
         backgroundColor: "white",
@@ -190,6 +191,9 @@ const styles = {
         padding: "25px",
         boxSizing: "border-box",
         color: DARK_PURPLE,
+        position: "sticky", // Stick to the viewport
+        top: "50px", // Distance from the top of the screen
+        alignSelf: "flex-start", // Align to the top
     },
     points: {
         display: "flex",

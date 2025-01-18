@@ -30,10 +30,9 @@
     background-color: #2d39a5;
     color: white;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     text-align: center;
-    margin: 5px;
     outline: 0.5px solid white; 
     outline-offset: 2px;
   }

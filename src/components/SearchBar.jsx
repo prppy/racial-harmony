@@ -43,7 +43,7 @@ const styles = {
   },
   searchIcon: {
     position: "absolute",
-    left: "10px",
+    left: "15px",
     fontSize: "20px", // Adjust size as needed
     color: "#A24C3B", // Icon color
   },

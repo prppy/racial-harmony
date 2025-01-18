@@ -1,9 +1,9 @@
 import React from "react";
 import { DARK_PURPLE, RED } from "../constants/colors";
 
-export const VoucherSlide = ({ voucher }) => {
+export const VoucherSlide = ({ voucher, style }) => {
     return (
-        <div style={styles.container}>
+        <div style={{ ...styles.container, ...style }}>
             <img
                 src={voucher.imageUrl ? voucher.imageUrl : "/bg0.png"}
                 alt={voucher.title}
@@ -21,11 +21,15 @@ export const VoucherSlide = ({ voucher }) => {
     );
 };
 
-export const ProductSlide = ({ product }) => {
+export const ProductSlide = ({ product, style }) => {
     return (
-        <div style={styles.container}>
+        <div style={{ ...styles.container, ...style }}>
             <img
-                src={product.productImageUrl ? product.productImageUrl : "/bg0.png"}
+                src={
+                    product.productImageUrl
+                        ? product.productImageUrl
+                        : "/bg0.png"
+                }
                 alt={product.name}
                 style={styles.image}
             />

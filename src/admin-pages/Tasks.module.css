@@ -1,28 +1,37 @@
-
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  background-color: transparent;
-}
-
 .topSection {
   display: flex;
+  /* Use flexbox to align children horizontally */
+  align-items: start;
+  /* Ensure both items (SearchBar and voucherBalanceContainer) are aligned vertically */
   justify-content: space-between;
-  align-items: center;
   width: 100%;
-  padding: 0 16px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.voucherBalanceContainer {
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  height: 40px;
+  background-color: white;
+  color: #2B3487;
+  padding: 0px 10px;
+  border-radius: 10px;
+  font-size: 1vw;
+  font-weight: bold;
+  margin-left: 25px;
+  border: 2px solid #2B3487;
+  box-sizing: border-box;
 }
 
 .tasksGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 50px;
   width: 100%;
-  margin: 10px;
   align-items: center;
+  padding: 0; /* Ensure no padding is added to the grid */
+  margin: 0;  /* Remove any default margins */
 }
 
 .addButton {
@@ -42,39 +51,6 @@
   color: #A24C3B;
 }
 
-.taskCard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;  /* Align items to the left */
-  width: 250px;
-  height: 250px;
-  background-color: white;
-  border-radius: 8px;
-  cursor: pointer; /* Makes it clear that task is clickable */
-  padding: 16px; /* Padding for better spacing */
-}
-
-.taskPoints,
-.taskTitle {
-  text-align: left;  /* Ensures text is aligned to the left */
-  margin: 0; /* Ensures consistency */
-  width:100%
-}
-
-.taskPoints {
-  margin-top: 20px;
-  font-weight: bold;
-  font-size: 20px;
-  color: #A24C3B;
-}
-
-.taskTitle {
-  font-size: 16px;
-  color: #2B3487;
-  font-weight: bold;
-}
-
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -91,12 +67,15 @@
 
 .modal {
   background-color: white;
-  width: 80%; /* Set the modal width */
-  max-width: 600px; /* Add a max-width for smaller screens */
+  width: 80%;
+  /* Set the modal width */
+  max-width: 600px;
+  /* Add a max-width for smaller screens */
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  text-align: center; /* Center the text inside the modal */
+  text-align: center;
+  /* Center the text inside the modal */
   overflow-y: auto;
   max-height: 80vh;
 }
@@ -149,7 +128,8 @@
 
 .buttonContainer {
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
+  flex-direction: column;
+  /* Stack buttons vertically */
   gap: 10px;
   margin-top: 20px;
   align-items: center;
@@ -159,9 +139,9 @@
 .cancelButton {
   width: 100px;
   padding: 10px;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -173,7 +153,7 @@
 .cancelButton {
   background-color: #9C3726;
   color: white;
-  margin-top: 10px;
+  margin-top: 25px;
 }
 
 .modalOverlayTaskDetails {
@@ -188,47 +168,62 @@
   align-items: center;
   z-index: 1100;
 }
+
 .modalTaskDetails {
   width: 80%;
   max-width: 800px;
-  padding: 20px;
+  padding: 25px;
   background-color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers the modal header */
+  align-items: center;
+  /* Centers the modal header */
   z-index: 1200;
   overflow-y: auto;
   max-height: 80vh;
 }
 
 .modalTaskDetailsHeader {
-  margin-bottom: 16px;
-  font-size: 24px;
-  text-align: center; /* Center the header */
-  color: #5f4b8b;
+  margin-bottom: 25px;
+  font-size: 30px;
+  text-align: center;
+  /* Center the header */
+  color: #2B3487;
   width: 100%;
+  
 }
+
 .modalContent {
   display: flex;
   width: 100%;
+  gap: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+
 }
 
-.modalLeft, .modalRight {
-  width: 50%;
-  padding: 10px;
+.modalLeft,
+.modalRight {
+  flex: 1
+
 }
+
 .modalLeft {
   display: flex;
   justify-content: center;
   align-items: center;
+  
+
 }
 
 .modalRight {
   display: flex;
   flex-direction: column;
-  padding-left: 20px; /* To provide space between image and text */
+  align-content: flex-start;
+  justify-content: center;
+  /* To provide space between image and text */
 }
 
 .taskDetail {
@@ -242,13 +237,13 @@
 }
 
 .taskImage {
-  width: 200px;
-  height: 200px;
-  background-color: #868bbd;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #d0d0d0;
+  border: 2px solid #2B3487;
   border-radius: 8px;
 }
 
@@ -267,19 +262,22 @@
 
 .categorySection {
   display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
+  gap: 25px; /* Set exactly 25px gap between buttons */
   margin-bottom: 20px;
-  
 }
 
 .categoryButton {
   background-color: #9C3726;
   border: 2px solid #9C3726;
-  color:white;
-  padding: 10px 20px;
-  margin: 0 10px;
+  color: white;
+  padding: 0px 10px;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  font-size: 16px;
+  height: 50px;
+  width: 150px
 }
 
 
@@ -309,24 +307,9 @@
   .tasksGrid {
     grid-template-columns: 1fr;
   }
-  
-}
 
-.voucherBalanceContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  color: #2B3487;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-left: 20px; 
-  margin-right: 20px
 }
 
 .voucherBalanceText {
   text-align: center;
 }
-
