@@ -17,34 +17,67 @@ With our personalisation and gamification features that encourages residents to 
 
 ### For Residents (Users):
 
-#### **Wishlist for Products**
-- Add unavailable or desired products to a personal wishlist.
-- Admins gain insights into product demand and can prioritize restocking.
+#### **Home Dashboard**
+- Provides a streamlined overview of:
+  - **Favorite Vouchers**: Quick access to the resident’s most loved vouchers.
+  - **Favorite Products**: A curated list of frequently chosen products.
+  - **Voucher Balance**: Displays the current balance for ease of tracking.
+  - **Recent Transactions**: View the latest transactions at a glance.
+- Displays any **ongoing auctions**.
+
+#### **Minimart Page**
+- **Search Bar** and **Category Filter**: Search and filter products efficiently.
+- **Product Navigation**:
+  - Clicking on a product navigates to the **Product Page**, where residents can:
+    - Request a specific quantity of the product to add to their cart.
+    - Add the product to their favorites.
+- **Wishlist for Products**
+  - Add unavailable or desired products to a personal wishlist.
+  - Admins gain insights into product demand and can prioritize restocking.
+- **Voucher Balance Check**:
+  - Residents cannot request a quantity of products if the required voucher points exceed their balance.
+- **Persistent Search**:
+  - Residents can continue searching from the product page, which navigates them back to the Minimart page with the search query applied.
+
+#### **Cart**
+- After adding products to the cart:
+  - Residents can check out the items at the physical minimart.
+  - A **QR code** is generated for the cashier/staff to scan and complete the transaction.
+  - The resident’s **voucher balance** updates automatically.
+
+#### **Vouchers**
+#### Tasks Gallery Page
+- Earn voucher points by completing tasks displayed on the voucher page.
+- **Search Bar** and **Category Filter**: Quickly find specific tasks.
+- **Gamified Tasks**:
+  - **Personal Tasks**: E.g., Maintain punctuality for a week to earn vouchers.
+  - **Group Tasks**: Collaborate to clean the courtyard or organize an event for group rewards.
+- Clicking on a task provides an overview of the task details.
+  - **View Details**: Navigates to the Task Page.
+  - Residents can add tasks to their favorites.
+
+#### Task Page
+- Residents can:
+  - Submit an application for completed tasks by pressing the **Apply** button.
+  - Admins will review the application and either approve or reject it.
+
+
+
+
 
 #### **Leaderboard & Achievement Badges**
-- Unlock badges for milestones such as consistent good behavior, academic improvement, or completing community tasks.
-- Badges incentivize participation with small voucher bonuses.
+- **Monthly Leaderboard**: based on the voucher points earned within the month.
+- **Milestone Badges**:
+  - Earn badges for achievements such as consistent good behavior, academic improvement, or completing community tasks.
+  - Badges incentivize participation with small voucher bonuses.
+ 
+ #### **Historys**
+- View overall voucher balance.
+- Access logs of all approved task applications.
 
-#### **Additional Gamified Tasks**
-- **Personal Tasks**: E.g., maintain punctuality for a week to earn vouchers.
-- **Group Tasks**: Collaborate to clean the courtyard or organize an event to earn group rewards.
-
-
-#### Streamlined Dashboard  
-- Easily track voucher balances, transaction history, and available products.
-
-#### Seamless Checkout System  
-- Redeem products earned from vouchers without hassle through a convenient QR code system
-
-#### Personalization  
-- Add a personal touch with customizable wallpapers and profile settings.
-
-####  Item Requests & Preorders  
-- Request items or place preorders for out-of-stock products.
-
-#### Secure Login  
-- Secure login process with optional password reset via mobile.
-
+ #### **Profie**
+- **Personalization**:
+  - Add a personal touch with customizable wallpapers and profile settings.
 ---
 
 ### For Admins (Staff):
