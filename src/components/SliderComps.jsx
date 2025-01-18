@@ -12,13 +12,14 @@ export const VoucherSliderComp = ({ vouchers }) => {
         slidesToShow: 2,
         slidesToScroll: 1,
         initialSlide: 0,
+        centerPadding: "25px", // Account for spacing
         responsive: [
             {
                 breakpoint: 1350,
                 settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
                     dots: true,
                 },
             }
@@ -46,9 +47,9 @@ export const ProductSliderComp = ({ products }) => {
             {
                 breakpoint: 1350,
                 settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
                     dots: true,
                 },
             }

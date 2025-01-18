@@ -46,10 +46,9 @@ const Home = () => {
                 const filteredTasks = taskData.filter((task) =>
                     userFavourites.includes(task.id)
                 );
-                console.log("Data Fetched: ", filteredTasks);
                 setTasks(taskData);
                 setFavouriteTask(filteredTasks);
-                console.log("Fav Task Set: ", filteredTasks);
+                console.log(filteredTasks);
             } catch (error) {
                 console.error(error);
             }
@@ -125,7 +124,7 @@ const Home = () => {
 
     return (
         <div style={styles.pageContainer}>
-            <h2 className="large-heading" style={{color: DARK_PURPLE}}> 
+            <h2 className="large-heading" style={{ color: DARK_PURPLE }}>
                 Welcome back Resident {user.name}!
             </h2>
             <hr className="line"></hr>
@@ -208,9 +207,9 @@ const styles = {
         padding: "10px",
         boxSizing: "border-box",
     },
-    slide: {
-        width: "100%",
-    },
+	slide: {
+		width: "100%", // Use full width of the parent container
+	},
 };
 
 export default Home;

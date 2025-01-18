@@ -47,10 +47,11 @@ export const ProductSlide = ({ product, style }) => {
 
 const styles = {
     container: {
-        height: "250px",
+        height: "150px",
+        width: "200px", // Adjust dynamically for 2 slides
         borderRadius: "10px",
         cursor: "pointer",
-        margin: "0 25px",
+        margin: "0 25px", // Reduced margin for better spacing
         position: "relative",
         overflow: "hidden",
         border: `2px solid ${DARK_PURPLE}`,
@@ -58,7 +59,7 @@ const styles = {
     },
     image: {
         width: "100%",
-        height: "150px",
+        height: "100px",
         objectFit: "cover",
     },
     desc: {
