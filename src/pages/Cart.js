@@ -26,7 +26,7 @@ const Cart = () => {
       <div style={pageStyles.leftContainer}>
         <img
           src={isScrolled ? "/CartEmpty.png" : "/CartFull.png"}
-          alt="logo"
+          alt="cartEmpty"
           style={styles.logo}
         />
       </div>

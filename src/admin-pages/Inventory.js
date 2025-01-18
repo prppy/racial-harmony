@@ -446,11 +446,16 @@ const pageStyles = {
   tableWrapper: {
     overflowX: "auto",
     marginTop: "20px",
+    overflow:'auto',
+
   },
   table: {
     width: "100%",
     borderCollapse: "collapse",
     textAlign: "left",
+    maxHeight:'300px',
+    overflowX: "auto",
+
   },
   button: {
     padding: "8px 12px",

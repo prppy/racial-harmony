@@ -11,6 +11,7 @@ import NavigateTaskButton from "../components/NavigateTaskButton";
 import { useNavigate } from "react-router-dom";
 import { VoucherSlide } from "../components/Slides";
 
+
 const Tasks = () => {
     const navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
@@ -19,7 +20,15 @@ const Tasks = () => {
     const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [newTask, setNewTask] = useState({
+        title: "",
+        description: "",
+        points: 0,
+        dueDate: "",
+        category:""
+      });
     useEffect(() => {
         fetchMainCollection("tasks")
             .then((data) => {
@@ -57,6 +66,48 @@ const Tasks = () => {
         setSelectedTask(null);
     };
 
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewTask({ ...newTask, [name]: value });
+      };
+    
+      const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          uploadImage(file, "userId", "tasks")
+            .then((result) => {
+              console.log("Image uploaded successfully", result);
+              setNewTask({ ...newTask, imageUrl: result.downloadURL }); // Store the image URL in state
+            })
+            .catch((error) => {
+              console.error("Error uploading image:", error);
+            });
+        }
+      };
+    
+      
+      const handleAddTask = async () => {
+        try {
+          const taskToSave = {
+            ...newTask,
+            points: Number(newTask.points),
+            imageUrl: newTask.imageUrl ? newTask.imageUrl : "",
+            
+          };
+          const savedTask = await createMainRecord("tasks", taskToSave);
+      
+          const updatedTasks = [...tasks, { id: savedTask.id, ...newTask }];
+          setTasks(updatedTasks);
+          setFilteredTasks(updatedTasks);
+      
+          setNewTask({ title: "", description: "", points: 0, dueDate: "", imageUrl: "" , category:""});
+          setIsModalOpen(false);
+        } catch (e) {
+          console.error("Error saving task:", e);
+        }
+      };
+      
     return (
         <div style={pageStyles.pageContainer}>
             <div className={styles.topSection}>
@@ -111,12 +162,108 @@ const Tasks = () => {
             </div>
 
             <div className={styles.tasksGrid}>
+                 {/* Add Button */}
+        <div className={styles.addButton} onClick={() => setIsModalOpen(true)}>
+          <span className={styles.addButtonText}>+</span>
+        </div>
                 {filteredTasks.map((task) => (
                     <div key={task.id} onClick={() => handleTaskClick(task)}>
                         <VoucherSlide voucher={task} style={{ margin: "0" }} />
                     </div>
                 ))}
             </div>
+
+               {/* Modal to Add Task */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalHeader}>Add New Task</h2>
+            <form className={styles.form}>
+              <label className={styles.label}>
+                Title:
+                <input
+                  type="text"
+                  name="title"
+                  value={newTask.title}
+                  onChange={handleInputChange}
+                  className={styles.input}
+                />
+              </label>
+                      <label className={styles.label}>
+          Image (optional):
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            className={styles.input}
+          />
+          </label>
+          <label className={styles.label}>
+  Category:
+  <select
+    name="category"
+    value={newTask.category}
+    onChange={handleInputChange}
+    className={styles.input}
+  >
+    <option value="">Select Category</option>
+    <option value="Group">Group</option>
+    <option value="Individual">Individual</option>
+    {/* Add more categories as needed */}
+  </select>
+</label>
+              <label className={styles.label}>
+                Description:
+                <textarea
+                  name="description"
+                  value={newTask.description}
+                  onChange={handleInputChange}
+                  className={styles.textarea}
+                  maxLength={1000}
+                  placeholder="max 1000 char"
+                />
+              </label>
+              <label className={styles.label}>
+                Points:
+                <input
+                  type="number"
+                  name="points"
+                  value={newTask.points}
+                  onChange={handleInputChange}
+                  className={styles.input}
+                />
+              </label>
+              <label className={styles.label}>
+                Due Date:
+                <input
+                  type="date"
+                  name="dueDate"
+                  value={newTask.dueDate}
+                  onChange={handleInputChange}
+                  className={styles.input}
+                />
+              </label>
+              <div className={styles.buttonContainer}>
+                <button
+                  type="button"
+                  onClick={handleAddTask}
+                  className={styles.saveButton}
+                >
+                  Save Task
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className={styles.cancelButton}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
 
             {isTaskDetailModalOpen && selectedTask && (
                 <div className={styles.modalOverlayTaskDetails}>
