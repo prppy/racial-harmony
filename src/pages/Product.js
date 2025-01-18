@@ -76,8 +76,7 @@ const ProductPage = () => {
   };
 
   const handleRequest = async () => {
-    const totalCost = quantity * product.points
-    console.log("cost", totalCost)
+    const totalCost = quantity * product.price
     if (totalCost <= userData.voucher_balance) {
       try {
 
@@ -86,7 +85,7 @@ const ProductPage = () => {
          productName:product.name,
          quantity: quantity,
          requestDate: new Date(),
-         unitPoint: product.points
+         unitPoint: product.price
    
         } )
    
