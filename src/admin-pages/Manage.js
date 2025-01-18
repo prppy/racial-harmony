@@ -5,6 +5,7 @@ import { LIGHT_PURPLE, DARK_PURPLE, RED, DARK_GREEN, PALE_PURPLE, LIGHT_GRAY} fr
 import axios from "axios";
 import { fetchMainCollection, updateMainRecord } from "../utils/firebaseUtils";
 import { FaRegTrashCan } from "react-icons/fa6";
+
 const Manage = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -140,7 +141,9 @@ const Manage = () => {
     .filter((user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
-    .filter((user) => (filterClass ? user.class === filterClass : true))
+    .filter((user) => (filterClass 
+      ? user.class && user.class.toLowerCase().includes(filterClass.toLowerCase()) 
+      : true))
     .filter((user) =>
       filterAdmin ? (filterAdmin === "admin" ? user.admin : !user.admin) : true
     );

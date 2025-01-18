@@ -77,7 +77,7 @@ const MinimartPage = ({ voucherBalance }) => {
 
           {/* Category Tabs */}
           <CategoryTabs
-            categories={["All", "Clothing", "Entertainment", "Sports", "Education", "Snacks", "Others"]}
+            categories={["All", "Clothing", "Entertainment", "Sports", "Education", "Electronics", "Snacks", "Accessories", "Others"]}
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
           />
