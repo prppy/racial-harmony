@@ -12,7 +12,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import { DARK_PURPLE } from "../constants/colors";
+import { DARK_PURPLE, LIGHT_PURPLE, PALE_PURPLE } from "../constants/colors";
 
 // Register required components
 ChartJS.register(
@@ -38,8 +38,8 @@ const Reports = () => {
       {
         label: `${type} data for ${category}`,
         data: [12, 19, 3, 5, 2, 3],
-        borderColor: "rgba(75,192,192,1)",
-        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: PALE_PURPLE,
+        backgroundColor: DARK_PURPLE,
         fill: true,
       },
     ],
@@ -51,8 +51,8 @@ const Reports = () => {
       {
         label: `${type} data for ${category}`,
         data: [10, 15, 5, 7, 4, 6],
-        backgroundColor: "rgba(153, 102, 255, 0.2)",
-        borderColor: "rgba(153, 102, 255, 1)",
+        backgroundColor: DARK_PURPLE,
+        borderColor: LIGHT_PURPLE,
         borderWidth: 1,
       },
     ],

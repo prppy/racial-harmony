@@ -3,7 +3,7 @@ import { fetchMainCollection, updateMainRecord } from "../utils/firebaseUtils";
 import { createMainRecord, deleteMainRecord } from "../utils/firebaseUtils";
 import { FaRegTrashCan } from "react-icons/fa6";
 import SearchBar from "../components/SearchBar";
-import { DARK_GREEN, DARK_PURPLE, RED } from "../constants/colors";
+import { DARK_GREEN, DARK_PURPLE, LIGHT_GRAY, RED } from "../constants/colors";
 import BatchCreateProducts from "../components/BatchCreateProducts";
 import "../styles/tableStyles.css"
 const Inventory = () => {
@@ -404,7 +404,7 @@ const pageStyles = {
     color: "black",
   },
   innerContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     width: "80%",
     height: "80%",
     padding: "20px",
@@ -416,7 +416,7 @@ const pageStyles = {
     marginTop: "20px",
   },
   subHeading: {
-    color: "#6A3D9A",
+    color: DARK_PURPLE,
     fontSize: "24px",
     fontWeight: "bold",
     marginBottom: "20px",
@@ -439,7 +439,7 @@ const pageStyles = {
   input: {
     padding: "8px",
     borderRadius: "4px",
-    border: "1px solid #ccc",
+    border: "1px solid white",
     fontSize: "14px",
     marginLeft: "10px",
   },
@@ -462,8 +462,8 @@ const pageStyles = {
     borderRadius: "4px",
     border: "none",
     cursor: "pointer",
-    backgroundColor: "#6A3D9A",
-    color: "#fff",
+    backgroundColor: DARK_PURPLE,
+    color: "white",
     fontWeight: "bold",
   },
   actionMenu: {
@@ -476,7 +476,7 @@ const pageStyles = {
     border: "none",
     cursor: "pointer",
     backgroundColor: "transparent",
-    color: "#fff",
+    color: "white",
     fontSize: "16px",
     display: "flex",
     justifyContent: "center",
@@ -500,10 +500,10 @@ const pageStyles = {
     gap: "15px",
     marginBottom: "20px",
     padding: "20px",
-    border: "1px solid #ccc",
+    border: `1px solid ${LIGHT_GRAY}`,
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    backgroundColor: "#f9f9f9",
+    backgroundColor: LIGHT_GRAY,
   },
   formGroup: {
     display: "grid",
@@ -532,7 +532,7 @@ const modalStyles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -544,8 +544,8 @@ const modalStyles = {
     borderRadius: "5px",
     border: "none",
     cursor: "pointer",
-    backgroundColor: "#6A3D9A",
-    color: "#fff",
+    backgroundColor: DARK_PURPLE,
+    color: "white",
     fontWeight: "bold",
   },
 };

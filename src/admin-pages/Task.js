@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { DARK_PURPLE, RED } from '../constants/colors';
+import { DARK_PURPLE, LIGHT_GRAY, RED } from '../constants/colors';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import { updateMainRecord, deleteMainRecord } from '../utils/firebaseUtils';
 import ApplicationsTable from '../components/ApplicationsTable';
@@ -140,10 +140,10 @@ const styles = {
     padding: '20px',
     maxWidth: '80%',
     margin: '0 auto',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     borderRadius: '8px',
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-    border: '1px solid #ccc',
+    border: `1px solid ${LIGHT_GRAY}`,
     marginTop: '20px',
   },
   leftContainer: {
@@ -204,7 +204,7 @@ const styles = {
   },
   editButton: {
     backgroundColor: DARK_PURPLE,
-    color: '#fff',
+    color: 'white',
     border: 'none',
     borderRadius: '4px',
     padding: '10px 20px',
@@ -234,7 +234,7 @@ const styles = {
   },
   saveButton: {
     backgroundColor: DARK_PURPLE,
-    color: '#fff',
+    color: 'white',
     border: 'none',
     borderRadius: '4px',
     padding: '10px 20px',

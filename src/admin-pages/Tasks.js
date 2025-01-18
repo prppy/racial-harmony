@@ -9,7 +9,7 @@ import SearchBar from "../components/SearchBar";
 import styles from "./Tasks.module.css";
 import NavigateTaskButton from "../components/NavigateTaskButton";
 import { useNavigate } from "react-router-dom";
-import { VoucherSlide } from "../components/Slides";
+import { VoucherAdminSlide } from "../components/Slides";
 
 
 const Tasks = () => {
@@ -168,7 +168,7 @@ const Tasks = () => {
         </div>
                 {filteredTasks.map((task) => (
                     <div key={task.id} onClick={() => handleTaskClick(task)}>
-                        <VoucherSlide voucher={task} style={{ margin: "0" }} />
+                        <VoucherAdminSlide voucher={task} style={{ margin: "0" }} />
                     </div>
                 ))}
             </div>

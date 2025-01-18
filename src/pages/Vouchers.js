@@ -172,7 +172,7 @@ const VoucherPage = () => {
                                     >
                                         {selectedTask.points}pts
                                     </p>
-                                    <hr className="line" />
+                                    <hr className="line"></hr>
                                     <p style={{ color: "black"}}>
                                         <strong
                                             style={{

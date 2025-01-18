@@ -28,7 +28,59 @@ export const VoucherSlide = ({ voucher, style }) => {
     );
 };
 
+export const VoucherAdminSlide = ({ voucher, style }) => {
+    const navigate = useNavigate();
+
+    return (
+        <div style={{ ...styles.container, ...style }} onClick={() => {
+            navigate(`/task/${voucher.id}`, { state: { task: voucher } });
+        }}>
+            <img
+                src={voucher.imageUrl ? voucher.imageUrl : "/bg0.png"}
+                alt={voucher.title}
+                style={styles.image}
+            />
+            <div style={styles.desc}>
+                <h3 style={{ color: DARK_PURPLE, fontSize: "20px" }}>
+                    {voucher.title}
+                </h3>
+                <h3 style={{ color: RED, fontSize: "16px" }}>
+                    {voucher.points}pts
+                </h3>
+            </div>
+        </div>
+    );
+};
+
 export const ProductSlide = ({ product, style }) => {
+    const navigate = useNavigate();
+
+    return (
+        <div style={{ ...styles.container, ...style } } onClick={() => {
+            
+        }}>
+            <img
+                src={
+                    product.productImageUrl
+                        ? product.productImageUrl
+                        : "/bg0.png"
+                }
+                alt={product.name}
+                style={styles.image}
+            />
+            <div style={styles.desc}>
+                <h3 style={{ color: DARK_PURPLE, fontSize: "20px" }}>
+                    {product.name}
+                </h3>
+                <h3 style={{ color: RED, fontSize: "16px" }}>
+                    {product.price}pts
+                </h3>
+            </div>
+        </div>
+    );
+};
+
+export const ProductAdminSlide = ({ product, style }) => {
     const navigate = useNavigate();
 
     return (
