@@ -5,6 +5,9 @@ Personalized minimart with customizable themes: residents track vouchers and vie
 ## Try it out
 Link to webapp: [Racial Harmony](https://racial-harmony-5.web.app/)
 
+**Note** 
+- Batch Creation of users in Admin's Manage page - The excel file uploaded should contain the following columns: name, admission date, birthday, class, admin (boolean true/false), profile picture url (this is optional)
+
 ## Inspiration
 Our project for Muhammadiyah was inspired by the organization's longstanding commitment to social cohesion, community support, and inclusivity. 
 
