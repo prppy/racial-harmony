@@ -54,7 +54,7 @@ const MinimartPage = ({ voucherBalance }) => {
   const filteredProducts = products.filter(
     (product) =>
       (selectedCategory === "All" || product.category === selectedCategory) &&
-      product.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
