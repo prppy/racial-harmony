@@ -52,6 +52,7 @@ With our personalisation and gamification features that encourages residents to 
 
 #### **User Management System**
 - Add, suspend, and reset user passwords.
+- Automatically create a batch of users or upload batch of inventory via batch create functions
 
 ####  Task and Request Approval  
 - Approve or reject voucher tasks and product requests with detailed tracking of actions.
