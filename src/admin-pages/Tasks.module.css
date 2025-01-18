@@ -1,55 +1,66 @@
+/* Layout */
 .topSection {
   display: flex;
-  /* Use flexbox to align children horizontally */
-  align-items: start;
-  /* Ensure both items (SearchBar and voucherBalanceContainer) are aligned vertically */
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin-bottom: 25px;
 }
 
 .voucherBalanceContainer {
   display: flex;
-  justify-content:space-between;
+  justify-content: center;
   align-items: center;
-  height: 40px;
+  height: 50px;
   background-color: white;
   color: #2B3487;
-  padding: 0px 10px;
+  padding: 0px 25px;
   border-radius: 10px;
-  font-size: 1vw;
+  font-size: 16px;
   font-weight: bold;
-  margin-left: 25px;
   border: 2px solid #2B3487;
   box-sizing: border-box;
+  margin-left: 50px;  /* Space between voucherBalance and SearchBar */
+  flex-grow: 1;  /* Allows the container to take up available space */
+  max-width: calc(100% - 150px);  /* Optional: Set a max width to leave space for search bar */
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.voucherBalanceText {
+  text-overflow: ellipsis;  /* Optional: Ensures text is truncated if it's too long */
 }
 
 .tasksGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 50px;
+  grid-template-columns: repeat(3, 1fr); /* 3 fixed columns */
+  gap: 50px; /* Space between items */
   width: 100%;
-  align-items: center;
-  padding: 0; /* Ensure no padding is added to the grid */
-  margin: 0;  /* Remove any default margins */
+  align-content: space-between;
+  justify-content: stretch; /* Stretch the grid to fill the container */
+  box-sizing: border-box; /* Prevent padding/border from affecting layout */
 }
 
 .addButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 250px;
-  height: 250px;
+  height: 100%; /* Matches the slide height */
+  min-height: 285px;
+  width: 100%; /* Matches the slide width */
   background-color: white;
   border: 2px solid #9C3726;
-  border-radius: 8px;
+  border-radius: 10px; /* Matches the border radius of the slides */
   cursor: pointer;
+  box-sizing: border-box; /* Ensures padding/border don't affect dimensions */
 }
 
 .addButtonText {
-  font-size: 70px;
+  font-size: 70px; /* Scales text to fit the button size */
   color: #9C3726;
 }
+
 
 .modalOverlay {
   position: fixed;
@@ -264,7 +275,7 @@
   display: flex;
   justify-content: flex-start; /* Align buttons to the left */
   gap: 25px; /* Set exactly 25px gap between buttons */
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .categoryButton {
@@ -272,12 +283,12 @@
   border: 2px solid #9C3726;
   color: white;
   padding: 0px 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   font-size: 16px;
   height: 50px;
-  width: 150px
+  width: 150px;
 }
 
 
@@ -287,17 +298,8 @@
   color: white;
 }
 
-
-
-
 /* Responsive adjustments */
-@media (max-width: 1200px) {
-  .tasksGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 800px) {
+@media (max-width: 900) {
   .tasksGrid {
     grid-template-columns: repeat(2, 1fr);
   }

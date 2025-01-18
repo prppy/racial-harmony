@@ -10,7 +10,6 @@ import { IoMdHeartDislike } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 
 import { useAuth } from "../context/authContext";
-import { arrayUnion, arrayRemove } from "firebase/firestore";
 
 const VoucherView = () => {
     const location = useLocation();
@@ -274,6 +273,7 @@ const styles = {
         maxWidth: "25%",
         justifyContent: "flex-end", // Push the buttons to the bottom
         marginTop: "auto", // Ensures the container takes up remaining space
+        minWidth: "150px"
     },
     image: {
         width: "100%",
@@ -320,6 +320,7 @@ const styles = {
         padding: "10px 20px",
         cursor: "pointer",
         fontWeight: "bold",
+
     },
 };
 

@@ -21,7 +21,8 @@ const VoucherPage = () => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [voucherBalance, setVoucherBalance] = useState(0); // State for voucher balance
     const { user } = useAuth();
-    useEffect(() => {
+    
+	useEffect(() => {
         fetchMainCollection("tasks")
             .then((data) => {
                 setTasks(data);
@@ -127,7 +128,7 @@ const VoucherPage = () => {
             <div className={styles.tasksGrid}>
                 {filteredTasks.map((task) => (
                     <div key={task.id} onClick={() => handleTaskClick(task)}>
-                        <VoucherSlide voucher={task} style={{ margin: "0" }} />
+                        <VoucherSlide voucher={task} style={{  width: "100%" } } />
                     </div>
                 ))}
             </div>

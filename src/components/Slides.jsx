@@ -2,15 +2,18 @@ import React from "react";
 import { DARK_PURPLE, RED } from "../constants/colors";
 import { useNavigate } from "react-router-dom";
 
-
-
 export const VoucherSlide = ({ voucher, style }) => {
     const navigate = useNavigate();
 
     return (
-        <div style={{ ...styles.container, ...style }} onClick={() => {
-            navigate(`/voucher/${voucher.id}`, { state: { task: voucher } });
-        }}>
+        <div
+            style={{ ...styles.container, ...style }}
+            onClick={() => {
+                navigate(`/voucher/${voucher.id}`, {
+                    state: { task: voucher },
+                });
+            }}
+        >
             <img
                 src={voucher.imageUrl ? voucher.imageUrl : "/bg0.png"}
                 alt={voucher.title}
@@ -28,13 +31,11 @@ export const VoucherSlide = ({ voucher, style }) => {
     );
 };
 
-export const VoucherAdminSlide = ({ voucher, style }) => {
+export const VoucherAdminSlide = ({ voucher, style, onClick }) => {
     const navigate = useNavigate();
 
     return (
-        <div style={{ ...styles.container, ...style }} onClick={() => {
-            navigate(`/task/${voucher.id}`, { state: { task: voucher } });
-        }}>
+        <div style={{ ...styles.container, ...style }} onClick={onClick}>
             <img
                 src={voucher.imageUrl ? voucher.imageUrl : "/bg0.png"}
                 alt={voucher.title}
@@ -56,9 +57,7 @@ export const ProductSlide = ({ product, style }) => {
     const navigate = useNavigate();
 
     return (
-        <div style={{ ...styles.container, ...style } } onClick={() => {
-            
-        }}>
+        <div style={{ ...styles.container, ...style }} onClick={() => {}}>
             <img
                 src={
                     product.productImageUrl
@@ -80,13 +79,11 @@ export const ProductSlide = ({ product, style }) => {
     );
 };
 
-export const ProductAdminSlide = ({ product, style }) => {
+export const ProductAdminSlide = ({ product, style, onClick }) => {
     const navigate = useNavigate();
 
     return (
-        <div style={{ ...styles.container, ...style } } onClick={() => {
-            
-        }}>
+        <div style={{ ...styles.container, ...style }} onClick={() => {}}>
             <img
                 src={
                     product.productImageUrl
@@ -110,26 +107,26 @@ export const ProductAdminSlide = ({ product, style }) => {
 
 const styles = {
     container: {
-        height: "250px",
-        width: "100px", // Adjust dynamically for 2 slides
+        aspectRatio: "7 / 5",
+        width: "350px", // Adjust dynamically for 2 slides
         borderRadius: "10px",
         cursor: "pointer",
         position: "relative",
         overflow: "hidden",
         border: `2px solid ${DARK_PURPLE}`,
         backgroundColor: "white",
-        boxSizing: "border-box", 
+        boxSizing: "border-box",
     },
     image: {
         width: "100%",
-        height: "150px",
+        height: "60%",
         objectFit: "cover",
     },
     desc: {
-        height: "100px",  // Adjust height as needed
+        height: "100px", // Adjust height as needed
         textAlign: "center", // Horizontal alignment for text content
         justifyContent: "center", // Horizontally center content
         alignItems: "center", // Vertically center content
         textOverflow: "ellipsis", // Optional: Handle long text
-    }
+    },
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
+import { LIGHT_GRAY, RED } from "../constants/colors";
 
 const SearchBar = ({ searchQuery, setSearchQuery, type, handleSearch}) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -39,20 +40,26 @@ const styles = {
     display: "flex",
     alignItems: "center",
     width: "80%",
-    position: "relative", // Ensures the icon is positioned correctly within the input field
+    backgroundColor: "white", 
+    height: "50px",
+    borderRadius: "10px",
+    boxSizing: "border-box"
   },
   searchIcon: {
     position: "absolute",
-    left: "15px",
-    fontSize: "20px", // Adjust size as needed
-    color: "#A24C3B", // Icon color
+    fontSize: "25px", // Adjust size as needed
+    color: RED, // Icon color
+    marginLeft: "25px"
+
   },
   searchBar: {
-    padding: "10px 10px 10px 35px", // Added padding on the left to make space for the icon
     fontSize: "16px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
     width: "100%", // Full width
+    height: "100%",
+    borderRadius: "10px",
+    border: `2px solid #ccc`,
+    boxSizing: "border-box",
+    paddingLeft: "75px"
   },
 };
 
