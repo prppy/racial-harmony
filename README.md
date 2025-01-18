@@ -1,4 +1,8 @@
-# Racial Harmony
+# Team Racial Harmony
+
+Our team is called 'Racial Harmony' to reflect the diversity within our group, as we come from different nationalities and cultural backgrounds. This name celebrates our unity and collaboration, highlighting the strength that comes from embracing our differences to work together towards a common goal.
+
+# Web based minimart and voucher system
 
 Personalized minimart with customizable themes: residents track vouchers and view spending insights, while admins manage inventory, access reports, and see class-wide trends—all seamlessly automated
 
