@@ -122,7 +122,6 @@ We utilized a user-centered approach to design and development:
 
 ## Accomplishments that we're proud of
 - Successfully launching a platform prototype within the project timeline.
-- Receiving positive feedback from Muhammadiyah and community representatives for the project's potential.
 - Building a scalable foundation that can be adapted for future initiatives across different regions or organizations.
 
 ## What we learned
