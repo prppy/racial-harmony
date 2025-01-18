@@ -58,6 +58,7 @@ With our personalisation and gamification features that encourages residents to 
 - Automatically create a batch of users or upload batch of inventory via batch create functions
 
 ####  Task and Request Approval  
+- Create voucher tasks
 - Approve or reject voucher tasks and product requests with detailed tracking of actions.
 
 ####  Inventory Management  
