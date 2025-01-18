@@ -14,6 +14,7 @@ const ProductPage = () => {
   const [userFavorites, setUserFavorites] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [voucherBalance, setVoucherBalance] = useState(0)
 
   const userId = user?.userId
 
@@ -37,6 +38,7 @@ const ProductPage = () => {
         try {
           const fetchedUserData = await fetchMainRecord("users", userId);
           setUserData(fetchedUserData)
+          setVoucherBalance(fetchedUserData.voucher_balance)
           const favorites =fetchedUserData ?.favorites || [];
           setUserFavorites(favorites);
           setIsFavorite(favorites.includes(product.id));
@@ -47,7 +49,7 @@ const ProductPage = () => {
 
       getUserFavorites();
     }
-  }, [userId, product]);
+  }, [user, product]);
 
   // Update isFavorite state when userFavorites changes
   useEffect(() => {
@@ -77,7 +79,8 @@ const ProductPage = () => {
 
   const handleRequest = async () => {
     const totalCost = quantity * product.price
-    if (totalCost <= userData.voucher_balance) {
+    if (totalCost <= voucherBalance) {
+      const new_balance = voucherBalance - totalCost
       try {
 
         await saveRecord("users", userId,  "cart", {
@@ -88,6 +91,11 @@ const ProductPage = () => {
          unitPoint: product.price
    
         } )
+
+        await updateMainRecord("users", userId, {
+          voucher_balance: new_balance
+        })
+        setVoucherBalance(new_balance)
    
    
          console.log(`Requested ${quantity} of ${product.name}`);
@@ -124,7 +132,7 @@ const ProductPage = () => {
           handleSearch={handleSearch}
         />
         <div style={styles.voucherBalance}>
-          Voucher Balance: {userData?.voucher_balance || 0} pts
+          Voucher Balance: {voucherBalance} pts
         </div>
       </div>
 
