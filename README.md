@@ -8,7 +8,9 @@ Personalized minimart with customizable themes: residents track vouchers and vie
 
 ## Try it out
 Link to webapp: [Racial Harmony](https://racial-harmony-5.web.app/)
+
 Test **Resident** account: resident@gmail.com (password: test123)
+
 Test **Admin** account: admin@rh.com (password: test123)
 
 **Note** 
