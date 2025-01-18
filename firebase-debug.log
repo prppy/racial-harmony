@@ -1,0 +1,51 @@
+[debug] [2025-01-17T17:47:11.090Z] ----------------------------------------------------------------------
+[debug] [2025-01-17T17:47:11.091Z] Command:       /usr/local/bin/node /Users/myathetchai/.npm-global/bin/firebase init hosting
+[debug] [2025-01-17T17:47:11.091Z] CLI Version:   13.29.1
+[debug] [2025-01-17T17:47:11.091Z] Platform:      darwin
+[debug] [2025-01-17T17:47:11.091Z] Node Version:  v20.13.0
+[debug] [2025-01-17T17:47:11.091Z] Time:          Sat Jan 18 2025 01:47:11 GMT+0800 (Singapore Standard Time)
+[debug] [2025-01-17T17:47:11.091Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-01-17T17:47:11.130Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-17T17:47:11.130Z] > authorizing via signed-in user (myathetchai441@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/myathetchai/Desktop/racial-harmony
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-01-17T17:47:11.132Z] Using project from CLI flag: racialharmony-4
+[debug] [2025-01-17T17:47:11.133Z] Checked if tokens are valid: true, expires at: 1737139604620
+[debug] [2025-01-17T17:47:11.133Z] Checked if tokens are valid: true, expires at: 1737139604620
+[debug] [2025-01-17T17:47:11.134Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/racialharmony-4 [none]
+[debug] [2025-01-17T17:47:11.712Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/racialharmony-4 200
+[debug] [2025-01-17T17:47:11.712Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/racialharmony-4 {"projectId":"racialharmony-4","projectNumber":"1003081221824","displayName":"racial harmony","name":"projects/racialharmony-4","resources":{"hostingSite":"racialharmony-4"},"state":"ACTIVE","etag":"1_250f2cd2-132f-4d80-881c-a7c6280e37d4"}
+[info] i  Using project racialharmony-4 (racial harmony) 
+[info] 
+=== Hosting Setup
+[debug] [2025-01-17T17:47:11.719Z] Checked if tokens are valid: true, expires at: 1737139604620
+[debug] [2025-01-17T17:47:11.719Z] Checked if tokens are valid: true, expires at: 1737139604620
+[debug] [2025-01-17T17:47:11.719Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/racialharmony-4 [none]
+[debug] [2025-01-17T17:47:12.175Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/racialharmony-4 200
+[debug] [2025-01-17T17:47:12.175Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/racialharmony-4 {"projectId":"racialharmony-4","projectNumber":"1003081221824","displayName":"racial harmony","name":"projects/racialharmony-4","resources":{"hostingSite":"racialharmony-4"},"state":"ACTIVE","etag":"1_250f2cd2-132f-4d80-881c-a7c6280e37d4"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
