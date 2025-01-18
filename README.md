@@ -46,7 +46,7 @@ With our personalisation and gamification features that encourages residents to 
   - The resident’s **voucher balance** updates automatically.
 
 #### **Vouchers**
-**Tasks Gallery Page**
+Tasks Gallery Page
 - Earn voucher points by completing tasks displayed on the voucher page.
 - **Search Bar** and **Category Filter**: Quickly find specific tasks.
 - **Gamified Tasks**:
@@ -56,7 +56,7 @@ With our personalisation and gamification features that encourages residents to 
   - **View Details**: Navigates to the Task Page.
   - Residents can add tasks to their favorites.
 
-**Task Page**
+Task Page
 - Residents can:
   - Submit an application for completed tasks by pressing the **Apply** button.
   - Admins will review the application and either approve or reject it.
