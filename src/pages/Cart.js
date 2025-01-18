@@ -7,11 +7,11 @@ const Cart = () => {
   const { user } = useAuth();
   const [cart, setCart] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [qrCodeVisible, setQrCodeVisible] = useState(false); // New state for QR code visibility
+  const [qrCodeVisible, setQrCodeVisible] = useState(false); // State for controlling QR code visibility
 
   useEffect(() => {
     getCart();
-  }, [user]);
+  }, []);
 
   const getCart = async () => {
     try {
@@ -35,16 +35,18 @@ const Cart = () => {
     }
   };
 
-  const toggleSelectItem = (index) => {
-    const updatedCart = [...cart];
-    updatedCart[index].selected = !updatedCart[index].selected;
+  const toggleSelectItem = (id) => {
+    const updatedCart = cart.map((item) =>
+      item.id === id ? { ...item, selected: !item.selected } : item
+    );
     setCart(updatedCart);
-
+  
     const updatedSelectedItems = updatedCart
       .filter((item) => item.selected)
       .map((item) => item);
     setSelectedItems(updatedSelectedItems);
   };
+  
 
   const toggleSelectAll = () => {
     const allSelected = cart.every((item) => item.selected);
@@ -63,13 +65,16 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      for (let item of selectedItems) {
-        await deleteRecord("users", user?.userId, "cart", item.id);
-      }
-
-      await getCart(); 
-
+      await Promise.all(
+        selectedItems.map(async (item) => {
+          await deleteRecord("users", user?.userId, "cart", item.id);
+        })
+      );
+      
       setQrCodeVisible(true);
+      
+      setCart(cart.filter((item) => !item.selected));
+      setSelectedItems([]); // Reset selected items
     } catch (error) {
       console.error("Error during checkout:", error);
     }
@@ -79,14 +84,15 @@ const Cart = () => {
     <div style={pageStyles.pageContainer}>
       <div style={pageStyles.leftContainer}>
         <div style={receiptStyles.receiptContainer}>
-          <h2 style={receiptStyles.header}>Your Cart:</h2>
+          <h2 style={receiptStyles.header}>Uncollected Items:</h2>
           {cart.map((item, index) => (
-            <div key={index} style={receiptStyles.itemRow}>
-              <input
-                type="checkbox"
-                checked={item.selected}
-                onChange={() => toggleSelectItem(index)}
-              />
+            <div key={item.id} style={receiptStyles.itemRow}>
+            <input
+  type="checkbox"
+  checked={item.selected}
+  onChange={() => toggleSelectItem(item.id)}  // Use id here instead of index
+/>
+
               <img
                 src={item.productImageUrl}
                 alt={item.productName}
@@ -115,10 +121,12 @@ const Cart = () => {
         </div>
       </div>
       <div style={pageStyles.rightContainer}>
+        <p style={styles.text}>Select Check Out when you are at the Minimart!</p>
         {qrCodeVisible && (
-          <img src="/QR.png" alt="QR Code" style={styles.qrCode} />
+          <div style={styles.qrCodeContainer}>
+            <img src="/QR.png" alt="QR Code" style={styles.qrCode} />
+          </div>
         )}
-        {!qrCodeVisible && <p style={styles.text}>Select Check Out when you are at the Minimart!</p>}
       </div>
     </div>
   );
@@ -146,6 +154,7 @@ const pageStyles = {
     flexDirection: 'column',
   },
 };
+
 const receiptStyles = {
   receiptContainer: {
     backgroundColor: '#FFFFFF',
@@ -166,7 +175,7 @@ const receiptStyles = {
   itemRow: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between', // Added to align items at both ends
+    justifyContent: 'space-between',
     marginBottom: '20px',
   },
   image: {
@@ -177,7 +186,7 @@ const receiptStyles = {
     borderRadius: '8px',
   },
   itemDetails: {
-    flex: 1, // Allows the item details to take the remaining space
+    flex: 1,
   },
   productName: {
     fontSize: '16px',
@@ -192,9 +201,9 @@ const receiptStyles = {
   quantity: {
     fontSize: '15px',
     color: '#777',
-    textAlign: 'right', // Align the quantity text to the right
-    flexShrink: 0, // Prevents the quantity from shrinking
-    marginLeft: '10px', // Add spacing between product details and quantity
+    textAlign: 'right',
+    flexShrink: 0,
+    marginLeft: '10px',
   },
   footer: {
     display: 'flex',
@@ -221,9 +230,12 @@ const receiptStyles = {
 
 const styles = {
   text: {
-    fontSize: '20px', // Increased size of the text on the right side
+    fontSize: '20px',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  qrCodeContainer: {
+    marginTop: '20px',
   },
   qrCode: {
     width: '80%',
