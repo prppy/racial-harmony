@@ -63,15 +63,13 @@ Task Page
 
 
 
-
-
 #### **Leaderboard & Achievement Badges**
 - **Monthly Leaderboard**: based on the voucher points earned within the month.
 - **Milestone Badges**:
   - Earn badges for achievements such as consistent good behavior, academic improvement, or completing community tasks.
   - Badges incentivize participation with small voucher bonuses.
  
- #### **Historys**
+ #### **History**
 - View overall voucher balance.
 - Access logs of all approved task applications.
 
