@@ -18,7 +18,7 @@ const ProductGrid = ({ products }) => {
 
         >
           <img
-            src={product.image}
+            src={product.productImageUrl}
             alt={product.name}
             style={styles.productImage}
           />
@@ -57,7 +57,7 @@ const styles = {
   productImage: {
     width: "100%",
     height: "200px", // Fixed height for the image
-    objectFit: "cover", // Ensures the image covers the area without stretching
+    objectFit: "contain", // Ensures the image covers the area without stretching
   },
   productDetails: {
     display: "flex",

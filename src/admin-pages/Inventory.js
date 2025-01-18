@@ -19,10 +19,10 @@ const Inventory = () => {
   });
   const [newProduct, setNewProduct] = useState({
     name: "",
-    price: "",
+    price: 0,
     category: "",
-    quantity: "",
-    restockThreshold: "",
+    quantity: 0,
+    restockThreshold: 0,
   });
 
   useEffect(() => {
@@ -63,8 +63,8 @@ const Inventory = () => {
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
     setEditProductData({
-      quantity: product.quantity || "",
-      restockThreshold: product.restockThreshold || "",
+      quantity: product.quantity || 0,
+      restockThreshold: product.restockThreshold || 0,
     });
     setIsModalOpen(true);
   };
@@ -72,7 +72,7 @@ const Inventory = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
-    setEditProductData({ quantity: "", restockThreshold: "" });
+    setEditProductData({ quantity: 0, restockThreshold: 0 });
   };
 
   const handleSaveChanges = async () => {
@@ -137,8 +137,8 @@ const Inventory = () => {
         name: "",
         category: "",
         price: "",
-        quantity: "",
-        restockThreshold: "",
+        quantity: 0,
+        restockThreshold: 0,
       });
       setMessage("Product added successfully");
     } catch (error) {
@@ -372,7 +372,7 @@ const Inventory = () => {
                 }
               />
             </label>
-            <button type="submit">Save Changes</button>
+            <button type="submit" onClick={handleEditProduct}>Save Changes</button>
           </div>
         </form>
       </Modal>
@@ -446,11 +446,16 @@ const pageStyles = {
   tableWrapper: {
     overflowX: "auto",
     marginTop: "20px",
+    overflow:'auto',
+
   },
   table: {
     width: "100%",
     borderCollapse: "collapse",
     textAlign: "left",
+    maxHeight:'300px',
+    overflowX: "auto",
+
   },
   button: {
     padding: "8px 12px",

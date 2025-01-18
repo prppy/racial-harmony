@@ -124,8 +124,7 @@ const Home = () => {
 
     return (
         <div style={styles.pageContainer}>
-            <h2 className="large-heading" style={{ color: DARK_PURPLE }}>
-                Welcome back Resident {user.name}!
+            <h2 className="large-heading" style={{color: DARK_PURPLE}}>Welcome back {user?.admin ? "Admin" : "Resident"} {user.name}!
             </h2>
             <hr className="line"></hr>
             <div

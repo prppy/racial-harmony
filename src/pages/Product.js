@@ -76,7 +76,7 @@ const ProductPage = () => {
   };
 
   const handleRequest = async () => {
-    const totalCost = quantity * product.points
+    const totalCost = quantity * product.price
     if (totalCost <= userData.voucher_balance) {
       try {
 
@@ -85,7 +85,7 @@ const ProductPage = () => {
          productName:product.name,
          quantity: quantity,
          requestDate: new Date(),
-         unitPoint: product.points
+         unitPoint: product.price
    
         } )
    
@@ -132,9 +132,9 @@ const ProductPage = () => {
       <div style={styles.productContainer}>
         <div style={styles.productImage}>
           {/* Placeholder or Image */}
-          {product.image ? (
+          {product.productImageUrl ? (
             <img
-              src={product.image}
+              src={product.productImageUrl}
               alt={product.name}
               style={{ width: "100%", height: "100%", borderRadius: "10px" }}
             />

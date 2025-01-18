@@ -19,7 +19,7 @@ const VoucherPage = () => {
     const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [voucherBalance, setVoucherBalance] = useState(100); // State for voucher balance
+    const [voucherBalance, setVoucherBalance] = useState(0); // State for voucher balance
     const { user } = useAuth();
     useEffect(() => {
         fetchMainCollection("tasks")
@@ -33,9 +33,12 @@ const VoucherPage = () => {
     useEffect(() => {
         fetchMainRecord("users", user?.userId)
             .then((data) => {
-                setVoucherBalance(data.voucher_balance);
+                setVoucherBalance(data.voucher_balance)
+                console.log("voucher balance", data.voucher_balance);
             })
             .catch((error) => console.error("Error fetching tasks:", error));
+
+            
     }, []);
 
     const handleCategorySelect = (category) => {
