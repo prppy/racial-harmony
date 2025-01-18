@@ -77,10 +77,7 @@ body {
   margin-inline: 12.5px;
 }
 
-.slick-track {
-  display: flex;
-  /* Ensures consistent spacing between slides */
-}
+
 
 
 @keyframes App-logo-spin {

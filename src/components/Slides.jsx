@@ -1,9 +1,16 @@
 import React from "react";
 import { DARK_PURPLE, RED } from "../constants/colors";
+import { useNavigate } from "react-router-dom";
+
+
 
 export const VoucherSlide = ({ voucher, style }) => {
+    const navigate = useNavigate();
+
     return (
-        <div style={{ ...styles.container, ...style }}>
+        <div style={{ ...styles.container, ...style }} onClick={() => {
+            navigate(`/voucher/${voucher.id}`, { state: { task: voucher } });
+        }}>
             <img
                 src={voucher.imageUrl ? voucher.imageUrl : "/bg0.png"}
                 alt={voucher.title}
@@ -22,8 +29,12 @@ export const VoucherSlide = ({ voucher, style }) => {
 };
 
 export const ProductSlide = ({ product, style }) => {
+    const navigate = useNavigate();
+
     return (
-        <div style={{ ...styles.container, ...style }}>
+        <div style={{ ...styles.container, ...style } } onClick={() => {
+            
+        }}>
             <img
                 src={
                     product.productImageUrl

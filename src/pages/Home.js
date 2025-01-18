@@ -109,7 +109,6 @@ const Home = () => {
                         >
                             <li
                                 style={{
-                                    width: "70%",
                                 }}
                             >
                                 {`Completed "${myTask.title}" Task`}
