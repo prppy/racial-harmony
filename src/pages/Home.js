@@ -46,10 +46,9 @@ const Home = () => {
                 const filteredTasks = taskData.filter((task) =>
                     userFavourites.includes(task.id)
                 );
-                console.log("Data Fetched: ", filteredTasks);
                 setTasks(taskData);
                 setFavouriteTask(filteredTasks);
-                console.log("Fav Task Set: ", filteredTasks);
+                console.log(filteredTasks);
             } catch (error) {
                 console.error(error);
             }
@@ -207,9 +206,9 @@ const styles = {
         padding: "10px",
         boxSizing: "border-box",
     },
-    slide: {
-        width: "100%",
-    },
+	slide: {
+		width: "100%", // Use full width of the parent container
+	},
 };
 
 export default Home;
