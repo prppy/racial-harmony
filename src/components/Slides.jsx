@@ -57,7 +57,11 @@ export const ProductSlide = ({ product, style }) => {
     const navigate = useNavigate();
 
     return (
-        <div style={{ ...styles.container, ...style }} onClick={() => {}}>
+        <div style={{ ...styles.container, ...style }} onClick={() => {
+            navigate(`/product/${product.id}`, {
+                state: { product: product },
+            });
+        }}>
             <img
                 src={
                     product.productImageUrl

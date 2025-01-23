@@ -5,130 +5,100 @@ import ProductGrid from "../components/ProductGrid";
 import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-const MinimartPage = ({ voucherBalance }) => {
-  const location = useLocation();
- const defaultSearchQuery = location.state?.searchQuery || "";
-    const [searchQuery, setSearchQuery] = useState(defaultSearchQuery)
+import styles from "../admin-pages/Tasks.module.css";
+import { ProductSlide } from "../components/Slides";
+
+const MinimartPage = () => {
+    const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const {user} = useAuth()
-  
-  const [voucher_balance, setVoucher_balance] = useState(voucherBalance || 0)
-  // Fetch products data from firebase
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const fetchedProducts = await fetchMainCollection("products");
-        if (fetchedProducts) {
-          setProducts(fetchedProducts);
-        } else {
-          setError("Failed to fetch products");
-        }
-      } catch (err) {
-        setError("An error occurred while fetching products");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const [voucherBalance, setVoucherBalance] = useState(0); // State for voucher balance
+    const { user } = useAuth();
+    const location = useLocation();
+    const defaultSearchQuery = location.state?.searchQuery || "";
 
-    fetchProducts();
-  }, []);
+    const [searchQuery, setSearchQuery] = useState(defaultSearchQuery);
 
+    useEffect(() => {
+        fetchMainCollection("products")
+            .then((data) => {
+                setProducts(data);
+            })
+            .catch((error) => console.error("Error fetching products:", error));
+    }, []);
 
-  useEffect(() => {
-    fetchMainRecord("users", user?.userId)
-        .then((data) => {
-            setVoucher_balance(data.voucher_balance)
-        })
-        .catch((error) => console.error("Error fetching tasks:", error));
+    useEffect(() => {
+        fetchMainRecord("users", user?.userId)
+            .then((data) => {
+                setVoucherBalance(data.voucher_balance);
+                console.log("voucher balance", data.voucher_balance);
+            })
+            .catch((error) =>
+                console.error("Error fetching voucher balance:", error)
+            );
+    }, []);
 
-        
-}, []);
+    const filteredProducts = products.filter(
+        (product) =>
+            (selectedCategory === "All" ||
+                product.category === selectedCategory) &&
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-
-  // Filter products
-  const filteredProducts = products.filter(
-    (product) =>
-      (selectedCategory === "All" || product.category === selectedCategory) &&
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  return (
-    <div style={styles.page}>
-      {/* Loading & Error Handling */}
-      {loading ? (
-        <div>Loading products...</div>
-      ) : error ? (
-        <div style={styles.error}>{error}</div>
-      ) : (
-        <>
-          {/* Search Bar & Voucher Balance */}
-          <div style={styles.topSection}>
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} type={"products"} />
-            <div style={styles.voucherBalance}>
-              <div style={styles.voucherAmount}>{voucher_balance}</div>
-              <div style={styles.pointsLabel}>Points</div>
+    return (
+        <div style={pageStyles.pageContainer}>
+            <div className={styles.topSection}>
+                <SearchBar
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    type={"tasks"}
+                />
+                {/* Voucher Balance */}
+                <div className={styles.voucherBalanceContainer}>
+                    <span className={styles.voucherBalanceText}>
+                        Voucher Balance: {voucherBalance} points
+                    </span>
+                </div>
             </div>
-          </div>
 
-          {/* Category Tabs */}
-          <CategoryTabs
-            categories={["All", "Clothing", "Entertainment", "Sports", "Education", "Electronics", "Snacks", "Accessories", "Others"]}
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
+            <CategoryTabs
+                categories={[
+                    "All",
+                    "Clothing",
+                    "Entertainment",
+                    "Sports",
+                    "Education",
+                    "Electronics",
+                    "Snacks",
+                    "Accessories",
+                    "Others",
+                ]}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+            />
 
-          {/* Product Grid */}
-          <ProductGrid products={filteredProducts} />
-        </>
-      )}
-    </div>
-  );
+            {/* Render Filtered Tasks */}
+            <div className={styles.tasksGrid}>
+                {filteredProducts.map((product) => (
+                    <div key={product.id} onClick={() => {}}>
+                        <ProductSlide
+                            product={product}
+                            style={{ width: "100%" }}
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
-// Styles
-const styles = {
-  page: {
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-  },
-  topSection: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "20px",
-  },
-  voucherBalance: {
-    display: 'flex',
-  justifyContent:'space-between',
-  alignItems: 'center',
-  height: '50px',
-  backgroundColor: "white",
-  color:'#2B3487',
-  padding: '0px 10px',
-  borderRadius: '10px',
-
-  marginLeft: '25px',
-  border:' 1px solid #2B3487',
-  boxSizing: 'border-box'
-  },
-  voucherAmount: {
-    fontSize: "48px",
-    fontWeight: "bold",
-  },
-  pointsLabel: {
-    fontSize: "16px",
-    color: "#555",
-    marginLeft:'10px'
-  },
-  error: {
-    color: "red",
-    textAlign: "center",
-  },
+const pageStyles = {
+    pageContainer: {
+        padding: "50px",
+    },
+    selectedCategory: {
+        backgroundColor: "#68180a",
+        color: "white",
+    },
 };
 
 export default MinimartPage;

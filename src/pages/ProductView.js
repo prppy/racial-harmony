@@ -4,7 +4,7 @@ import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
 import {
     updateMainRecord,
     fetchMainRecord,
-    createMainRecord,
+    saveRecord,
 } from "../utils/firebaseUtils";
 import { IoMdHeartDislike } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
@@ -12,22 +12,30 @@ import { useAuth } from "../context/authContext";
 import SearchBar from "../components/SearchBar";
 import styles from "../admin-pages/Tasks.module.css";
 
-const VoucherView = () => {
+const ProductView = () => {
     const location = useLocation();
-    const task = location.state?.task;
+    const product = location.state?.product;
     const navigate = useNavigate();
     const { user } = useAuth();
     const [isFavourite, setIsFavourite] = useState(false);
-    const [applied, setApplied] = useState(false);
-    const [voucherBalance, setVoucherBalance] = useState(0);
-    const [searchQuery, setSearchQuery] = useState("");
+    const [carted, setCarted] = useState(false);
     const [userData, setUserData] = useState(null);
-    const taskId = task.id;
+    const [voucherBalance, setVoucherBalance] = useState(0);
+    const [quantitySelected, setQuantitySelected] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
+    const productId = product.id;
 
     useEffect(() => {
-        if (!task) {
-            console.error("Task not found!");
+        if (!product) {
+            console.error("Product not found!");
             return;
+        }
+
+        // Set default quantity based on product availability
+        if (product.quantity === 0) {
+            setQuantitySelected(0); // No stock
+        } else {
+            setQuantitySelected(1); // Minimum 1 item available
         }
 
         const fetchData = async () => {
@@ -36,8 +44,8 @@ const VoucherView = () => {
                 setUserData(userData);
                 setVoucherBalance(userData.voucher_balance);
                 if (
-                    userData?.favouriteTasks &&
-                    userData.favouriteTasks.includes(taskId)
+                    userData?.favouriteProducts &&
+                    userData.favouriteProducts.includes(productId)
                 ) {
                     setIsFavourite(true);
                 }
@@ -46,83 +54,89 @@ const VoucherView = () => {
             }
         };
 
-        if (user && task) {
+        if (user && product) {
             fetchData();
         }
-    }, [task, user]);
+    }, [product, user, product.quantity]);
 
     useEffect(() => {
         setSearchQuery(location.state?.searchQuery || "");
     }, [location.state?.searchQuery]);
 
-    if (!task) {
-        return <div>Task not found. Please go back and try again.</div>;
+    if (!product) {
+        return <div>Product not found. Please go back and try again.</div>;
     }
 
     const handleFavourite = async () => {
-        if (!user?.userId || !taskId) {
-            console.error("Missing user or taskId");
+        if (!user?.userId || !productId) {
+            console.error("Missing user or productId");
             return;
         }
 
         try {
             const userData = await fetchMainRecord("users", user.userId);
-            const favouriteTasks = userData?.favouriteTasks || [];
+            const favouriteProducts = userData?.favouriteProducts || [];
 
             if (isFavourite) {
-                const updatedFavouriteTasks = favouriteTasks.filter(
-                    (id) => id !== taskId
+                const updatedfavouriteProducts = favouriteProducts.filter(
+                    (id) => id !== productId
                 );
 
                 await updateMainRecord("users", user.userId, {
-                    favouriteTasks: updatedFavouriteTasks,
+                    favouriteProducts: updatedfavouriteProducts,
                 });
 
                 setIsFavourite(false); // Mark as not favourited
-                alert("Task removed from favourites!");
+                alert("Product removed from favourites!");
             } else {
-                // Add the taskId to the favouriteTasks array if not already present
-                if (!favouriteTasks.includes(taskId)) {
-                    favouriteTasks.push(taskId);
+                // Add the productId to the favouriteProducts array if not already present
+                if (!favouriteProducts.includes(productId)) {
+                    favouriteProducts.push(productId);
 
-                    // Update the user's favouriteTasks field in Firestore
+                    // Update the user's favouriteProducts field in Firestore
                     await updateMainRecord("users", user.userId, {
-                        favouriteTasks: favouriteTasks,
+                        favouriteProducts: favouriteProducts,
                     });
 
                     setIsFavourite(true);
-                    alert("Task added to favourites!");
+                    alert("Product added to favourites!");
                 }
             }
         } catch (error) {
-            console.error("Error updating task favourite status:", error);
+            console.error("Error updating product favourite status:", error);
         }
     };
 
-    const handleApply = async () => {
-        if (!user?.userId || !taskId) {
-            console.error("Missing user or taskId");
-            return;
-        }
-        try {
-            const application = {
-                residentID: user?.userId,
-                status: "pending",
-                taskId: taskId,
-                class: userData?.class || "N/A",
-                applicationDate: new Date(),
-            };
-            await createMainRecord("applications", application);
-            alert("Application submitted successfully!");
-            setApplied(true);
-        } catch (e) {
-            alert("Error applying for this task! Please try again later");
-            console.log(e);
+    const handleCart = async () => {
+        const totalCost = quantitySelected * product.price;
+        if (totalCost <= voucherBalance) {
+            const new_balance = voucherBalance - totalCost;
+            try {
+                await saveRecord("users", user.userId, "cart", {
+                    productId: product.id,
+                    productName: product.name,
+                    quantity: quantitySelected,
+                    requestDate: new Date(),
+                    unitPoint: product.price,
+                });
+
+                await updateMainRecord("users", user.userId, {
+                    voucher_balance: new_balance,
+                });
+                setVoucherBalance(new_balance);
+
+                console.log(`Requested ${quantitySelected} of ${product.name}`);
+                alert(`Requested ${quantitySelected} of ${product.name}`);
+            } catch (e) {
+                console.error("Error handling request: ", e);
+            }
+        } else {
+            alert("Not enough voucher points!");
         }
     };
 
     const handleSearch = () => {
-        navigate("/vouchers", { state: { searchQuery } });
+        navigate("/minimart", { state: { searchQuery } });
     };
 
     return (
@@ -142,10 +156,10 @@ const VoucherView = () => {
                 </div>
             </div>
             <div style={pageStyles.leftContainer}>
-                {task.imageUrl ? (
+                {product.productImageUrl ? (
                     <img
-                        src={task.imageUrl}
-                        alt={task.title}
+                        src={product.productImageUrl}
+                        alt={product.name}
                         style={pageStyles.image}
                     />
                 ) : (
@@ -159,7 +173,7 @@ const VoucherView = () => {
             </div>
             <div style={pageStyles.rightContainer}>
                 <h1 className="large-heading" style={{ color: DARK_PURPLE }}>
-                    {task.title}
+                    {product.name}
                 </h1>
                 <hr style={pageStyles.divider} />
                 <div style={pageStyles.subContainer}>
@@ -167,35 +181,23 @@ const VoucherView = () => {
                         <p style={pageStyles.points}>
                             <strong>
                                 <span style={{ fontSize: "30px" }}>
-                                    {task.points}
+                                    {product.price}
                                 </span>
                                 pts
                             </strong>
                         </p>
-                        <p style={pageStyles.description}>
-                            Description:{" "}
-                            <span style={{ fontSize: "16px" }}>
-                                {task.description}
-                            </span>
-                        </p>
+
                         <p style={pageStyles.description}>
                             Category:{" "}
                             <span style={{ fontSize: "16px" }}>
-                                {task.category.charAt(0).toUpperCase() +
-                                    task.category.slice(1)}
+                                {product.category.charAt(0).toUpperCase() +
+                                    product.category.slice(1)}
                             </span>
                         </p>
-
-                        <p
-                            style={{
-                                ...pageStyles.description,
-                                color: RED,
-                                margin: 0,
-                            }}
-                        >
-                            Due By:{" "}
+                        <p style={pageStyles.description}>
+                            Quantity Available:{" "}
                             <span style={{ fontSize: "16px" }}>
-                                {new Date(task.dueDate).toLocaleDateString()}
+                                {product.quantity}
                             </span>
                         </p>
                     </div>
@@ -228,12 +230,12 @@ const VoucherView = () => {
                                 {isFavourite ? "Unfavourite" : "Favourite"}
                             </span>
                         </button>
-                        {!applied ? (
+                        {!carted ? (
                             <button
                                 style={pageStyles.applyButton}
-                                onClick={handleApply}
+                                onClick={handleCart}
                             >
-                                Apply
+                                Add to Cart
                             </button>
                         ) : (
                             <button
@@ -241,10 +243,10 @@ const VoucherView = () => {
                                     ...pageStyles.applyButton,
                                     backgroundColor: "gray",
                                 }}
-                                onClick={handleApply}
+                                onClick={handleCart}
                                 disabled
                             >
-                                Applied
+                                Added to Cart
                             </button>
                         )}
                     </div>
@@ -263,6 +265,13 @@ const pageStyles = {
         margin: "50px",
         boxSizing: "border-box",
         flexWrap: "wrap", // Allow for wrapping on smaller screens
+    },
+    topSection: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        marginBottom: "25px",
     },
     leftContainer: {
         flex: 1, // Ensures both containers grow to fill available space
@@ -358,4 +367,4 @@ const pageStyles = {
     },
 };
 
-export default VoucherView;
+export default ProductView;

@@ -11,7 +11,7 @@ import HomePage from './pages/Home';
 import VoucherPage from './pages/Vouchers';
 import VoucherView from './pages/VoucherView'
 import HistoryPage from './pages/History';
-import ProductView from './pages/Product';
+import ProductView from './pages/ProductView';
 import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
 import Inventory from "./admin-pages/Inventory";

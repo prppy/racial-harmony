@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SearchBar from "../components/SearchBar";
 import {
     fetchMainCollection,
     createMainRecord,
@@ -6,27 +7,30 @@ import {
     fetchMainRecord,
 } from "../utils/firebaseUtils";
 import { DARK_PURPLE, RED } from "../constants/colors";
-import SearchBar from "../components/SearchBar";
 import styles from "../admin-pages/Tasks.module.css";
 import NavigateTaskButton from "../components/NavigateTaskButton";
 import { useAuth } from "../context/authContext";
 import { VoucherSlide } from "../components/Slides";
+import { useLocation } from "react-router-dom";
+import CategoryTabs from "../components/CategoryTabs";
 
 const VoucherPage = () => {
     const [tasks, setTasks] = useState([]);
-    const [filteredTasks, setFilteredTasks] = useState([]);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState(false);
-    const [selectedTask, setSelectedTask] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("All");
     const [voucherBalance, setVoucherBalance] = useState(0); // State for voucher balance
     const { user } = useAuth();
-    
-	useEffect(() => {
+    const location = useLocation();
+    const defaultSearchQuery = location.state?.searchQuery || "";
+
+    const [searchQuery, setSearchQuery] = useState(defaultSearchQuery);
+
+    const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState(false);
+    const [selectedTask, setSelectedTask] = useState(null);
+
+    useEffect(() => {
         fetchMainCollection("tasks")
             .then((data) => {
                 setTasks(data);
-                setFilteredTasks(data);
             })
             .catch((error) => console.error("Error fetching tasks:", error));
     }, []);
@@ -34,32 +38,18 @@ const VoucherPage = () => {
     useEffect(() => {
         fetchMainRecord("users", user?.userId)
             .then((data) => {
-                setVoucherBalance(data.voucher_balance)
+                setVoucherBalance(data.voucher_balance);
                 console.log("voucher balance", data.voucher_balance);
             })
-            .catch((error) => console.error("Error fetching tasks:", error));
-
-            
+            .catch((error) => console.error("Error fetching voucher balance:", error));
     }, []);
 
-    const handleCategorySelect = (category) => {
-        setSelectedCategory(category.toLowerCase());
-        console.log(category);
-        const filtered = tasks.filter(
-            (task) =>
-                task.category.toLowerCase() === category.toLowerCase() ||
-                category === ""
-        );
-        setFilteredTasks(filtered);
-    };
-
-    const handleSearch = (query) => {
-        setSearchQuery(query);
-        const filtered = tasks.filter((task) =>
-            task.title.toLowerCase().includes(query.toLowerCase())
-        );
-        setFilteredTasks(filtered);
-    };
+    const filteredTasks = tasks.filter(
+        (task) =>
+            (selectedCategory === "All" ||
+                task.category === selectedCategory) &&
+            task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const handleTaskClick = (task) => {
         setSelectedTask(task);
@@ -76,7 +66,7 @@ const VoucherPage = () => {
             <div className={styles.topSection}>
                 <SearchBar
                     searchQuery={searchQuery}
-                    setSearchQuery={handleSearch}
+                    setSearchQuery={setSearchQuery}
                     type={"tasks"}
                 />
                 {/* Voucher Balance */}
@@ -87,48 +77,24 @@ const VoucherPage = () => {
                 </div>
             </div>
 
-            {/* Category Filter Buttons */}
-            <div className={styles.categorySection}>
-                <button
-                    className={`${styles.categoryButton}`}
-                    style={
-                        selectedCategory === ""
-                            ? pageStyles.selectedCategory
-                            : {}
-                    }
-                    onClick={() => handleCategorySelect("")}
-                >
-                    All
-                </button>
-                <button
-                    className={`${styles.categoryButton}`}
-                    style={
-                        selectedCategory === "group"
-                            ? pageStyles.selectedCategory
-                            : {}
-                    }
-                    onClick={() => handleCategorySelect("Group")}
-                >
-                    Group
-                </button>
-                <button
-                    className={`${styles.categoryButton}`}
-                    style={
-                        selectedCategory === "individual"
-                            ? pageStyles.selectedCategory
-                            : {}
-                    }
-                    onClick={() => handleCategorySelect("Individual")}
-                >
-                    Individual
-                </button>
-            </div>
+            <CategoryTabs
+                categories={[
+                    "All",
+                    "Group",
+                    "Individual",
+                ]}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+            />
 
             {/* Render Filtered Tasks */}
             <div className={styles.tasksGrid}>
                 {filteredTasks.map((task) => (
                     <div key={task.id} onClick={() => handleTaskClick(task)}>
-                        <VoucherSlide voucher={task} style={{  width: "100%" } } />
+                        <VoucherSlide
+                            voucher={task}
+                            style={{ width: "100%" }}
+                        />
                     </div>
                 ))}
             </div>
@@ -157,7 +123,7 @@ const VoucherPage = () => {
                                             fontWeight: "bold",
                                             fontSize: "20px",
                                             marginBottom: "5px",
-											marginTop: "0"
+                                            marginTop: "0",
                                         }}
                                     >
                                         {selectedTask.title}
@@ -174,7 +140,7 @@ const VoucherPage = () => {
                                         {selectedTask.points}pts
                                     </p>
                                     <hr className="line"></hr>
-                                    <p style={{ color: "black"}}>
+                                    <p style={{ color: "black" }}>
                                         <strong
                                             style={{
                                                 color: DARK_PURPLE,
@@ -191,7 +157,7 @@ const VoucherPage = () => {
                                         style={{
                                             color: RED,
                                             fontWeight: "bold",
-											marginTop: "0px",
+                                            marginTop: "0px",
                                         }}
                                     >
                                         Due By: {selectedTask.dueDate}
