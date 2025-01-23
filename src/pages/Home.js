@@ -83,41 +83,36 @@ const Home = () => {
 
         return (
             <ul
-                style={{
-                    justifySelf: "start",
-                    width: "100%",
-                    boxSizing: "border-box",
-                }}
-            >
-                {applications.map((app) => {
-                    const myTask = tasks.find((task) => task.id === app.taskId);
-                    if (!myTask) {
-                        // Skip rendering if myTask is not found
-                        return null;
-                    }
-                    return (
-                        <div
-                            key={app.id}
-                            style={{
-                                display: "flex",
-                                width: "100%",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "25px",
-                            }}
-                        >
-                            <li
-                                style={{
-                                }}
-                            >
-                                {`Completed "${myTask.title}" Task`}
-                            </li>
-                            <div style={styles.points}>+{myTask.points}</div>
-                        </div>
-                    );
-                })}
-            </ul>
+            style={{
+                display: "flex",
+                flexDirection: "column", // For vertical stacking
+                alignItems: "flex-start", // Adjust alignment of list items
+                width: "100%",
+                boxSizing: "border-box",
+            }}
+        >
+            {applications.map((app) => {
+                const myTask = tasks.find((task) => task.id === app.taskId);
+                if (!myTask) return null;
+                return (
+                    <div
+                        key={app.id}
+                        style={{
+                            display: "flex",
+                            width: "100%",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginBottom: "25px",
+                        }}
+                    >
+                        <li style={{ flex: 1 }}>{`Completed "${myTask.title}" Task`}</li>
+                        <div style={styles.points}>+{myTask.points}</div>
+                    </div>
+                );
+            })}
+        </ul>
+        
         );
     };
 
@@ -194,17 +189,19 @@ const styles = {
     },
     points: {
         display: "flex",
-        width: "100px",
-        backgroundColor: DARK_GREEN,
-        borderRadius: "10px",
-        color: "white",
         justifyContent: "center",
         alignItems: "center",
-        alignSelf: "end",
+        width: "80px", // Fixed width for uniform size
+        height: "40px", // Fixed height for uniform size
+        backgroundColor: DARK_GREEN,
+        borderRadius: "20px", // Half of height for circular/rounded look
+        color: "white",
         fontSize: "16px",
-        padding: "10px",
+        fontWeight: "bold", // Optional for better appearance
+        margin: "0 10px", // Optional spacing between elements
         boxSizing: "border-box",
     },
+    
 	slide: {
 		width: "100%", // Use full width of the parent container
 	},
