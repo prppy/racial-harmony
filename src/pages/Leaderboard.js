@@ -256,7 +256,7 @@ const styles = {
   },
   podium1: {
     textAlign: "center",
-    background: "#ffd700",
+    background: "#d4a531",
     color: "black",
     width: "120px",
     height: "160px", // Tallest podium
@@ -285,7 +285,7 @@ const styles = {
   },
   podium3: {
     textAlign: "center",
-    background: "#cd7f32",
+    background: "#a97142",
     color: "black",
     width: "120px",
     height: "120px", // Shortest podium
