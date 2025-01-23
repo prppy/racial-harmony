@@ -11,7 +11,7 @@ import HomePage from './pages/Home';
 import VoucherPage from './pages/Vouchers';
 import VoucherView from './pages/VoucherView'
 import HistoryPage from './pages/History';
-import ProductPage from './pages/Product';
+import ProductView from './pages/Product';
 import Reports from './admin-pages/Reports';
 import Manage from './admin-pages/Manage';
 import Inventory from "./admin-pages/Inventory";
@@ -49,7 +49,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<MainLayout />} />
         <Route path="/minimart" element={<MinimartPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductView />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/vouchers" element={<VoucherPage />} />
         <Route path="/history" element={<HistoryPage />} />

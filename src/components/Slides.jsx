@@ -1,5 +1,5 @@
 import React from "react";
-import { DARK_PURPLE, RED } from "../constants/colors";
+import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
 import { useNavigate } from "react-router-dom";
 
 export const VoucherSlide = ({ voucher, style }) => {
@@ -120,7 +120,8 @@ const styles = {
     image: {
         width: "100%",
         height: "60%",
-        objectFit: "cover",
+        objectFit: "contain",
+        backgroundColor: LIGHT_PURPLE,
     },
     desc: {
         height: "100px", // Adjust height as needed

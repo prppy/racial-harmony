@@ -4,7 +4,7 @@ import { App } from "../App.css";
 import { DARK_GREEN, DARK_PURPLE, RED } from "../constants/colors";
 import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useNavigate } from "react-router-dom";
-import { VoucherSliderComp } from "../components/SliderComps";
+import { VoucherSliderComp, ProductSliderComp } from "../components/SliderComps";
 
 const Home = () => {
     const { user } = useAuth();
@@ -14,6 +14,8 @@ const Home = () => {
     const [tasks, setTasks] = useState([]);
     const [voucherBalance, setVoucherBalance] = useState();
     const [favouriteTask, setFavouriteTask] = useState([]);
+    const [favouriteProduct, setFavouriteProduct] = useState([]);
+
 
     useEffect(() => {
         const getApplications = async () => {
@@ -54,6 +56,22 @@ const Home = () => {
             }
         };
 
+        const getFavouriteProduct = async () => {
+            try {
+                const productData = await fetchMainCollection("products");
+                const userFavourites = (
+                    await fetchMainRecord("users", user.userId)
+                ).favouriteProducts;
+                const filteredProducts = productData.filter((product) =>
+                    userFavourites.includes(product.id)
+                );
+                setFavouriteProduct(filteredProducts);
+                console.log("Favourite Products: ", filteredProducts);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         const getVoucherBalance = async () => {
             try {
                 let data = await fetchMainRecord("users", user.userId);
@@ -67,6 +85,7 @@ const Home = () => {
         if (!user?.admin) {
             getTasks();
             getFavouriteTask();
+            getFavouriteProduct();
             getApplications();
             getVoucherBalance();
         }
@@ -140,7 +159,7 @@ const Home = () => {
                     </div>
                     <h2 className="large-heading">My Favourite Products:</h2>
                     <div style={styles.slide}>
-                        <VoucherSliderComp vouchers={favouriteTask} />
+                        <ProductSliderComp products={favouriteProduct} />
                     </div>
                     <h2 className="large-heading">Ongoing Auctions:</h2>
                     <div style={styles.slide}>
