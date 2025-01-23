@@ -146,23 +146,22 @@ const LeaderboardPage = () => {
 
       {/* Top Part: Podium */}
       <div style={styles.podiumContainer}>
-  <div style={styles.podium2}>
-    <div style={styles.podiumPositionText}>🥈</div>
-    <p>{leaderboard[1]?.residentName || "N/A"}</p>
-    <p>{leaderboard[1]?.totalPoints || 0} pts</p>
-  </div>
-  <div style={styles.podium1}>
-    <div style={styles.podiumPositionText}>🥇</div>
-    <p>{leaderboard[0]?.residentName || "N/A"}</p>
-    <p>{leaderboard[0]?.totalPoints || 0} pts</p>
-  </div>
-  <div style={styles.podium3}>
-    <div style={styles.podiumPositionText}>🥉</div>
-    <p>{leaderboard[2]?.residentName || "N/A"}</p>
-    <p>{leaderboard[2]?.totalPoints || 0} pts</p>
-  </div>
-</div>
-
+        <div style={styles.podium2}>
+          <div style={styles.podiumPositionText}>🥈</div>
+          <p>{leaderboard[1]?.residentName || "N/A"}</p>
+          <p>{leaderboard[1]?.totalPoints || 0} pts</p>
+        </div>
+        <div style={styles.podium1}>
+          <div style={styles.podiumPositionText}>🥇</div>
+          <p>{leaderboard[0]?.residentName || "N/A"}</p>
+          <p>{leaderboard[0]?.totalPoints || 0} pts</p>
+        </div>
+        <div style={styles.podium3}>
+          <div style={styles.podiumPositionText}>🥉</div>
+          <p>{leaderboard[2]?.residentName || "N/A"}</p>
+          <p>{leaderboard[2]?.totalPoints || 0} pts</p>
+        </div>
+      </div>
 
       {/* List of Users */}
       <div style={styles.userListContainer}>
@@ -202,7 +201,6 @@ const LeaderboardPage = () => {
             const actualAward = AWARDS.find((a) => a.name === award.name);
             if (!actualAward) return null;
 
-            const { Icon } = actualAward;
             return (
               <div
                 key={award.id}
@@ -214,7 +212,13 @@ const LeaderboardPage = () => {
                   })
                 }
               >
-                {Icon && <Icon style={styles.awardIcon} />}
+                {actualAward.image && (
+                  <img
+                    src={actualAward.image}
+                    alt={actualAward.name}
+                    style={styles.awardImage}
+                  />
+                )}
                 <h4>{award.name}</h4>
               </div>
             );
@@ -345,10 +349,11 @@ const styles = {
     cursor: "pointer",
     transition: "transform 0.3s",
   },
-  awardIcon: {
-    width: "50px",
-    height: "50px",
-    margin: "10px auto",
+  awardImage: {
+    width: "100px",
+    height: "100px",
+    objectFit: "cover",
+    borderRadius: "10px",
   },
   modalOverlay: {
     position: "fixed",
