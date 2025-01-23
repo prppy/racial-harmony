@@ -146,14 +146,23 @@ const LeaderboardPage = () => {
 
       {/* Top Part: Podium */}
       <div style={styles.podiumContainer}>
-        {leaderboard.slice(0, 3).map((user, index) => (
-          <div key={user.residentID} style={styles[`podium${index + 1}`]}>
-            <h3>{index + 1 === 1 ? "🥇" : index + 1 === 2 ? "🥈" : "🥉"}</h3>
-            <p>{user.residentName}</p>
-            <p>{user.totalPoints} pts</p>
-          </div>
-        ))}
-      </div>
+  <div style={styles.podium2}>
+    <div style={styles.podiumPositionText}>🥈</div>
+    <p>{leaderboard[1]?.residentName || "N/A"}</p>
+    <p>{leaderboard[1]?.totalPoints || 0} pts</p>
+  </div>
+  <div style={styles.podium1}>
+    <div style={styles.podiumPositionText}>🥇</div>
+    <p>{leaderboard[0]?.residentName || "N/A"}</p>
+    <p>{leaderboard[0]?.totalPoints || 0} pts</p>
+  </div>
+  <div style={styles.podium3}>
+    <div style={styles.podiumPositionText}>🥉</div>
+    <p>{leaderboard[2]?.residentName || "N/A"}</p>
+    <p>{leaderboard[2]?.totalPoints || 0} pts</p>
+  </div>
+</div>
+
 
       {/* List of Users */}
       <div style={styles.userListContainer}>
@@ -239,28 +248,67 @@ const styles = {
   },
   podiumContainer: {
     display: "flex",
-    height: "100%",
-    width: "100%",
-    justifyContent: "space-around",
-    marginBottom: "20px",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    gap: "20px",
+    marginBottom: "40px",
+    height: "200px", // Adjust height to fit podium design
   },
   podium1: {
     textAlign: "center",
     background: "#ffd700",
+    color: "black",
+    width: "120px",
+    height: "160px", // Tallest podium
+    borderRadius: "10px 10px 0 0",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "center",
     padding: "10px",
-    borderRadius: "10px",
+    marginTop: "-20px", // Lower the podium slightly for visual balance
+    position: "relative",
   },
   podium2: {
     textAlign: "center",
     background: "#c0c0c0",
+    color: "black",
+    width: "120px",
+    height: "140px", // Medium height
+    borderRadius: "10px 10px 0 0",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "center",
     padding: "10px",
-    borderRadius: "10px",
+    position: "relative",
   },
   podium3: {
     textAlign: "center",
     background: "#cd7f32",
+    color: "black",
+    width: "120px",
+    height: "120px", // Shortest podium
+    borderRadius: "10px 10px 0 0",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "center",
     padding: "10px",
-    borderRadius: "10px",
+    position: "relative",
+  },
+  podiumPositionText: {
+    position: "absolute",
+    top: "-20px",
+    backgroundColor: "white",
+    color: "black",
+    borderRadius: "50%",
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: "bold",
   },
   userTable: {
     width: "100%",
