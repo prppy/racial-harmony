@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
+import {
+    DARK_GREEN,
+    DARK_PURPLE,
+    LIGHT_GRAY,
+    LIGHT_PURPLE,
+    RED,
+} from "../constants/colors";
 import {
     updateMainRecord,
     fetchMainRecord,
@@ -26,18 +32,18 @@ const ProductView = () => {
     const productId = product.id;
 
     useEffect(() => {
-        if (!product) {
-            console.error("Product not found!");
-            return;
-        }
-
-        // Set default quantity based on product availability
         if (product.quantity === 0) {
             setQuantitySelected(0); // No stock
         } else {
             setQuantitySelected(1); // Minimum 1 item available
         }
+    }, [product.quantity]);
 
+    useEffect(() => {
+        if (!product) {
+            console.error("Product not found!");
+            return;
+        }
         const fetchData = async () => {
             try {
                 const userData = await fetchMainRecord("users", user.userId);
@@ -57,7 +63,7 @@ const ProductView = () => {
         if (user && product) {
             fetchData();
         }
-    }, [product, user, product.quantity]);
+    }, [product, user, productId]);
 
     useEffect(() => {
         setSearchQuery(location.state?.searchQuery || "");
@@ -230,6 +236,40 @@ const ProductView = () => {
                                 {isFavourite ? "Unfavourite" : "Favourite"}
                             </span>
                         </button>
+                        <div style={pageStyles.quantitySelector}>
+                            {/* Decrease Quantity Button */}
+                            <button
+                                style={pageStyles.quantityButton}
+                                onClick={
+                                    () =>
+                                        setQuantitySelected((prev) =>
+                                            Math.max(1, prev - 1)
+                                        ) // Ensure it doesn't go below 1
+                                }
+                                disabled={quantitySelected <= 1} // Disable if already at minimum (1)
+                            >
+                                -
+                            </button>
+
+                            {/* Display Selected Quantity */}
+                            <span style={pageStyles.quantityDisplay}>
+                                {quantitySelected}
+                            </span>
+
+                            {/* Increase Quantity Button */}
+                            <button
+                                style={pageStyles.quantityButton}
+                                onClick={
+                                    () =>
+                                        setQuantitySelected((prev) =>
+                                            Math.min(product.quantity, prev + 1, Math.floor(voucherBalance / product.price))
+                                        ) // Ensure it doesn't exceed available stock
+                                }
+                                disabled={quantitySelected >= product.quantity} // Disable if at max stock
+                            >
+                                +
+                            </button>
+                        </div>
                         {!carted ? (
                             <button
                                 style={pageStyles.applyButton}
@@ -350,17 +390,59 @@ const pageStyles = {
         backgroundColor: RED,
         color: "#fff",
         border: "none",
-        borderRadius: "4px",
+        borderRadius: "10px",
         padding: "10px 20px",
         cursor: "pointer",
         fontWeight: "bold",
         marginBottom: "25px",
     },
-    applyButton: {
-        backgroundColor: "#1c660d",
+    quantitySelector: {
+        marginBottom: "25px",
+        fontSize: "16px",
+        width: "100%",
+        justifyContent: "space-between",
+        alignItems: "center",
+        display: "flex",
+    },
+    quantityButton: {
+        backgroundColor: DARK_PURPLE,
         color: "white",
         border: "none",
-        borderRadius: "4px",
+        borderRadius: "10px",
+        cursor: "pointer",
+        fontSize: "16px",
+        fontWeight: "bold",
+        transition: "background-color 0.3s",
+        width: "32px",
+        height: "32px",
+        textAlign: "center",
+        disabledStyle: {
+            backgroundColor: "#ccc",
+            cursor: "not-allowed",
+        },
+    },
+    quantityDisplay: {
+        fontSize: "16px",
+        fontWeight: "bold",
+        padding: "5px 10px",
+        border: "1px solid #ddd",
+        borderRadius: "3px",
+        minWidth: "40px",
+        textAlign: "center",
+        backgroundColor: LIGHT_GRAY,
+        color: DARK_PURPLE,
+    },
+    outOfStock: {
+        color: RED,
+        fontSize: "16px",
+        fontWeight: "bold",
+        marginLeft: "10px",
+    },
+    applyButton: {
+        backgroundColor: DARK_GREEN,
+        color: "white",
+        border: "none",
+        borderRadius: "10px",
         padding: "10px 20px",
         cursor: "pointer",
         fontWeight: "bold",

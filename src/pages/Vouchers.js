@@ -47,7 +47,7 @@ const VoucherPage = () => {
     const filteredTasks = tasks.filter(
         (task) =>
             (selectedCategory === "All" ||
-                task.category === selectedCategory) &&
+                task.category.toLowerCase() === selectedCategory.toLowerCase()) &&
             task.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
