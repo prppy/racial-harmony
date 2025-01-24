@@ -262,10 +262,10 @@ const ProductView = () => {
                                 onClick={
                                     () =>
                                         setQuantitySelected((prev) =>
-                                            Math.min(product.quantity, prev + 1, Math.floor(voucherBalance / product.price))
+                                            Math.min(product.quantity, prev + 1)
                                         ) // Ensure it doesn't exceed available stock
                                 }
-                                disabled={quantitySelected >= product.quantity} // Disable if at max stock
+                                disabled={quantitySelected >= product.quantity || quantitySelected >= Math.floor(voucherBalance / product.price)} // Disable if at max stock
                             >
                                 +
                             </button>
