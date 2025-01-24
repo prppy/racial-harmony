@@ -10,6 +10,7 @@ import {
     ProductSliderComp,
 } from "../components/SliderComps";
 import ApplicationsTable from "../components/ApplicationsTable";
+import ProductTable from "../components/ProductTable";
 
 const Home = () => {
     const { user } = useAuth();
@@ -172,10 +173,15 @@ const Home = () => {
                         </h2>
                     </div>
                     <div style={styles.dashboardItem}>
-                        <h2 className="large-heading">Low Stock Alert</h2>
+                        <h2 className="large-heading">Leaderboard</h2>
                     </div>
                     <div style={styles.dashboardItem}>
-                        <h2 className="large-heading">Leaderboard</h2>
+                        <h2 className="large-heading">Low Stock Alert</h2>
+                        <ProductTable
+                            filterCategory=""
+                            searchQuery=""
+                            showLimitedColumns={true} // Show only limited columns for the homepage
+                        />
                     </div>
                     <div style={styles.dashboardItem}>
                         <h2 className="large-heading">

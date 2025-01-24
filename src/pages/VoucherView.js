@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
+import { DARK_GREEN, DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
 import {
     updateMainRecord,
     fetchMainRecord,
@@ -348,7 +348,7 @@ const pageStyles = {
         marginBottom: "25px",
     },
     applyButton: {
-        backgroundColor: "#1c660d",
+        backgroundColor: DARK_GREEN,
         color: "white",
         border: "none",
         borderRadius: "4px",

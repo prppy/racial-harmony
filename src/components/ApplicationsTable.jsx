@@ -195,7 +195,7 @@ const ApplicationsTable = ({ user, taskId, columns }) => {
                                             <button
                                                 style={{
                                                     ...pageStyles.button,
-                                                    backgroundColor: "#1c660d",
+                                                    backgroundColor: DARK_GREEN,
                                                 }}
                                                 onClick={() =>
                                                     handleApprove(
