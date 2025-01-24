@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+    DARK_GRAY,
     DARK_GREEN,
     DARK_PURPLE,
     LIGHT_GRAY,
@@ -265,12 +266,30 @@ const ProductView = () => {
                                             Math.min(product.quantity, prev + 1)
                                         ) // Ensure it doesn't exceed available stock
                                 }
-                                disabled={quantitySelected >= product.quantity || quantitySelected >= Math.floor(voucherBalance / product.price)} // Disable if at max stock
+                                disabled={
+                                    quantitySelected >= product.quantity ||
+                                    quantitySelected >=
+                                        Math.floor(
+                                            voucherBalance / product.price
+                                        )
+                                } // Disable if at max stock
                             >
                                 +
                             </button>
                         </div>
-                        {!carted ? (
+                        {product.quantity === 0 ? (
+                            <button
+                                style={{
+                                    ...pageStyles.applyButton,
+                                    backgroundColor: DARK_GRAY,
+                                    color: RED,
+                                    cursor: "not-allowed", // Optional: gives a "disabled" appearance
+                                }}
+                                disabled={true} // Disable the button
+                            >
+                                OUT OF STOCK
+                            </button>
+                        ) : !carted ? (
                             <button
                                 style={pageStyles.applyButton}
                                 onClick={handleCart}
@@ -284,7 +303,6 @@ const ProductView = () => {
                                     backgroundColor: "gray",
                                 }}
                                 onClick={handleCart}
-                                disabled
                             >
                                 Added to Cart
                             </button>
