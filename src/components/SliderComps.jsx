@@ -3,8 +3,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { VoucherSlide, ProductSlide } from "./Slides";
+import { useNavigate } from "react-router-dom";
 
 export const VoucherSliderComp = ({ vouchers }) => {
+    const navigate = useNavigate();
+
     var settings = {
         dots: true,
         infinite: false,
@@ -28,7 +31,11 @@ export const VoucherSliderComp = ({ vouchers }) => {
     return (
         <Slider {...settings}>
             {vouchers.map((voucher) => {
-                return <VoucherSlide voucher={voucher} />;
+                return <VoucherSlide voucher={voucher} onClick={() => {
+                    navigate(`/voucher/${voucher.id}`, {
+                        state: { task: voucher },
+                    });
+                }}/>;
             })}
         </Slider>
     );

@@ -49,7 +49,7 @@ const VoucherView = () => {
         if (user && task) {
             fetchData();
         }
-    }, [task, user]);
+    }, [task, user, taskId]);
 
     useEffect(() => {
         setSearchQuery(location.state?.searchQuery || "");

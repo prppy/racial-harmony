@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
+// eslint-disable-next-line no-unused-vars
 import { App } from "../App.css";
-import { DARK_GREEN, DARK_PURPLE, RED } from "../constants/colors";
+import { DARK_GREEN, DARK_PURPLE, } from "../constants/colors";
 import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useNavigate } from "react-router-dom";
 import { VoucherSliderComp, ProductSliderComp } from "../components/SliderComps";

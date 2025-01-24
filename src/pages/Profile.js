@@ -7,7 +7,6 @@ import {
   uploadImage,
 } from "../utils/firebaseUtils";
 import { DARK_PURPLE, RED } from "../constants/colors";
-import { FaCheck } from "react-icons/fa";
 import { GiCheckMark } from "react-icons/gi";
 import { MdLogout } from "react-icons/md";
 import { FaCamera } from "react-icons/fa";
@@ -38,7 +37,7 @@ const ProfilePage = () => {
     if (user) {
       fetchData();
     }
-  }, [user?.bg]);
+  }, [user?.bg, user]);
 
   const handleLogout = async () => {
     const result = await logout();
@@ -237,14 +236,6 @@ const pageStyles = {
     fontFamily: "Arial, sans-serif",
     overflow: "hidden",
   },
-  heading: {
-    color: DARK_PURPLE,
-    fontSize: "18px",
-    fontWeight: "bold",
-    marginBottom: "20px",
-    textAlign: "left", // Align the text to the left
-    width: "100%", // Make sure the heading takes up the full width of the container
-  },
   left: {
     flex: 1,
     gap: "20px",
@@ -343,12 +334,6 @@ const pageStyles = {
     fontWeight: "bold",
     color: "#2B3487",
     textAlign: "right",
-  },
-  heading: {
-    fontSize: "18px",
-    fontWeight: "bold",
-    marginBottom: "10px",
-    textAlign: "center",
   },
   bgSelector: {
     margin: "20px 0",

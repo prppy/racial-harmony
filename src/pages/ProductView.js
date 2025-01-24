@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -381,7 +382,7 @@ const pageStyles = {
         width: "100%",
         height: "100%",
         borderRadius: "8px",
-        objectFit: "cover",
+        objectFit: "contain",
     },
     placeholder: {
         backgroundColor: "#868bbd",

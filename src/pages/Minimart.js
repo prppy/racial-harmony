@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import CategoryTabs from "../components/CategoryTabs";
-import ProductGrid from "../components/ProductGrid";
 import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/authContext";
@@ -35,7 +34,7 @@ const MinimartPage = () => {
             .catch((error) =>
                 console.error("Error fetching voucher balance:", error)
             );
-    }, []);
+    }, [user?.userId, user]);
 
     const filteredProducts = products.filter(
         (product) =>

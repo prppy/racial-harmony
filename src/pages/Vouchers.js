@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import {
     fetchMainCollection,
-    createMainRecord,
-    uploadImage,
     fetchMainRecord,
 } from "../utils/firebaseUtils";
 import { DARK_PURPLE, RED } from "../constants/colors";
@@ -42,7 +40,7 @@ const VoucherPage = () => {
                 console.log("voucher balance", data.voucher_balance);
             })
             .catch((error) => console.error("Error fetching voucher balance:", error));
-    }, []);
+    }, [user?.userId]);
 
     const filteredTasks = tasks.filter(
         (task) =>
@@ -111,7 +109,7 @@ const VoucherPage = () => {
                                 <div className={styles.taskImage}>
                                     <img
                                         src={selectedTask.imageUrl}
-                                        alt="Task Image"
+                                        alt="Task"
                                     />
                                 </div>
                             </div>
@@ -153,6 +151,19 @@ const VoucherPage = () => {
                                         </strong>{" "}
                                         {selectedTask.description}
                                     </p>
+                                    <p style={{ color: "black" }}>
+                                        <strong
+                                            style={{
+                                                color: DARK_PURPLE,
+                                                fontSize: "16px",
+                                                marginTop: "0px",
+                                                marginBottom: "0px",
+                                            }}
+                                        >
+                                            Category:
+                                        </strong>{" "}
+                                        {selectedTask.category.charAt(0).toUpperCase() + selectedTask.category.slice(1)}
+                                    </p>
                                     <p
                                         style={{
                                             color: RED,
@@ -167,7 +178,7 @@ const VoucherPage = () => {
                                         admin={false}
                                         className="button"
                                         style={{
-                                            fontSize: 20,
+                                            fontSize: 25,
                                             width: "100%",
                                             boxShadow:
                                                 "0px 4px 8px rgba(0, 0, 0, 0.1)",
