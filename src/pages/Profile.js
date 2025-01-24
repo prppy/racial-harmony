@@ -37,7 +37,8 @@ const ProfilePage = () => {
     if (user) {
       fetchData();
     }
-  }, [user?.bg, user]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.bg]);
 
   const handleLogout = async () => {
     const result = await logout();

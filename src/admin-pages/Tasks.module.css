@@ -46,14 +46,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* Matches the slide height */
-  min-height: 285px;
-  width: 100%; /* Matches the slide width */
+  aspect-ratio: 7 / 5; /* Maintain a 7:5 aspect ratio */
+  width: auto; /* Allow width to be determined by the container */
   background-color: white;
   border: 2px solid #9C3726;
   border-radius: 10px; /* Matches the border radius of the slides */
   cursor: pointer;
   box-sizing: border-box; /* Ensures padding/border don't affect dimensions */
+  max-width: 100%; /* Ensures the button doesn't overflow its container */
 }
 
 .addButtonText {
@@ -165,6 +165,7 @@
   background-color: #9C3726;
   color: white;
   margin-top: 25px;
+  font-weight: bold;
 }
 
 .modalOverlayTaskDetails {
@@ -197,6 +198,7 @@
 }
 
 .modalTaskDetailsHeader {
+  margin-top: 0;
   margin-bottom: 25px;
   font-size: 30px;
   text-align: center;
@@ -225,8 +227,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
-
+  background-color: #6B71AB;
+  border-radius: 10px;
+  border: 2px solid #2B3487;
 }
 
 .modalRight {
@@ -238,7 +241,7 @@
 }
 
 .taskDetail {
-  margin-bottom: 12px;
+  margin-bottom: 25px;
   font-size: 16px;
   color: black;
 }
@@ -254,8 +257,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #2B3487;
-  border-radius: 8px;
+
 }
 
 .taskImage img {

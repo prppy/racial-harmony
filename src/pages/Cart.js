@@ -6,7 +6,7 @@ import {
     deleteRecord,
     updateMainRecord,
 } from "../utils/firebaseUtils";
-import { DARK_GRAY, DARK_PURPLE, LIGHT_PURPLE, RED } from "../constants/colors";
+import { DARK_GRAY, DARK_PURPLE, RED } from "../constants/colors";
 
 const Cart = () => {
     const { user } = useAuth();
@@ -16,6 +16,7 @@ const Cart = () => {
 
     useEffect(() => {
         getCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getCart = async () => {

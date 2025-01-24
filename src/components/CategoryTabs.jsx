@@ -1,4 +1,5 @@
 import React from "react";
+import { RED } from "../constants/colors";
 
 const CategoryTabs = ({ categories, selectedCategory, setSelectedCategory }) => {
   return (
@@ -8,7 +9,7 @@ const CategoryTabs = ({ categories, selectedCategory, setSelectedCategory }) => 
           key={category}
           style={{
             ...styles.categoryButton,
-            backgroundColor: selectedCategory === category ? "#9C3726" : "#f0f0f0",
+            backgroundColor: selectedCategory === category ? RED : "#f0f0f0",
             color: selectedCategory === category ? "#fff" : "#000",
           }}
           onClick={() => setSelectedCategory(category)}
@@ -30,7 +31,7 @@ const styles = {
   categoryButton: {
     padding: "10px 15px",
     border: "none",
-    borderRadius: "5px",
+    borderRadius: "10px",
     cursor: "pointer",
     fontWeight: "bold",
     fontSize: "16px",

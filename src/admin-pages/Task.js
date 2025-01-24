@@ -124,8 +124,9 @@ const Task = () => {
         )}
       </div>
     </div>
-    <div style={styles.container}>
-      <ApplicationsTable user={user} taskId={task.id}/>
+    <div style={{...styles.container, flexDirection: "column"}}>
+    <h2 style={{color: DARK_PURPLE}}>Applications</h2>
+      <ApplicationsTable user={user} taskId={task.id} columns={['residentName', 'class', 'formTeacher', 'actions']}/>
 
     </div>
     </div>
