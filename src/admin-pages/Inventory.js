@@ -268,7 +268,7 @@ const Inventory = () => {
                                 >
                                     <td>{product.name}</td>
                                     <td>{product.category || "N/A"}</td>
-                                    <td>{product.quantity || "N/A"}</td>
+                                    <td>{product.quantity || 0}</td>
                                     <td>{product.restockThreshold || "N/A"}</td>
                                     <td
                                         style={{
