@@ -160,7 +160,7 @@ const Inventory = () => {
 
                     <h2 style={pageStyles.subHeading}>Add New Inventory</h2>
                     {/* Add New Product Form */}
-                    <h3>Add New Product</h3>
+                    <h3 style={{color: DARK_PURPLE}}>Add New Product</h3>
                     <form style={pageStyles.form} onSubmit={handleAddProduct}>
                         <div style={pageStyles.formGroup}>
                             <label style={pageStyles.label}>
@@ -257,7 +257,7 @@ const Inventory = () => {
                             </button>
                         </div>
                     </form>
-                    <h3>Batch Add Products</h3>
+                    <h3 style={{color: DARK_PURPLE}}>Batch Add Products</h3>
                     <div style={pageStyles.form}>
                         <BatchCreateProducts />
                     </div>

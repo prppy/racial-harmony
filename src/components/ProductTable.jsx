@@ -5,7 +5,6 @@ import {
     RED,
     DARK_GREEN,
     DARK_PURPLE,
-    LIGHT_GRAY,
     DARK_GRAY,
 } from "../constants/colors";
 import {
@@ -225,7 +224,7 @@ const ProductTable = ({
                                             handleDeleteProduct(product.id)
                                         }
                                     >
-                                        <FaRegTrashCan color="red" />
+                                        <FaRegTrashCan color={RED} />
                                     </button>
                                 </div>
                             </td>
