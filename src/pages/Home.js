@@ -196,11 +196,6 @@ const Home = () => {
                         />
                     </div>
                     <div style={styles.dashboardItem}>
-                        <h2 className="large-heading">
-                            Pending Requests ({userData?.class})
-                        </h2>
-                    </div>
-                    <div style={styles.dashboardItem}>
                         <h2 className="large-heading">Leaderboard</h2>
 
                         <div style={styles.podiumContainer}>
@@ -345,7 +340,7 @@ const styles = {
     },
     dashboard: {
         display: "grid",
-        gridTemplateColumns: "2fr 1fr 1fr",
+        gridTemplateColumns: "repeat(2, 1fr)",
         gap: "25px",
     },
     dashboardItem: {
