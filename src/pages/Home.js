@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 // eslint-disable-next-line no-unused-vars
 import { App } from "../App.css";
-import { DARK_GREEN, DARK_PURPLE } from "../constants/colors";
+import { DARK_GREEN, DARK_PURPLE, PALE_PURPLE } from "../constants/colors";
 import { fetchMainCollection, fetchMainRecord } from "../utils/firebaseUtils";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../components/SliderComps";
 import ApplicationsTable from "../components/ApplicationsTable";
 import ProductTable from "../components/ProductTable";
+import { Line } from "react-chartjs-2";
 
 const Home = () => {
     const { user } = useAuth();
@@ -22,6 +23,33 @@ const Home = () => {
     const [voucherBalance, setVoucherBalance] = useState();
     const [favouriteTask, setFavouriteTask] = useState([]);
     const [favouriteProduct, setFavouriteProduct] = useState([]);
+
+    const [type, setType] = useState("products");
+    const [category, setCategory] = useState("food");
+      const [timeFrame, setTimeFrame] = useState("monthly");
+
+    const data = {
+        labels: ["January", "February", "March", "April", "May", "June"],
+        datasets: [
+            {
+                label: `${type} data for ${category}`,
+                data: [12, 19, 3, 5, 2, 3],
+                borderColor: PALE_PURPLE,
+                backgroundColor: DARK_PURPLE,
+                fill: true,
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: `${type.charAt(0).toUpperCase() + type.slice(1)} Report`,
+            },
+        },
+    };
 
     useEffect(() => {
         const getApplications = async () => {
@@ -174,6 +202,33 @@ const Home = () => {
                     </div>
                     <div style={styles.dashboardItem}>
                         <h2 className="large-heading">Leaderboard</h2>
+
+                        <div style={styles.podiumContainer}>
+                            <div
+                                style={{
+                                    ...styles.podium,
+                                    ...styles.secondPlace,
+                                }}
+                            >
+                                <span style={styles.podiumText}>2</span>
+                            </div>
+                            <div
+                                style={{
+                                    ...styles.podium,
+                                    ...styles.firstPlace,
+                                }}
+                            >
+                                <span style={styles.podiumText}>1</span>
+                            </div>
+                            <div
+                                style={{
+                                    ...styles.podium,
+                                    ...styles.thirdPlace,
+                                }}
+                            >
+                                <span style={styles.podiumText}>3</span>
+                            </div>
+                        </div>
                     </div>
                     <div style={styles.dashboardItem}>
                         <h2 className="large-heading">Low Stock Alert</h2>
@@ -187,6 +242,51 @@ const Home = () => {
                         <h2 className="large-heading">
                             Voucher Trends for the Week
                         </h2>
+                        <div style={styles.selectContainer}>
+                            <div style={styles.selectItem}>
+                                <label>Type:</label>
+                                <select
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value)}
+                                >
+                                    <option value="products">Products</option>
+                                    <option value="requests">Requests</option>
+                                </select>
+                            </div>
+
+                            <div style={styles.selectItem}>
+                                <label>Category:</label>
+                                <select
+                                    value={category}
+                                    onChange={(e) =>
+                                        setCategory(e.target.value)
+                                    }
+                                >
+                                    <option value="food">Food</option>
+                                    <option value="entertainment">
+                                        Entertainment
+                                    </option>
+                                    <option value="transport">Transport</option>
+                                </select>
+                            </div>
+
+                            <div style={styles.selectItem}>
+                                <label>Time Frame:</label>
+                                <select
+                                    value={timeFrame}
+                                    onChange={(e) =>
+                                        setTimeFrame(e.target.value)
+                                    }
+                                >
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="yearly">Yearly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style={styles.chartContainer}>
+                            <Line data={data} options={options} />
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -290,6 +390,47 @@ const styles = {
 
     slide: {
         width: "100%", // Use full width of the parent container
+    },
+    podiumContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        height: "200px", // Adjust as needed
+        gap: "10px", // Space between podiums
+    },
+    podium: {
+        width: "60px", // Fixed width for podiums
+        backgroundColor: DARK_PURPLE,
+        borderRadius: "5px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "white",
+        fontWeight: "bold",
+        fontSize: "20px",
+    },
+
+    firstPlace: {
+        height: "120px", // Tallest podium
+        backgroundColor: "#d4a531", // Gold color
+    },
+
+    secondPlace: {
+        height: "100px", // Medium height
+        backgroundColor: "#C0C0C0", // Silver color
+    },
+
+    thirdPlace: {
+        height: "80px", // Shortest podium
+        backgroundColor: "#a97142", // Bronze color
+    },
+
+    podiumText: {
+        position: "absolute",
+        top: "-25px", // Position the number above the podium
+        fontSize: "24px",
+        fontWeight: "bold",
+        color: DARK_PURPLE,
     },
 };
 

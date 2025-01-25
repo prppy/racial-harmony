@@ -182,7 +182,7 @@ const ProductTable = ({
                                 </td>
                             )}
                             <td style={pageStyles.td}>
-                                {product.quantity || "N/A"}
+                                {product.quantity || 0}
                             </td>
                             <td style={pageStyles.td}>
                                 {product.restockThreshold || "N/A"}
