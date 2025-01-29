@@ -2,12 +2,18 @@
 
 Our team is called 'Racial Harmony' to reflect the diversity within our group, as we come from different nationalities and cultural backgrounds. This name celebrates our unity and collaboration, highlighting the strength that comes from embracing our differences to work together towards a common goal.
 
+Team members: Chloe Tan Zhi Ying, Kenneth Jeremy Prajogo, Mya Thet Chai Tin Oo, Parama Roy Poja
+
 # Web based minimart and voucher system
 
 Personalized minimart with customizable themes: residents track vouchers and view spending insights, while admins manage inventory, access reports, and see class-wide trends—all seamlessly automated
 
 ## Try it out
 Link to webapp: [Racial Harmony](https://racial-harmony-5.web.app/)
+
+Test **Resident** account: resident@gmail.com (password: test123)
+
+Test **Admin** account: admin@rh.com (password: test123)
 
 **Note** 
 - Batch Creation of users in Admin's Manage page - The excel file uploaded should contain the following columns: name, admission date, birthday, class, admin (boolean true/false), profile picture url (this is optional)
